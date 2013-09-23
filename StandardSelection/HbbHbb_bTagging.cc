@@ -526,8 +526,6 @@ int HbbHbb_bTagging(std::string templ, std::string sample,
   {
     tree->GetEvent(i);
     
-    if (PUWeight!="") weightPU=h_PUWeight->GetBinContent(h_PUWeight->FindBin(nPV));
-    
     // Collate hJets and aJets into Jets
     nJets=nhJets+naJets;
     for (int j=0; j<nhJets; ++j)
