@@ -449,15 +449,18 @@ int HbbHbb_Partitioning(std::string sample, double h_mass, int kinConstraint=0)
       ++nCut7;                                                            
       h_mX_SR->Fill(X_mass, eventWeight);
       // Figure out combinatorics that went in
-      TLorentzVector bH1_gen_p4=fillTLorentzVector(genH1B);
-      TLorentzVector bbH1_gen_p4=fillTLorentzVector(genH1Bbar);
-      TLorentzVector bH2_gen_p4=fillTLorentzVector(genH2B);
-      TLorentzVector bbH2_gen_p4=fillTLorentzVector(genH2Bbar);
-      std::string string_H1=truthMatching(jet1_p4, jet2_p4, bH1_gen_p4, bbH1_gen_p4, bH2_gen_p4, bbH2_gen_p4);
-      std::string string_H2=truthMatching(jet3_p4, jet4_p4, bH1_gen_p4, bbH1_gen_p4, bH2_gen_p4, bbH2_gen_p4);
-      if ((string_H1=="bH1bH1" && string_H2=="bH2bH2") || (string_H1=="bH2bH2" && string_H2=="bH1bH1")) h_mX_SR_rightComb->Fill(X_mass, eventWeight);
-      else if (string_H1=="bH1bH2" || string_H2=="bH1bH2") h_mX_SR_wrongComb->Fill(X_mass, eventWeight);
-      else if (string_H1=="noMatch" || string_H2=="noMatch") h_mX_SR_noComb->Fill(X_mass, eventWeight);
+      if (genX.pt!=0)
+      {
+        TLorentzVector bH1_gen_p4=fillTLorentzVector(genH1B);
+        TLorentzVector bbH1_gen_p4=fillTLorentzVector(genH1Bbar);
+        TLorentzVector bH2_gen_p4=fillTLorentzVector(genH2B);
+        TLorentzVector bbH2_gen_p4=fillTLorentzVector(genH2Bbar);
+        std::string string_H1=truthMatching(jet1_p4, jet2_p4, bH1_gen_p4, bbH1_gen_p4, bH2_gen_p4, bbH2_gen_p4);
+        std::string string_H2=truthMatching(jet3_p4, jet4_p4, bH1_gen_p4, bbH1_gen_p4, bH2_gen_p4, bbH2_gen_p4);
+        if ((string_H1=="bH1bH1" && string_H2=="bH2bH2") || (string_H1=="bH2bH2" && string_H2=="bH1bH1")) h_mX_SR_rightComb->Fill(X_mass, eventWeight);
+        else if (string_H1=="bH1bH2" || string_H2=="bH1bH2") h_mX_SR_wrongComb->Fill(X_mass, eventWeight);
+        else if (string_H1=="noMatch" || string_H2=="noMatch") h_mX_SR_noComb->Fill(X_mass, eventWeight);
+      }
     }                                                                     
     else if (region==1) // CR1                                            
     {                                                                     
