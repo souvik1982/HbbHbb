@@ -19,9 +19,6 @@
 
 #include "/Users/souvik/HbbHbb/Analysis/kinFit4b.h"
 
-double sigmaJECUnc=0; // (-1, 0, 1)
-double sigmaJERUnc=0; // (-1, 0, 1)
-
 double pi=3.14159265358979;
 
 double bTagCSV_tightCut=0.898;
@@ -250,8 +247,10 @@ int HbbHbb_Partitioning(std::string sample, double h_mass, int kinConstraint=0)
 	
 	gSystem->Load("libPhysicsToolsKinFitter.so");
   
+  double sigmaJECUnc=0;
+  double sigmaJERUnc=0;
+  
   std::string inputfilename="../OfficialStep2_KinematicallySelected_bTagged_"+sample+".root";
-  // std::string inputfilename="../"+sample+"_selected_bTagged_.root";
   TChain *tree=new TChain("tree");
   tree->Add(inputfilename.c_str());
   std::cout<<"Opened input file "<<inputfilename<<std::endl;

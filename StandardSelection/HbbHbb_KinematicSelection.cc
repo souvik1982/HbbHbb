@@ -256,8 +256,8 @@ int HbbHbb_KinematicSelection(std::string dir, std::string sample, std::string s
     }
     */
     // Analysis begins here
-    // if (triggerFlags[54])
-    if (triggerFlags[0])
+    if (triggerFlags[54])
+    // if (triggerFlags[0])
     {
       ++nCut1;
       if (vType==4 || vType==8 || vType==9 || vType==10)

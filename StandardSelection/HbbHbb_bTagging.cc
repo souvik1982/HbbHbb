@@ -29,10 +29,6 @@
 
 bool rescaleEnergy=true;
 
-double sigmaJECUnc=0; // (-1, 0, 1)
-double sigmaJERUnc=0; // (-1, 0, 1)
-double sigmaTrigSF=0; // (-1, 0, 1)
-
 double pi=3.14159265358979;
 
 double bTagCSV_tightCut=0.898;
@@ -261,9 +257,30 @@ int withinRegion(double mH1, double mH2, double r1=15., double r2=30., double mH
   return ret;
 }
 
-int HbbHbb_bTagging(std::string templ, std::string sample, std::string tagString, std::string csvReshape="", std::string PUWeight="", int bJetRegression=0)
+int HbbHbb_bTagging(std::string templ, std::string sample, 
+                    std::string tagString, 
+                    std::string csvReshape="",
+                    std::string sigmaJECUnc_string="JEC", 
+                    std::string sigmaJERUnc_string="JER",
+                    std::string sigmaTrigSF_string="TrigSF", 
+                    int bJetRegression=0)
 {
   std::cout<<"H mass set at "<<H_mass<<std::endl;
+  
+  double sigmaJECUnc; // -1, 0, +1
+  double sigmaJERUnc; // -1, 0, +1
+  if (sigmaJECUnc_string=="JEC") sigmaJECUnc=0;
+  else if (sigmaJECUnc_string=="JECp1") sigmaJECUnc=1;
+  else if (sigmaJECUnc_string=="JECm1") sigmaJECUnc=-1;
+  if (sigmaJERUnc_string=="JER") sigmaJERUnc=0;
+  else if (sigmaJERUnc_string=="JERp1") sigmaJERUnc=1;
+  else if (sigmaJERUnc_string=="JERm1") sigmaJERUnc=-1;
+  
+  double sigmaTrigSF; // -1, 0, +1
+  if (sigmaTrigSF_string=="Trig") sigmaTrigSF=0;
+  else if (sigmaTrigSF_string=="upTrig") sigmaTrigSF=1;
+  else if (sigmaTrigSF_string=="downTrig") sigmaTrigSF=-1;
+  
   
   std::cout<<"templ = "<<templ<<std::endl;
   if (templ=="QCD")
@@ -289,15 +306,6 @@ int HbbHbb_bTagging(std::string templ, std::string sample, std::string tagString
   TChain *tree=new TChain("tree");
   tree->Add(inputfilename.c_str());
   std::cout<<"Opened input file "<<inputfilename<<std::endl;
-  
-  TFile *file_PUWeight;
-  TH1F *h_PUWeight;
-  if (PUWeight!="")
-  {
-    file_PUWeight=new TFile("/Users/souvik/HbbHbb/Analysis/PUWeight.root");
-    std::cout<<"Opened PU weight file = /Users/souvik/HbbHbb/Analysis/PUWeight.root"<<std::endl;
-    h_PUWeight=(TH1F*)gDirectory->Get("h_PUWeight");
-  }
   
   TFile *file_triggerSF_CSV=new TFile("/Users/souvik/HbbHbb/Analysis/TriggerEfficiencies/csvReshaped/ratio_2D.root");
   TFile *file_triggerSF_pT=new TFile("/Users/souvik/HbbHbb/Analysis/TriggerEfficiencies/jetpT/ratio_2D.root");
