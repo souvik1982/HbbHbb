@@ -256,8 +256,8 @@ int HbbHbb_KinematicSelection(std::string dir, std::string sample, std::string s
     }
     */
     // Analysis begins here
-    if (triggerFlags[54])
-    // if (triggerFlags[0])
+    // if (triggerFlags[54])
+    if (triggerFlags[0])
     {
       ++nCut1;
       if (vType==4 || vType==8 || vType==9 || vType==10)
@@ -398,9 +398,14 @@ int HbbHbb_KinematicSelection(std::string dir, std::string sample, std::string s
   outtree->Write();
   outfile->Close();
   std::cout<<"Wrote output file "<<outfilename<<std::endl;
+  
+  // Pass the countWithPU forward
+  TFile *file=new TFile(inputfilename.c_str());
+  TH1F *h_CountWithPU=(TH1F*)file->Get("CountWithPU");
                   
   std::string histfilename="Histograms_"+sample+".root";
   TFile *tFile=new TFile(histfilename.c_str(), "RECREATE");
+  h_CountWithPU->Write();
   h_nJets->Write();
   h_nPV->Write();
   h_nPV_weighted->Write();
