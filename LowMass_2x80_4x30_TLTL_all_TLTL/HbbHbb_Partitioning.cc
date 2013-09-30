@@ -237,13 +237,13 @@ int HbbHbb_Partitioning(std::string sample, double h_mass, int kinConstraint=0)
   float eventWeight; float corr[4];
   // Retrieve variables
   tree->SetBranchAddress("dR_min_5thJet", &(dR_min_5thJet));
-  tree->SetBranchAddress("QuadJetFilterFlag", &(QuadJetFilterFlag));  
+  // tree->SetBranchAddress("QuadJetFilterFlag", &(QuadJetFilterFlag));  
   tree->SetBranchAddress("Vtype", &(vType));
   tree->SetBranchAddress("triggerFlags", &(triggerFlags));
   tree->SetBranchAddress("nPVs", &(nPV));
   tree->SetBranchAddress("corr", &(corr));
   tree->SetBranchAddress("nhJets", &(nhJets));
-  tree->SetBranchAddress("Ht_less4", &(Ht_less4));
+  // tree->SetBranchAddress("Ht_less4", &(Ht_less4));
   tree->SetBranchAddress("hJet_e", &(hJetE)); 
   tree->SetBranchAddress("hJet_pt", &(hJetpT));
   tree->SetBranchAddress("hJet_eta", &(hJeteta));

@@ -259,7 +259,7 @@ int withinRegion(double mH1, double mH2, double r1=15., double r2=30., double mH
 
 int HbbHbb_bTagging(std::string templ, std::string sample, 
                     std::string tagString, 
-                    std::string csvReshape="",
+                    std::string csvReshape="nominal",
                     std::string sigmaJECUnc_string="JEC", 
                     std::string sigmaJERUnc_string="JER",
                     std::string sigmaTrigSF_string="TrigSF", 
@@ -280,7 +280,6 @@ int HbbHbb_bTagging(std::string templ, std::string sample,
   if (sigmaTrigSF_string=="Trig") sigmaTrigSF=0;
   else if (sigmaTrigSF_string=="upTrig") sigmaTrigSF=1;
   else if (sigmaTrigSF_string=="downTrig") sigmaTrigSF=-1;
-  
   
   std::cout<<"templ = "<<templ<<std::endl;
   if (templ=="QCD")
@@ -625,7 +624,6 @@ int HbbHbb_bTagging(std::string templ, std::string sample,
       jetpT[H1jet1_i]=(reader->EvaluateRegression("BDTG method"))[0];
       // std::cout<<"i = "<<i<<", jetpT[H1jet1_i] = "<<jetpT[H1jet1_i]<<std::endl;
       jet1_p4=fillTLorentzVector(jetpT[H1jet1_i], jeteta[H1jet1_i], jetphi[H1jet1_i], (rescaleEnergy ? jetE[H1jet1_i]*jetpT[H1jet1_i]/this_jetpT : jetE[H1jet1_i]));
-      
       
       // --- Jet 2
       this_jetpT=jetpT[H1jet2_i]; old_jet2pT=this_jetpT;

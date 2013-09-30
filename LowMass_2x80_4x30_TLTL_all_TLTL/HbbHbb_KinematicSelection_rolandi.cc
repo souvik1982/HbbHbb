@@ -17,9 +17,6 @@
 
 #include "/Users/souvik/HbbHbb/Analysis/bJetRegression/HelperFunctions.h"
 
-double sigmaJECUnc=0; // (-1, 0, 1)
-double sigmaJERUnc=0; // (-1, 0, 1)
-
 double pi=3.14159265358979;
 
 double jetpT_cut=30.;
@@ -91,7 +88,7 @@ TLorentzVector fillTLorentzVector(double pT, double eta, double phi, double E)
   return jet_p4;
 }
 
-int HbbHbb_KinematicSelection_rolandi(std::string dir, std::string sample, std::string PUWeight="", std::string csvReshape="")
+int HbbHbb_KinematicSelection_rolandi(std::string dir, std::string sample, std::string sigmaJECUnc_string="JEC", std::string sigmaJERUnc_string="JER", std::string csvReshape="nominal")
 {
   
   std::string inputfilename="/Users/souvik/HbbHbb/8TeV/"+dir+"/OfficialStep2_"+sample+".root";
@@ -99,14 +96,15 @@ int HbbHbb_KinematicSelection_rolandi(std::string dir, std::string sample, std::
   tree->Add(inputfilename.c_str());
   std::cout<<"Opened input file "<<inputfilename<<std::endl;
   
-  TFile *file_PUWeight;
-  TH1F *h_PUWeight;
-  if (PUWeight!="")
-  {
-    file_PUWeight=new TFile(PUWeight.c_str());
-    std::cout<<"Opened PU weight file = "<<PUWeight<<std::endl;
-    h_PUWeight=(TH1F*)gDirectory->Get("h_PUWeight");
-  }
+  double sigmaJECUnc; // -1, 0, +1
+  double sigmaJERUnc; // -1, 0, +1
+  if (sigmaJECUnc_string=="JEC") sigmaJECUnc=0;
+  else if (sigmaJECUnc_string=="JECp1") sigmaJECUnc=1;
+  else if (sigmaJECUnc_string=="JECm1") sigmaJECUnc=-1;
+  
+  if (sigmaJERUnc_string=="JER") sigmaJERUnc=0;
+  else if (sigmaJERUnc_string=="JERp1") sigmaJERUnc=1;
+  else if (sigmaJERUnc_string=="JERm1") sigmaJERUnc=-1;
   
   // Book variables
   int vType;
@@ -122,10 +120,10 @@ int HbbHbb_KinematicSelection_rolandi(std::string dir, std::string sample, std::
   float aJetE[100], aJetpT[100], aJeteta[100], aJetphi[100], aJetCSV[100], aJetflavor[100], aJetpTRaw[100], aJet_ptLeadTrack[100], aJet_vtx3dL[100], aJet_vtx3deL[100], aJet_vtxMass[100], aJet_vtxPt[100], aJet_cef[100], aJet_nconstituents[100], aJet_JECUnc[100], aJet_genpT[100];
   float jetE[100], jetpT[100], jeteta[100], jetphi[100], jetCSV[100], jetflavor[100], jetpTRaw[100], jet_ptLeadTrack[100], jet_vtx3dL[100], jet_vtx3deL[100], jet_vtxMass[100], jet_vtxPt[100], jet_cef[100], jet_nconstituents[100], jet_JECUnc[100], jet_genpT[100];
   METInfo metObj;
- float ajetE[100], ajetpT[100], ajeteta[100], ajetphi[100], ajetCSV[100], in[100];
- int ind[4];
- for( int i =0; i<100 ; i++) {
-		
+  float ajetE[100], ajetpT[100], ajeteta[100], ajetphi[100], ajetCSV[100], in[100];
+  int ind[4];
+  for( int i =0; i<100 ; i++) 
+  {
 		ajetE[i]=-999;
 		ajetpT[i]=-999;
 		ajeteta[i]=-999;
@@ -133,7 +131,7 @@ int HbbHbb_KinematicSelection_rolandi(std::string dir, std::string sample, std::
 		ajetCSV[i]=-999;	
   }
 
-for(int i=0;i<4;i++) {ind[i]=-999; corr[i]=-999;}
+  for(int i=0;i<4;i++) {ind[i]=-999; corr[i]=-999;}
   float met, metSig, ht;
   double weightPU=1.;
  
@@ -224,7 +222,6 @@ for(int i=0;i<4;i++) {ind[i]=-999; corr[i]=-999;}
   a_Cuts->SetBinLabel(12, "massDiff<50");
   a_Cuts->SetBinLabel(14, "b-tagging");
   a_Cuts->SetBinLabel(16, "SR");
-  
   
   std::string outfilename=sample+"_selected"+".root";
 
@@ -332,7 +329,7 @@ for(int i=0;i<4;i++) {ind[i]=-999; corr[i]=-999;}
       if (fabs(jeteta[j])<2.5) 
       {
         jetList_pT[jetpT[j]]=j;
-        if (jetpT[j]>jetpT_cut&&jetCSV[j]>0.244)
+        if (jetpT[j]>jetpT_cut && jetCSV[j]>0.244)
 	      {
           jetList_CSV[jetCSV[j]]=j;
 	        ++nCJets;
@@ -348,8 +345,8 @@ for(int i=0;i<4;i++) {ind[i]=-999; corr[i]=-999;}
     h_HT->Fill(ht);
     
     // Analysis begins here
-    // if (triggerFlags[54])//||triggerFlags[57])
-    if (triggerFlags[0])
+    if (triggerFlags[54])//||triggerFlags[57])
+    // if (triggerFlags[0])
     {
       if(QuadJetFilterFlag) ++nCutT;
       if(triggerFlags[57]) ++nCut50;

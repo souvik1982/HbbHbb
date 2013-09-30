@@ -19,7 +19,7 @@ double mH_mean_cut=20.;
 double rebin=1;
 bool bReg=false;
 
-std::string tags="MMMM_nominal"; // MMMM
+std::string tags="TLTL_nominal"; // MMMM
 
 double VR_lo=100.;
 double VR_hi=600.;
@@ -234,7 +234,7 @@ void BackgroundPrediction_Kinematic_SigmoidGaussExp()
   std::cout<<"bC = "<<bC<<", bS = "<<bS<<std::endl;
   h_mMMMMb_3Tag_SR->Scale(bC/bS);
   // Do the fits using RooFit
-  gSystem->Load("../../PDFs/LowMassBackgroundPDF_cxx.so");
+  gSystem->Load("../PDFs/LowMassBackgroundPDF_cxx.so");
   RooRealVar x("x", "m_{X} (GeV)", VR_lo, VR_hi);
   // bC
   RooRealVar bC_p0("bC_p0", "bC_p0", 300., 500.);

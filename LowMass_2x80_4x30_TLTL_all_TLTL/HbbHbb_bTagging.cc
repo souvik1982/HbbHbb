@@ -25,12 +25,8 @@
 
 #include "/Users/souvik/HbbHbb/Analysis/bJetRegression/HelperFunctions.h"
 
-
 bool rescaleEnergy=true;
 
-double sigmaJECUnc=0; // (-1, 0, 1)
-double sigmaJERUnc=0; // (-1, 0, 1)
-double sigmaTrigSF=0; // (-1, 0, 1)
 double pi=3.14159265358979;
 
 double bTagCSV_tightCut=0.898;
@@ -116,7 +112,7 @@ double azimuthalAngle(TLorentzVector v1, TLorentzVector v2, TLorentzVector v3, T
 }
 
 
-int helper_TrigBin(double csv)
+int helper_TrigBin_CSV(double csv)
 {
   int i=-1;
   if (csv<0.3) i=1;
@@ -153,6 +149,10 @@ int helper_TrigBin_pT4(double pT)
   return i;
 }
 
+double quad(double a, double b, double c=0, double d=0, double e=0, double f=0, double g=0, double h=0, double i=0, double j=0, double k=0)
+{
+  return pow(a*a+b*b+c*c+d*d+e*e+f*f+g*g+h*h+i*i+j*j+k*k, 0.5);
+}
 
 TH2F *h_udsg_JetpTeta_den, *h_udsg_JetpTeta_num;
 TH2F *h_c_JetpTeta_den, *h_c_JetpTeta_num;
@@ -256,9 +256,29 @@ int withinRegion(double mH1, double mH2, double r1=15., double r2=30., double mH
   return ret;
 }
 
-int HbbHbb_bTagging(std::string templ, std::string sample, std::string tagString, std::string csvReshape="", std::string PUWeight="", int bJetRegression=0)
+int HbbHbb_bTagging(std::string templ, std::string sample, 
+                    std::string tagString, 
+                    std::string csvReshape="nominal",
+                    std::string sigmaJECUnc_string="JEC", 
+                    std::string sigmaJERUnc_string="JER",
+                    std::string sigmaTrigSF_string="TrigSF", 
+                    int bJetRegression=0)
 {
   std::cout<<"H mass set at "<<H_mass<<std::endl;
+  
+  double sigmaJECUnc; // -1, 0, +1
+  double sigmaJERUnc; // -1, 0, +1
+  if (sigmaJECUnc_string=="JEC") sigmaJECUnc=0;
+  else if (sigmaJECUnc_string=="JECp1") sigmaJECUnc=1;
+  else if (sigmaJECUnc_string=="JECm1") sigmaJECUnc=-1;
+  if (sigmaJERUnc_string=="JER") sigmaJERUnc=0;
+  else if (sigmaJERUnc_string=="JERp1") sigmaJERUnc=1;
+  else if (sigmaJERUnc_string=="JERm1") sigmaJERUnc=-1;
+  
+  double sigmaTrigSF; // -1, 0, +1
+  if (sigmaTrigSF_string=="Trig") sigmaTrigSF=0;
+  else if (sigmaTrigSF_string=="upTrig") sigmaTrigSF=1;
+  else if (sigmaTrigSF_string=="downTrig") sigmaTrigSF=-1;
   
   std::cout<<"templ = "<<templ<<std::endl;
   if (templ=="QCD")
@@ -284,19 +304,12 @@ int HbbHbb_bTagging(std::string templ, std::string sample, std::string tagString
   TChain *tree=new TChain("tree");
   tree->Add(inputfilename.c_str());
   std::cout<<"Opened input file "<<inputfilename<<std::endl;
-  
-  TFile *file_PUWeight;
-  TH1F *h_PUWeight;
-  if (PUWeight!="")
-  {
-    file_PUWeight=new TFile("/gpfs/ddn/cms/user/cvernier/H4b/CMSSW_5_3_3_patch2/src/UserCode/SouvikDas/HbbHbb/Analysis/PUWeight.root");
-    std::cout<<"Opened PU weight file = /Users/souvik/HbbHbb/Analysis/PUWeight.root"<<std::endl;
-    h_PUWeight=(TH1F*)gDirectory->Get("h_PUWeight");
-  }
  
-  TFile *file_triggerSF=new TFile("/Users/souvik/HbbHbb/Analysis/TriggerEfficiencies/csvReshaped/ratio_2D.root");
+  TFile *file_triggerSF_CSV=new TFile("/Users/souvik/HbbHbb/Analysis/TriggerEfficiencies/csvReshaped/ratio_2D.root");
+  TFile *file_triggerSF_pT=new TFile("/Users/souvik/HbbHbb/Analysis/TriggerEfficiencies/jetpT/ratio_2D.root");
   
   std::cout<<"tagString = "<<tagString<<std::endl;
+  std::cout<<"csvReshape = "<<csvReshape<<std::endl;
   
   // Book variables
   int vType;
@@ -344,8 +357,7 @@ int HbbHbb_bTagging(std::string templ, std::string sample, std::string tagString
     reader->AddVariable("breg_softlepptrel := max(0, jet_SoftLeptptRel*(jet_SoftLeptIdlooseMu==1 || jet_SoftLeptId95==1))", &this_jet_SoftLeptptRel);
     reader->AddVariable("breg_softleppt := max(0, jet_SoftLeptPt*(jet_SoftLeptIdlooseMu==1 || jet_SoftLeptId95==1))", &this_jet_SoftLeptPt);
     reader->AddVariable("breg_softlepdR := max(0, jet_SoftLeptdR*(jet_SoftLeptIdlooseMu==1 || jet_SoftLeptId95==1))", &this_jet_SoftLeptdR);
-    // reader->BookMVA("BDTG method", "/Users/souvik/HbbHbb/Analysis/bJetRegression/weights/TMVARegression_BDTG.weights.xml");
-    reader->BookMVA("BDTG method", "/gpfs/ddn/cms/user/cvernier/H4b/CMSSW_5_3_3_patch2/src/UserCode/SouvikDas/HbbHbb/Analysis/bJetRegression/weights/TMVARegression_BDTG.weights.xml");
+    reader->BookMVA("BDTG method", "/Users/souvik/HbbHbb/Analysis/bJetRegression/weights/TMVARegression_BDTG.weights.xml");
   }
   
   // Retrieve variables
@@ -403,8 +415,6 @@ int HbbHbb_bTagging(std::string templ, std::string sample, std::string tagString
   tree->SetBranchAddress("JetCSV", &(JetCSV));
   tree->SetBranchAddress("PtInd",&(PtInd));
   tree->SetBranchAddress("matched",&(matched));
-  tree->SetBranchAddress("PUweight", &(weightPU));
-
   
   TH1F *h_nJets_3Tags=new TH1F("h_nJets_3Tags", "# Cleaned PAT Jets; n", 20, 0., 20.);
   
@@ -485,11 +495,13 @@ int HbbHbb_bTagging(std::string templ, std::string sample, std::string tagString
   
   TH2F *h_dpT_HpT=new TH2F("h_dpT_HpT", "#Deltap_{T}(H_{1}, H_{2}) vs <H p_{T}>; <H p_{T}> (GeV); #Deltap_{T}(H_{1}, H_{2}) (GeV)", 50, 0., 500., 50, -2., 2.);
   
+  // Get the trigger efficiency data/MC scale factor
+  TH1F *h_trigSF_CSV=(TH1F*)(((TCanvas*)file_triggerSF_CSV->Get("c5"))->GetPrimitive("Ratio"));
+  std::cout<<"h_trigSF_CSV->GetBinContent(helper_TrigBin(0.679), helper_TrigBin(0.679)) = "<<h_trigSF_CSV->GetBinContent(helper_TrigBin_CSV(0.679), helper_TrigBin_CSV(0.679))<<std::endl;
   
-// Get the trigger efficiency data/MC scale factor
-  TH1F *h_trigSF_CSV=(TH1F*)(((TCanvas*)file_triggerSF->Get("c5"))->GetPrimitive("Ratio"));
-  std::cout<<"h_trigSF_CSV->GetBinContent(helper_TrigBin(0.679), helper_TrigBin(0.679)) = "<<h_trigSF_CSV->GetBinContent(helper_TrigBin(0.679), helper_TrigBin(0.679))<<std::endl;
-
+  TH1F *h_trigSF_jetpT=(TH1F*)(((TCanvas*)file_triggerSF_pT->Get("c5"))->GetPrimitive("Ratio"));
+  std::cout<<"h_trigSF_jetpT->GetBinContent(70, 70) = "<<h_trigSF_jetpT->GetBinContent(helper_TrigBin_pT2(70), helper_TrigBin_pT4(70))<<std::endl;
+  
   std::string histfilename="Histograms_"+sample+".root";
   gSystem->Exec(("cp ../"+histfilename+" "+histfilename).c_str());
   TFile *tFile1=new TFile(("../"+histfilename).c_str(), "READ");
@@ -620,7 +632,6 @@ int HbbHbb_bTagging(std::string templ, std::string sample, std::string tagString
       // std::cout<<"i = "<<i<<", jetpT[H1jet1_i] = "<<jetpT[H1jet1_i]<<std::endl;
       jet1_p4=fillTLorentzVector(jetpT[H1jet1_i], jeteta[H1jet1_i], jetphi[H1jet1_i], (rescaleEnergy ? jetE[H1jet1_i]*jetpT[H1jet1_i]/this_jetpT : jetE[H1jet1_i]));
       
-      
       // --- Jet 2
       this_jetpT=jetpT[H1jet2_i]; old_jet2pT=this_jetpT;
       this_jet_ptLeadTrack=TMath::Max(float(0.), jet_ptLeadTrack[H1jet2_i]);
@@ -701,22 +712,28 @@ int HbbHbb_bTagging(std::string templ, std::string sample, std::string tagString
     }     
         
     // Now evaluate the weight from the trigger efficiency data/MC scale factor 
-    double H1CSVhi=TMath::Max(JetCSV[H1jet1_i], JetCSV[H1jet2_i]);
-    double H1CSVlo=TMath::Min(JetCSV[H1jet1_i], JetCSV[H1jet2_i]);
-    double H2CSVhi=TMath::Max(JetCSV[H2jet1_i], JetCSV[H2jet2_i]);
-    double H2CSVlo=TMath::Min(JetCSV[H2jet1_i], JetCSV[H2jet2_i]);
+    double H1CSVhi=TMath::Max(jetCSV[H1jet1_i], jetCSV[H1jet2_i]);
+    double H1CSVlo=TMath::Min(jetCSV[H1jet1_i], jetCSV[H1jet2_i]); 
+    double H2CSVhi=TMath::Max(jetCSV[H2jet1_i], jetCSV[H2jet2_i]);
+    double H2CSVlo=TMath::Min(jetCSV[H2jet1_i], jetCSV[H2jet2_i]);
     double HCSVhi=(H1CSVhi+H2CSVhi)/2.;
     double HCSVlo=(H1CSVlo+H2CSVlo)/2.;
-    double triggerWeight=h_trigSF_CSV->GetBinContent(helper_TrigBin(HCSVhi), helper_TrigBin(HCSVlo));
-    triggerWeight=triggerWeight+sigmaTrigSF*(triggerWeight-1.)/2.;
-
+    double triggerWeight_CSV=h_trigSF_CSV->GetBinContent(helper_TrigBin_CSV(HCSVhi), helper_TrigBin_CSV(HCSVlo));
+    double triggerWeight_CSV_error=h_trigSF_CSV->GetBinError(helper_TrigBin_CSV(HCSVhi), helper_TrigBin_CSV(HCSVlo));
+    std::vector<double> HjetpT;
+    HjetpT.push_back(jetpT[H1jet1_i]);
+    HjetpT.push_back(jetpT[H1jet2_i]);
+    HjetpT.push_back(jetpT[H2jet1_i]);
+    HjetpT.push_back(jetpT[H2jet2_i]);
+    std::sort(HjetpT.begin(), HjetpT.end());
+    double triggerWeight_pT=h_trigSF_jetpT->GetBinContent(helper_TrigBin_pT2(HjetpT.at(2)), helper_TrigBin_pT4(HjetpT.at(0)));
+    double triggerWeight_pT_error=h_trigSF_jetpT->GetBinError(helper_TrigBin_pT2(HjetpT.at(2)), helper_TrigBin_pT4(HjetpT.at(0)));
+    double triggerWeight=(triggerWeight_CSV*triggerWeight_pT)+sigmaTrigSF*quad((triggerWeight_CSV-1.)/2., triggerWeight_CSV_error, (triggerWeight_pT-1.)/2., triggerWeight_pT_error) ;
+    
     if (templ!="Data")
     {
       weightPU=weightPU*triggerWeight;
-    }	
-
-
-
+    }
   
     h_regpT_genpT_1->Fill(jet_genpT[H1jet1_i], jetpT[H1jet1_i], weightPU);
     h_regpT_genpT_2->Fill(jet_genpT[H1jet2_i], jetpT[H1jet2_i], weightPU);
@@ -739,7 +756,7 @@ int HbbHbb_bTagging(std::string templ, std::string sample, std::string tagString
     double X_pT=X_p4.Pt();
     h_X_mass->Fill(X_mass, weightPU);
     
-	h_X_pT->Fill(X_pT, weightPU);
+	  h_X_pT->Fill(X_pT, weightPU);
     
     // Jet pT study
     h_H1_CSV1->Fill(jetCSV[H1jet1_i], weightPU);
@@ -798,8 +815,8 @@ int HbbHbb_bTagging(std::string templ, std::string sample, std::string tagString
             
     if ( 
          (tagString=="MMM" && nTagsM>=3)                                              ||
-         (tagString=="TLTL" && (nTags>=2&&nTagsL>=4))                                             ||
-         (tagString=="TTM" && (nTagsM>=3&&nTags>=2))                                               ||
+         (tagString=="TLTL" && (nTags>=2 && nTagsL>=4))                                             ||
+         (tagString=="TTM" && (nTagsM>=3 && nTags>=2))                                               ||
          (tagString=="TMTM" && ((jetTag[0]+jetTag[1])>4 && (jetTag[2]+jetTag[3])>4))  ||
          (tagString=="MJMJ" && ((jetTag[0]+jetTag[1])>1 && (jetTag[2]+jetTag[3])>1))
        )
@@ -873,7 +890,6 @@ int HbbHbb_bTagging(std::string templ, std::string sample, std::string tagString
       regJet4pT=jet4_p4.Pt();
       eventWeight=weightPU;
 	    outtree->Fill();
-      
       
     } // nTags
       
