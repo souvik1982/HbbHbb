@@ -88,7 +88,10 @@ TLorentzVector fillTLorentzVector(double pT, double eta, double phi, double E)
   return jet_p4;
 }
 
-int HbbHbb_KinematicSelection_rolandi(std::string dir, std::string sample, std::string sigmaJECUnc_string="JEC", std::string sigmaJERUnc_string="JER", std::string csvReshape="nominal")
+int HbbHbb_KinematicSelection_rolandi(std::string dir, std::string sample, 
+                                      std::string sigmaJECUnc_string="JEC", 
+                                      std::string sigmaJERUnc_string="JER", 
+                                      std::string csvReshape="nominal")
 {
   
   std::string inputfilename="/Users/souvik/HbbHbb/8TeV/"+dir+"/OfficialStep2_"+sample+".root";
@@ -345,8 +348,8 @@ int HbbHbb_KinematicSelection_rolandi(std::string dir, std::string sample, std::
     h_HT->Fill(ht);
     
     // Analysis begins here
-    if (triggerFlags[54])//||triggerFlags[57])
-    // if (triggerFlags[0])
+    // if (triggerFlags[54])//||triggerFlags[57])
+    if (triggerFlags[0])
     {
       if(QuadJetFilterFlag) ++nCutT;
       if(triggerFlags[57]) ++nCut50;
@@ -462,9 +465,14 @@ int HbbHbb_KinematicSelection_rolandi(std::string dir, std::string sample, std::
 
   outtree->Write();
   outfile->Close();
+  
+  // Pass the countWithPU forward
+  TFile *file=new TFile(inputfilename.c_str());
+  TH1F *h_CountWithPU=(TH1F*)file->Get("CountWithPU");
 
   std::string histfilename="Histograms_"+sample+".root";
   TFile *tFile=new TFile(histfilename.c_str(), "RECREATE");
+  h_CountWithPU->Write();
   h_nCand->Write();
   h_nCand_true->Write();
   h_Xmass_right->Write();
