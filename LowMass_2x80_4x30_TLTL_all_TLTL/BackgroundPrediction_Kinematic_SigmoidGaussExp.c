@@ -20,7 +20,8 @@ double rebin=1;
 bool useRatioFit=false;
 bool bReg=false;
 
-std::string tags="TLTL_nominal"; // MMMM
+// std::string tags="TLTL_nominal"; // MMMM
+std::string tags="TbarTbarLL";
 
 double VR_lo=100.;
 double VR_hi=600.;
@@ -387,7 +388,7 @@ void BackgroundPrediction_Kinematic_SigmoidGaussExp()
   {
     RooDataHist unblind("unblind", "Signal Region", RooArgList(x), h_mMMMMa_3Tag_SR);
     unblind.plotOn(aS_plot, RooFit::LineColor(kBlue), RooFit::MarkerColor(kBlue));
-    bg_pred.fitTo(unblind, RooFit::Range(450., 600.)); // RooFit::Range(SR_lo, SR_hi));
+    bg_pred.fitTo(unblind, RooFit::Range(SR_lo, SR_hi));
     bg_pred.plotOn(aS_plot, RooFit::LineColor(kBlue));
     aS_plot->Draw();
     aC_plot->Draw("same");
