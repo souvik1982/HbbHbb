@@ -22,7 +22,8 @@ public:
 	      RooAbsReal& _p1,
 	      RooAbsReal& _p2,
 	      RooAbsReal& _p3,
-	      RooAbsReal& _p4);
+	      RooAbsReal& _p4,
+        RooAbsReal& _p5);
   WrappedChebychev3(const WrappedChebychev3& other, const char* name=0) ;
   virtual TObject* clone(const char* newname) const { return new WrappedChebychev3(*this,newname); }
   inline virtual ~WrappedChebychev3() { }
@@ -35,6 +36,7 @@ protected:
   RooRealProxy p2 ;
   RooRealProxy p3 ;
   RooRealProxy p4 ;
+  RooRealProxy p5 ;
   
   Double_t evaluate() const ;
 
