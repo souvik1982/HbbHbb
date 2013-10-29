@@ -34,8 +34,9 @@
 #include <RooPlot.h>
 #include <RooFitResult.h>
 #include <RooCBShape.h>
+#include <RooGaussian.h>
 
-// #include "/Users/souvik/HbbHbb/Analysis/PDFs/RevCrystalBall.h"
+// #include "/Users/souvik/HbbHbb/Analysis/PDFs/ExpGaussExp.h"
 
 bool focus=false;
 
@@ -224,114 +225,114 @@ RooPlot* fitSignal(TH1F *h, std::string mass, int color, TLegend *leg, Params &p
     if (mass=="270")
     {
       rangeLo=200., rangeHi=600.; 
-      sg_p0=new RooRealVar("sg_p0", "sg_p0", 0.0, 2.5);
-      sg_p1=new RooRealVar("sg_p1", "sg_p1", 0., 5.);
-      sg_p2=new RooRealVar("sg_p2", "sg_p2", 280., 320.);
-      sg_p3=new RooRealVar("sg_p3", "sg_p3", 10., 50.);
+      sg_p0=new RooRealVar("sg_p0", "sg_p0", 280., 320.);
+      sg_p1=new RooRealVar("sg_p1", "sg_p1", 10., 50.);
+      sg_p2=new RooRealVar("sg_p2", "sg_p2", 0., 1.);
+      sg_p3=new RooRealVar("sg_p3", "sg_p3", 0., 1.);
     }
     else if (mass=="300")
     {
       rangeLo=200., rangeHi=600.; 
-      sg_p0=new RooRealVar("sg_p0", "sg_p0", 0.0, 2.5);
-      sg_p1=new RooRealVar("sg_p1", "sg_p1", 0., 5.);
-      sg_p2=new RooRealVar("sg_p2", "sg_p2", 280., 320.);
-      sg_p3=new RooRealVar("sg_p3", "sg_p3", 10., 50.);
+      sg_p0=new RooRealVar("sg_p0", "sg_p0", 280., 320.);
+      sg_p1=new RooRealVar("sg_p1", "sg_p1", 10., 50.);
+      sg_p2=new RooRealVar("sg_p2", "sg_p2", 0., 1.);
+      sg_p3=new RooRealVar("sg_p3", "sg_p3", 0., 1.);
     }
     else if (mass=="350")
     {
       rangeLo=200., rangeHi=600.; 
-      sg_p0=new RooRealVar("sg_p0", "sg_p0", 0.0, 2.5);
-      sg_p1=new RooRealVar("sg_p1", "sg_p1", 0., 5.);
-      sg_p2=new RooRealVar("sg_p2", "sg_p2", 280., 320.);
-      sg_p3=new RooRealVar("sg_p3", "sg_p3", 10., 50.);
+      sg_p0=new RooRealVar("sg_p0", "sg_p0", 300., 370.);
+      sg_p1=new RooRealVar("sg_p1", "sg_p1", 5., 50.);
+      sg_p2=new RooRealVar("sg_p2", "sg_p2", 0., 1.);
+      sg_p3=new RooRealVar("sg_p3", "sg_p3", 0., 1.);
     }
     else if (mass=="400")
     {
-      rangeLo=300., rangeHi=600.; 
-      sg_p0=new RooRealVar("sg_p0", "sg_p0", 1.0, 2.5);
-      sg_p1=new RooRealVar("sg_p1", "sg_p1", 2., 5.);
-      sg_p2=new RooRealVar("sg_p2", "sg_p2", 380., 420.);
-      sg_p3=new RooRealVar("sg_p3", "sg_p3", 10., 50.);
+      rangeLo=300., rangeHi=550.; 
+      sg_p0=new RooRealVar("sg_p0", "sg_p0", 380., 420.);
+      sg_p1=new RooRealVar("sg_p1", "sg_p1", 5., 15.);
+      sg_p2=new RooRealVar("sg_p2", "sg_p2", 0., 5.);
+      sg_p3=new RooRealVar("sg_p3", "sg_p3", 0., 7.);
     }
     else if (mass=="450")
     {
-      rangeLo=300., rangeHi=600.; 
-      sg_p0=new RooRealVar("sg_p0", "sg_p0", 1.0, 2.5);
-      sg_p1=new RooRealVar("sg_p1", "sg_p1", 2., 5.);
-      sg_p2=new RooRealVar("sg_p2", "sg_p2", 380., 420.);
-      sg_p3=new RooRealVar("sg_p3", "sg_p3", 10., 50.);
+      rangeLo=370., rangeHi=540.; 
+      sg_p0=new RooRealVar("sg_p0", "sg_p0", 430., 470.);
+      sg_p1=new RooRealVar("sg_p1", "sg_p1", 10., 25.);
+      sg_p2=new RooRealVar("sg_p2", "sg_p2", 0., 5.);
+      sg_p3=new RooRealVar("sg_p3", "sg_p3", 0., 7.);
     }
     else if (mass=="500")
     {
-      rangeLo=300., rangeHi=700.; 
-      sg_p0=new RooRealVar("sg_p0", "sg_p0", 1.0, 3.0);
-      sg_p1=new RooRealVar("sg_p1", "sg_p1", 1., 10.);
-      sg_p2=new RooRealVar("sg_p2", "sg_p2", 470., 530.);
-      sg_p3=new RooRealVar("sg_p3", "sg_p3", 10., 30.);
+      rangeLo=420., rangeHi=600.; 
+      sg_p0=new RooRealVar("sg_p0", "sg_p0", 460., 520.);
+      sg_p1=new RooRealVar("sg_p1", "sg_p1", 10., 30.);
+      sg_p2=new RooRealVar("sg_p2", "sg_p2", 0., 5.);
+      sg_p3=new RooRealVar("sg_p3", "sg_p3", 0., 7.);
     }
     else if (mass=="550")
     {
-      rangeLo=300., rangeHi=700.; 
-      sg_p0=new RooRealVar("sg_p0", "sg_p0", 1.0, 3.0);
-      sg_p1=new RooRealVar("sg_p1", "sg_p1", 1., 10.);
-      sg_p2=new RooRealVar("sg_p2", "sg_p2", 470., 530.);
-      sg_p3=new RooRealVar("sg_p3", "sg_p3", 10., 30.);
+      rangeLo=450., rangeHi=650.; 
+      sg_p0=new RooRealVar("sg_p0", "sg_p0", 510., 570.);
+      sg_p1=new RooRealVar("sg_p1", "sg_p1", 10., 30.);
+      sg_p2=new RooRealVar("sg_p2", "sg_p2", 0., 5.);
+      sg_p3=new RooRealVar("sg_p3", "sg_p3", 0., 7.);
     }
     else if (mass=="600")
     {
-      rangeLo=400., rangeHi=800.; 
-      sg_p0=new RooRealVar("sg_p0", "sg_p0", 1.0, 4.0);
-      sg_p1=new RooRealVar("sg_p1", "sg_p1", 0.001, 1.);
-      sg_p2=new RooRealVar("sg_p2", "sg_p2", 580., 620.);
-      sg_p3=new RooRealVar("sg_p3", "sg_p3", 20., 30.);
+      rangeLo=490., rangeHi=700.; 
+      sg_p0=new RooRealVar("sg_p0", "sg_p0", 560., 620.);
+      sg_p1=new RooRealVar("sg_p1", "sg_p1", 10., 30.);
+      sg_p2=new RooRealVar("sg_p2", "sg_p2", 0., 5.);
+      sg_p3=new RooRealVar("sg_p3", "sg_p3", 0., 7.);
     }
     else if (mass=="650")
     {
-      rangeLo=400., rangeHi=800.; 
-      sg_p0=new RooRealVar("sg_p0", "sg_p0", 1.0, 4.0);
-      sg_p1=new RooRealVar("sg_p1", "sg_p1", 0.001, 1.);
-      sg_p2=new RooRealVar("sg_p2", "sg_p2", 580., 620.);
-      sg_p3=new RooRealVar("sg_p3", "sg_p3", 20., 30.);
+      rangeLo=540., rangeHi=750.; 
+      sg_p0=new RooRealVar("sg_p0", "sg_p0", 610., 670.);
+      sg_p1=new RooRealVar("sg_p1", "sg_p1", 20., 35.);
+      sg_p2=new RooRealVar("sg_p2", "sg_p2", 0., 5.);
+      sg_p3=new RooRealVar("sg_p3", "sg_p3", 0., 7.);
     }
     else if (mass=="700")
     {
-      rangeLo=500., rangeHi=900.; 
-      sg_p0=new RooRealVar("sg_p0", "sg_p0", 0.5, 4.0);
-      sg_p1=new RooRealVar("sg_p1", "sg_p1", 1.0, 10.0);
-      sg_p2=new RooRealVar("sg_p2", "sg_p2", 680., 720.);
-      sg_p3=new RooRealVar("sg_p3", "sg_p3", 25., 35.);
+      rangeLo=580., rangeHi=800.; 
+      sg_p0=new RooRealVar("sg_p0", "sg_p0", 660., 720.);
+      sg_p1=new RooRealVar("sg_p1", "sg_p1", 20., 35.);
+      sg_p2=new RooRealVar("sg_p2", "sg_p2", 0., 5.);
+      sg_p3=new RooRealVar("sg_p3", "sg_p3", 0., 7.);
     }
     else if (mass=="800")
     {
-      rangeLo=600., rangeHi=1000.; 
-      sg_p0=new RooRealVar("sg_p0", "sg_p0", 1.0, 5.0);
-      sg_p1=new RooRealVar("sg_p1", "sg_p1", 0.1, 20.0);
-      sg_p2=new RooRealVar("sg_p2", "sg_p2", 780., 850.);
-      sg_p3=new RooRealVar("sg_p3", "sg_p3", 25., 40.);
+      rangeLo=650., rangeHi=900.; 
+      sg_p0=new RooRealVar("sg_p0", "sg_p0", 760., 820.);
+      sg_p1=new RooRealVar("sg_p1", "sg_p1", 25., 40.);
+      sg_p2=new RooRealVar("sg_p2", "sg_p2", 0., 5.);
+      sg_p3=new RooRealVar("sg_p3", "sg_p3", 0., 7.);
     }
     else if (mass=="900")
     {
-      rangeLo=700., rangeHi=1100.; 
-      sg_p0=new RooRealVar("sg_p0", "sg_p0", 1.0, 5.0);
-      sg_p1=new RooRealVar("sg_p1", "sg_p1", 0.1, 20.0);
-      sg_p2=new RooRealVar("sg_p2", "sg_p2", 880., 950.);
-      sg_p3=new RooRealVar("sg_p3", "sg_p3", 25., 40.);
+      rangeLo=720., rangeHi=1000.; 
+      sg_p0=new RooRealVar("sg_p0", "sg_p0", 870., 930.);
+      sg_p1=new RooRealVar("sg_p1", "sg_p1", 25., 40.);
+      sg_p2=new RooRealVar("sg_p2", "sg_p2", 0., 5.);
+      sg_p3=new RooRealVar("sg_p3", "sg_p3", 0., 7.);
     }
     else if (mass=="1000")
     {
-      rangeLo=800., rangeHi=1200.; 
-      sg_p0=new RooRealVar("sg_p0", "sg_p0", 1.0, 5.0);
-      sg_p1=new RooRealVar("sg_p1", "sg_p1", 0.1, 20.0);
-      sg_p2=new RooRealVar("sg_p2", "sg_p2", 980., 1050.);
-      sg_p3=new RooRealVar("sg_p3", "sg_p3", 25., 40.);
+      rangeLo=800., rangeHi=1150.;
+      sg_p0=new RooRealVar("sg_p0", "sg_p0", 950., 1050.);
+      sg_p1=new RooRealVar("sg_p1", "sg_p1", 25., 40.);
+      sg_p2=new RooRealVar("sg_p2", "sg_p2", 0., 5.);
+      sg_p3=new RooRealVar("sg_p3", "sg_p3", 0., 7.);
     }
     else if (mass=="1100")
     {
-      rangeLo=900., rangeHi=1300.; 
-      sg_p0=new RooRealVar("sg_p0", "sg_p0", 1.0, 5.0);
-      sg_p1=new RooRealVar("sg_p1", "sg_p1", 0.1, 20.0);
-      sg_p2=new RooRealVar("sg_p2", "sg_p2", 1080., 1150.);
-      sg_p3=new RooRealVar("sg_p3", "sg_p3", 25., 40.);
+      rangeLo=850., rangeHi=1250.; 
+      sg_p0=new RooRealVar("sg_p0", "sg_p0", 1080., 1150.);
+      sg_p1=new RooRealVar("sg_p1", "sg_p1", 30., 50.);
+      sg_p2=new RooRealVar("sg_p2", "sg_p2", 0., 5.);
+      sg_p3=new RooRealVar("sg_p3", "sg_p3", 0., 5.);
     }
   }
   else
@@ -339,123 +340,119 @@ RooPlot* fitSignal(TH1F *h, std::string mass, int color, TLegend *leg, Params &p
     if (mass=="270")
     {
       rangeLo=200., rangeHi=600.; 
-      sg_p0=new RooRealVar("sg_p0", "sg_p0", 0.0, 2.5);
-      sg_p1=new RooRealVar("sg_p1", "sg_p1", 0., 5.);
-      sg_p2=new RooRealVar("sg_p2", "sg_p2", 280., 320.);
-      sg_p3=new RooRealVar("sg_p3", "sg_p3", 10., 50.);
+      sg_p0=new RooRealVar("sg_p0", "sg_p0", 280., 320.);
+      sg_p1=new RooRealVar("sg_p1", "sg_p1", 10., 50.);
+      sg_p2=new RooRealVar("sg_p2", "sg_p2", 0., 1.);
+      sg_p3=new RooRealVar("sg_p3", "sg_p3", 0., 1.);
     }
     else if (mass=="300")
     {
       rangeLo=200., rangeHi=600.; 
-      sg_p0=new RooRealVar("sg_p0", "sg_p0", 0.0, 2.5);
-      sg_p1=new RooRealVar("sg_p1", "sg_p1", 0., 5.);
-      sg_p2=new RooRealVar("sg_p2", "sg_p2", 280., 320.);
-      sg_p3=new RooRealVar("sg_p3", "sg_p3", 10., 50.);
+      sg_p0=new RooRealVar("sg_p0", "sg_p0", 280., 320.);
+      sg_p1=new RooRealVar("sg_p1", "sg_p1", 10., 50.);
+      sg_p2=new RooRealVar("sg_p2", "sg_p2", 0., 1.);
+      sg_p3=new RooRealVar("sg_p3", "sg_p3", 0., 1.);
     }
     else if (mass=="350")
     {
       rangeLo=200., rangeHi=600.; 
-      sg_p0=new RooRealVar("sg_p0", "sg_p0", 0.0, 2.5);
-      sg_p1=new RooRealVar("sg_p1", "sg_p1", 0., 5.);
-      sg_p2=new RooRealVar("sg_p2", "sg_p2", 280., 320.);
-      sg_p3=new RooRealVar("sg_p3", "sg_p3", 10., 50.);
+      sg_p0=new RooRealVar("sg_p0", "sg_p0", 300., 370.);
+      sg_p1=new RooRealVar("sg_p1", "sg_p1", 5., 50.);
+      sg_p2=new RooRealVar("sg_p2", "sg_p2", 0., 1.);
+      sg_p3=new RooRealVar("sg_p3", "sg_p3", 0., 1.);
     }
     else if (mass=="400")
     {
-      // rangeLo=300., rangeHi=600.;
-      rangeLo=370., rangeHi=550.;
-      sg_p0=new RooRealVar("sg_p0", "sg_p0", 1., 2.);
-      sg_p1=new RooRealVar("sg_p1", "sg_p1", 1., 10.);
-      sg_p2=new RooRealVar("sg_p2", "sg_p2", 390., 410.);
-      sg_p3=new RooRealVar("sg_p3", "sg_p3", 7., 20.);
+      rangeLo=360., rangeHi=490.;
+      sg_p0=new RooRealVar("sg_p0", "sg_p0", 380., 420.);
+      sg_p1=new RooRealVar("sg_p1", "sg_p1", 5., 15.);
+      sg_p2=new RooRealVar("sg_p2", "sg_p2", 0., 5.);
+      sg_p3=new RooRealVar("sg_p3", "sg_p3", 0., 7.);
     }
     else if (mass=="450")
     {
-      rangeLo=300., rangeHi=600.; 
-      sg_p0=new RooRealVar("sg_p0", "sg_p0", 1.0, 2.5);
-      sg_p1=new RooRealVar("sg_p1", "sg_p1", 2., 5.);
-      sg_p2=new RooRealVar("sg_p2", "sg_p2", 380., 420.);
-      sg_p3=new RooRealVar("sg_p3", "sg_p3", 10., 50.);
+      rangeLo=400., rangeHi=540.; 
+      sg_p0=new RooRealVar("sg_p0", "sg_p0", 430., 480.);
+      sg_p1=new RooRealVar("sg_p1", "sg_p1", 5., 15.);
+      sg_p2=new RooRealVar("sg_p2", "sg_p2", 0., 5.);
+      sg_p3=new RooRealVar("sg_p3", "sg_p3", 0., 7.);
     }
     else if (mass=="500")
     {
-      // rangeLo=300., rangeHi=700.;
-      rangeLo=470., rangeHi=650.;
-      sg_p0=new RooRealVar("sg_p0", "sg_p0", 1., 3.);
-      sg_p1=new RooRealVar("sg_p1", "sg_p1", 1., 10.);
-      sg_p2=new RooRealVar("sg_p2", "sg_p2", 470., 530.);
-      sg_p3=new RooRealVar("sg_p3", "sg_p3", 10., 30.);
+      rangeLo=450., rangeHi=600.;
+      sg_p0=new RooRealVar("sg_p0", "sg_p0", 480., 530.);
+      sg_p1=new RooRealVar("sg_p1", "sg_p1", 5., 15.);
+      sg_p2=new RooRealVar("sg_p2", "sg_p2", 0., 5.);
+      sg_p3=new RooRealVar("sg_p3", "sg_p3", 0., 7.);
     }
     else if (mass=="550")
     {
-      rangeLo=300., rangeHi=700.; 
-      sg_p0=new RooRealVar("sg_p0", "sg_p0", 1.0, 3.0);
-      sg_p1=new RooRealVar("sg_p1", "sg_p1", 1., 10.);
-      sg_p2=new RooRealVar("sg_p2", "sg_p2", 470., 530.);
-      sg_p3=new RooRealVar("sg_p3", "sg_p3", 10., 30.);
+      rangeLo=490., rangeHi=650.; 
+      sg_p0=new RooRealVar("sg_p0", "sg_p0", 530., 580.);
+      sg_p1=new RooRealVar("sg_p1", "sg_p1", 5., 15.);
+      sg_p2=new RooRealVar("sg_p2", "sg_p2", 0., 5.);
+      sg_p3=new RooRealVar("sg_p3", "sg_p3", 0., 7.);
     }
     else if (mass=="600")
     {
-      // rangeLo=400., rangeHi=800.;
-      rangeLo=580., rangeHi=670.;
-      sg_p0=new RooRealVar("sg_p0", "sg_p0", 1., 4.);
-      sg_p1=new RooRealVar("sg_p1", "sg_p1", 1., 10.);
-      sg_p2=new RooRealVar("sg_p2", "sg_p2", 600., 620.);
-      sg_p3=new RooRealVar("sg_p3", "sg_p3", 10., 30.);
+      rangeLo=540., rangeHi=700.;
+      sg_p0=new RooRealVar("sg_p0", "sg_p0", 580., 630.);
+      sg_p1=new RooRealVar("sg_p1", "sg_p1", 5., 15.);
+      sg_p2=new RooRealVar("sg_p2", "sg_p2", 0., 5.);
+      sg_p3=new RooRealVar("sg_p3", "sg_p3", 0., 7.);
     }
     else if (mass=="650")
     {
-      rangeLo=400., rangeHi=800.; 
-      sg_p0=new RooRealVar("sg_p0", "sg_p0", 1.0, 4.0);
-      sg_p1=new RooRealVar("sg_p1", "sg_p1", 0.001, 1.);
-      sg_p2=new RooRealVar("sg_p2", "sg_p2", 580., 620.);
-      sg_p3=new RooRealVar("sg_p3", "sg_p3", 20., 30.);
+      rangeLo=580., rangeHi=750.; 
+      sg_p0=new RooRealVar("sg_p0", "sg_p0", 630., 680.);
+      sg_p1=new RooRealVar("sg_p1", "sg_p1", 10., 25.);
+      sg_p2=new RooRealVar("sg_p2", "sg_p2", 0., 5.);
+      sg_p3=new RooRealVar("sg_p3", "sg_p3", 0., 7.);
     }
     else if (mass=="700")
     {
-      // rangeLo=500., rangeHi=900.;
-      rangeLo=650., rangeHi=870.;
-      sg_p0=new RooRealVar("sg_p0", "sg_p0", 1., 4.);
-      sg_p1=new RooRealVar("sg_p1", "sg_p1", 1., 10.);
-      sg_p2=new RooRealVar("sg_p2", "sg_p2", 680., 750.);
-      sg_p3=new RooRealVar("sg_p3", "sg_p3", 20., 30.);
+      rangeLo=620., rangeHi=810.;
+      sg_p0=new RooRealVar("sg_p0", "sg_p0", 690., 740.);
+      sg_p1=new RooRealVar("sg_p1", "sg_p1", 15., 25.);
+      sg_p2=new RooRealVar("sg_p2", "sg_p2", 0., 5.);
+      sg_p3=new RooRealVar("sg_p3", "sg_p3", 0., 7.);
     }
     else if (mass=="800")
     {
-      // rangeLo=600., rangeHi=1000.; 
-      rangeLo=750., rangeHi=990.; 
-      sg_p0=new RooRealVar("sg_p0", "sg_p0", 1., 5.);
-      sg_p1=new RooRealVar("sg_p1", "sg_p1", 1., 5.);
-      sg_p2=new RooRealVar("sg_p2", "sg_p2", 780., 850.);
-      sg_p3=new RooRealVar("sg_p3", "sg_p3", 20., 30.);
+      rangeLo=720., rangeHi=920.; 
+      sg_p0=new RooRealVar("sg_p0", "sg_p0", 780., 840.);
+      sg_p1=new RooRealVar("sg_p1", "sg_p1", 15., 30.);
+      sg_p2=new RooRealVar("sg_p2", "sg_p2", 0., 5.);
+      sg_p3=new RooRealVar("sg_p3", "sg_p3", 0., 7.);
     }
     else if (mass=="900")
     {
-      rangeLo=700., rangeHi=1100.; 
-      sg_p0=new RooRealVar("sg_p0", "sg_p0", 1.0, 5.0);
-      sg_p1=new RooRealVar("sg_p1", "sg_p1", 0.1, 20.0);
-      sg_p2=new RooRealVar("sg_p2", "sg_p2", 880., 950.);
-      sg_p3=new RooRealVar("sg_p3", "sg_p3", 25., 40.);
+      rangeLo=790., rangeHi=1030.; 
+      sg_p0=new RooRealVar("sg_p0", "sg_p0", 870., 950.);
+      sg_p1=new RooRealVar("sg_p1", "sg_p1", 20., 35.);
+      sg_p2=new RooRealVar("sg_p2", "sg_p2", 0., 5.);
+      sg_p3=new RooRealVar("sg_p3", "sg_p3", 0., 7.);
     }
     else if (mass=="1000")
     {
-      rangeLo=800., rangeHi=1200.; 
-      sg_p0=new RooRealVar("sg_p0", "sg_p0", 1.0, 5.0);
-      sg_p1=new RooRealVar("sg_p1", "sg_p1", 0.1, 20.0);
-      sg_p2=new RooRealVar("sg_p2", "sg_p2", 980., 1050.);
-      sg_p3=new RooRealVar("sg_p3", "sg_p3", 25., 40.);
+      rangeLo=850., rangeHi=1150.; 
+      sg_p0=new RooRealVar("sg_p0", "sg_p0", 980., 1050.);
+      sg_p1=new RooRealVar("sg_p1", "sg_p1", 25., 40.);
+      sg_p2=new RooRealVar("sg_p2", "sg_p2", 0., 5.);
+      sg_p3=new RooRealVar("sg_p3", "sg_p3", 0., 7.);
     }
     else if (mass=="1100")
     {
-      rangeLo=900., rangeHi=1300.; 
-      sg_p0=new RooRealVar("sg_p0", "sg_p0", 1.0, 5.0);
-      sg_p1=new RooRealVar("sg_p1", "sg_p1", 0.1, 20.0);
-      sg_p2=new RooRealVar("sg_p2", "sg_p2", 1080., 1150.);
-      sg_p3=new RooRealVar("sg_p3", "sg_p3", 25., 40.);
+      rangeLo=950., rangeHi=1250.; 
+      sg_p0=new RooRealVar("sg_p0", "sg_p0", 1080., 1150.);
+      sg_p1=new RooRealVar("sg_p1", "sg_p1", 25., 50.);
+      sg_p2=new RooRealVar("sg_p2", "sg_p2", 0., 5.);
+      sg_p3=new RooRealVar("sg_p3", "sg_p3", 0., 7.);
     }
   }
   x=new RooRealVar("x", "m_{X} (GeV)", rangeLo, rangeHi);
-  RevCrystalBall signal("signal", "Signal Prediction", *x, *sg_p0, *sg_p1, *sg_p2, *sg_p3);
+  // RevCrystalBall signal("signal", "Signal Prediction", *x, *sg_p0, *sg_p1, *sg_p2, *sg_p3);
+  ExpGaussExp signal("signal", "Signal Prediction", *x, *sg_p0, *sg_p1, *sg_p2, *sg_p3);
   RooDataHist signalHistogram("signalHistogram", "Signal Histogram", RooArgList(*x), h);
   signal.fitTo(signalHistogram, RooFit::Range(rangeLo, rangeHi), RooFit::Save());
   params.sg_p0=sg_p0->getVal(); params.sg_p0_err=sg_p0->getError();
@@ -463,11 +460,19 @@ RooPlot* fitSignal(TH1F *h, std::string mass, int color, TLegend *leg, Params &p
   params.sg_p2=sg_p2->getVal(); params.sg_p2_err=sg_p2->getError();
   params.sg_p3=sg_p3->getVal(); params.sg_p3_err=sg_p3->getError();
   RooPlot *plot=x->frame();
-  signalHistogram.plotOn(plot, RooFit::MarkerColor(color));
-  signal.plotOn(plot, RooFit::LineColor(color), RooFit::LineWidth(0));
+  if (color==kBlack)
+  {
+    signalHistogram.plotOn(plot, RooFit::MarkerColor(color), RooFit::MarkerSize(1.2));
+    signal.plotOn(plot, RooFit::LineColor(color), RooFit::LineWidth(3));
+  }
+  else 
+  {
+    signalHistogram.plotOn(plot, RooFit::MarkerColor(color));
+    signal.plotOn(plot, RooFit::LineColor(color), RooFit::LineWidth(0));
+  }
   // leg->AddEntry((TObject*)0, ("norm="+tostr(h->GetSumOfWeights())).c_str(), "");
-  leg->AddEntry((TObject*)0, ("mean="+tostr(sg_p2->getVal())+"#pm"+tostr(sg_p2->getError())).c_str(), "");
-  leg->AddEntry((TObject*)0, ("rms="+tostr(sg_p3->getVal())+"#pm"+tostr(sg_p3->getError())).c_str(), "");
+  // leg->AddEntry((TObject*)0, ("mean="+tostr(sg_p2->getVal())+"#pm"+tostr(sg_p2->getError())).c_str(), "");
+  // leg->AddEntry((TObject*)0, ("rms="+tostr(sg_p3->getVal())+"#pm"+tostr(sg_p3->getError())).c_str(), "");
   std::cout<<"chi2/dof = "<<plot->chiSquare()<<std::endl;
   
   // Save modified signal shape to workspace
@@ -477,7 +482,8 @@ RooPlot* fitSignal(TH1F *h, std::string mass, int color, TLegend *leg, Params &p
     RooRealVar signal_p1("signal_p1", "signal_p1", sg_p1->getVal());
     RooRealVar signal_p2("signal_p2", "signal_p2", sg_p2->getVal());
     RooRealVar signal_p3("signal_p3", "signal_p3", sg_p3->getVal());
-    RevCrystalBall signal_fixed("signal", "Signal Prediction Fixed", *x, signal_p0, signal_p1, signal_p2, signal_p3);
+    // RevCrystalBall signal_fixed("signal", "Signal Prediction Fixed", *x, signal_p0, signal_p1, signal_p2, signal_p3);
+    ExpGaussExp signal_fixed("signal", "Signal Prediction Fixed", *x, signal_p0, signal_p1, signal_p2, signal_p3);
     RooWorkspace *w=new RooWorkspace("HbbHbb");
     w->import(signal_fixed);
     if (!kinFit) w->SaveAs(("SignalShapes/w_signal_"+mass+".root").c_str());
@@ -487,10 +493,8 @@ RooPlot* fitSignal(TH1F *h, std::string mass, int color, TLegend *leg, Params &p
 }
 
 RooPlot* fitSignal_Gaussian(TH1F *h, std::string mass, int color, TLegend *leg, Params &params, bool kinFit=false)
-{
-  
+{ 
   RooRealVar *x, *sg_p0, *sg_p1;
-  x=new RooRealVar("x", "m_{X} (GeV)", 300., 1100.);
   double rangeLo=-1, rangeHi=-1;
   if (!kinFit)
   {
@@ -668,10 +672,10 @@ RooPlot* fitSignal_Gaussian(TH1F *h, std::string mass, int color, TLegend *leg, 
     {
       rangeLo=1040., rangeHi=1180.; 
       sg_p0=new RooRealVar("sg_p0", "sg_p0", 1080., 1150.);
-      sg_p1=new RooRealVar("sg_p1", "sg_p1", 25., 40.);
+      sg_p1=new RooRealVar("sg_p1", "sg_p1", 30., 50.);
     }
   }
-  x=new RooRealVar("x", "m_{X} (GeV)", rangeLo, rangeHi);
+  x=new RooRealVar("x", "m_{X} (GeV)", rangeLo-50, rangeHi+50);
   RooGaussian signal("signal", "Signal Prediction", *x, *sg_p0, *sg_p1);
   RooDataHist signalHistogram("signalHistogram", "Signal Histogram", RooArgList(*x), h);
   signal.fitTo(signalHistogram, RooFit::Range(rangeLo, rangeHi), RooFit::Save());
@@ -680,11 +684,19 @@ RooPlot* fitSignal_Gaussian(TH1F *h, std::string mass, int color, TLegend *leg, 
   params.sg_p2=-1;
   params.sg_p3=-1;
   RooPlot *plot=x->frame();
-  signalHistogram.plotOn(plot, RooFit::MarkerColor(color));
-  signal.plotOn(plot, RooFit::LineColor(color), RooFit::LineWidth(0));
-  leg->AddEntry((TObject*)0, ("norm="+tostr(h->GetSumOfWeights())).c_str(), "");
-  leg->AddEntry((TObject*)0, ("mean="+tostr(sg_p0->getVal())+"#pm"+tostr(sg_p0->getError())).c_str(), "");
-  leg->AddEntry((TObject*)0, ("rms="+tostr(sg_p1->getVal())+"#pm"+tostr(sg_p1->getError())).c_str(), "");
+  if (color==kBlack)
+  {
+    signalHistogram.plotOn(plot, RooFit::MarkerColor(color), RooFit::MarkerSize(1.2));
+    signal.plotOn(plot, RooFit::LineColor(color), RooFit::LineWidth(3));
+  }
+  else 
+  {
+    signalHistogram.plotOn(plot, RooFit::MarkerColor(color));
+    signal.plotOn(plot, RooFit::LineColor(color), RooFit::LineWidth(0));
+  }
+  // leg->AddEntry((TObject*)0, ("norm="+tostr(h->GetSumOfWeights())).c_str(), "");
+  // leg->AddEntry((TObject*)0, ("mean="+tostr(sg_p0->getVal())+"#pm"+tostr(sg_p0->getError())).c_str(), "");
+  // leg->AddEntry((TObject*)0, ("rms="+tostr(sg_p1->getVal())+"#pm"+tostr(sg_p1->getError())).c_str(), "");
   std::cout<<"chi2/dof = "<<plot->chiSquare()<<std::endl;
   
   // Save modified signal shape to workspace
@@ -820,7 +832,8 @@ int DisplayJECJERDistributions_FULLSIM()
   gROOT->SetStyle("Plain");
   gStyle->SetOptStat(000000000);
   // gStyle->SetPalette(1);
-  gSystem->Load("/Users/souvik/HbbHbb/Analysis/PDFs/RevCrystalBall_cxx.so");
+  // gSystem->Load("/Users/souvik/HbbHbb/Analysis/PDFs/RevCrystalBall_cxx.so");
+  gSystem->Load("/Users/souvik/HbbHbb/Analysis/PDFs/ExpGaussExp_cxx.so");
   
   // Calculate nSignal events given production cross section, branching fractions and efficiency
   double totalLumi=18600.0; // /pb
@@ -831,11 +844,25 @@ int DisplayJECJERDistributions_FULLSIM()
   outfile<<"<html>"<<std::endl;
   outfile<<"<head>"<<std::endl;
   // outfile<<"<base href=\"https://cmslpcweb.fnal.gov/uscms_data/souvik/SignalSystematics\" target=\"_blank\">"<<std::endl;
+  outfile<<"<script type=\"text\/javascript\">"<<std::endl;
+  outfile<<"function toggleMe(a){"<<std::endl;
+  outfile<<"var e=document.getElementById(a);"<<std::endl;
+  outfile<<"if(!e)return true;"<<std::endl;
+  outfile<<"if(e.style.display==\"none\"){"<<std::endl;
+  outfile<<"e.style.display=\"block\""<<std::endl;
+  outfile<<"}"<<std::endl;
+  outfile<<"else{"<<std::endl;
+  outfile<<"e.style.display=\"none\""<<std::endl;
+  outfile<<"}"<<std::endl;
+  outfile<<"return true;"<<std::endl;
+  outfile<<"}"<<std::endl;
+  outfile<<"</script>"<<std::endl;
   outfile<<"</head>"<<std::endl;
   outfile<<"<body>"<<std::endl;
   outfile<<"<h1> Signal with JEC, JER Systematic Uncertainties</h1>"<<std::endl;
   
   for (unsigned int i=0; i<masses.size(); ++i)
+  // for (unsigned int i=10; i<11; ++i)
   {
     TFile *file=new TFile(("MMMM_nominal/a/Histograms_RadionToHH_4b_M-"+masses.at(i)+"_TuneZ2star_8TeV_FULLSIM.root").c_str());
     TH1F *h_H1Jet1pT=(TH1F*)file->Get("h_H1Jet1pT");
@@ -979,8 +1006,8 @@ int DisplayJECJERDistributions_FULLSIM()
     TFile *file_downTrig_KinFit=new TFile(("MMMM_downTrig/a_KinFit/Histograms_RadionToHH_4b_M-"+masses.at(i)+"_TuneZ2star_8TeV_FULLSIM.root").c_str());
     TH1F *h_mX_SR_downTrig_KinFit=(TH1F*)file_downTrig_KinFit->Get("h_mX_SR");
     
-    if (!focus) {
     TCanvas *c_H1Jet1pT=new TCanvas("c_H1Jet1pT", "c_H1Jet1pT", 700, 700);
+    h_H1Jet1pT->SetLineWidth(2);
     h_H1Jet1pT_JECp1->SetLineStyle(9); h_H1Jet1pT_JECp1->SetLineColor(kRed);
     h_H1Jet1pT_JECm1->SetLineStyle(9); h_H1Jet1pT_JECm1->SetLineColor(kRed+2);
     h_H1Jet1pT_JERp1->SetLineStyle(9); h_H1Jet1pT_JERp1->SetLineColor(kMagenta);
@@ -1007,6 +1034,7 @@ int DisplayJECJERDistributions_FULLSIM()
     c_H1Jet1pT->SaveAs(("SignalSystematics/c_H1Jet1pT_"+masses.at(i)+".png").c_str());
     
     TCanvas *c_H1Jet2pT=new TCanvas("c_H1Jet2pT", "c_H1Jet2pT", 700, 700);
+    h_H1Jet2pT->SetLineWidth(2);
     h_H1Jet2pT_JECp1->SetLineStyle(9); h_H1Jet2pT_JECp1->SetLineColor(kRed);
     h_H1Jet2pT_JECm1->SetLineStyle(9); h_H1Jet2pT_JECm1->SetLineColor(kRed+2);
     h_H1Jet2pT_JERp1->SetLineStyle(9); h_H1Jet2pT_JERp1->SetLineColor(kMagenta);
@@ -1033,6 +1061,7 @@ int DisplayJECJERDistributions_FULLSIM()
     c_H1Jet2pT->SaveAs(("SignalSystematics/c_H1Jet2pT_"+masses.at(i)+".png").c_str());
     
     TCanvas *c_H1_mass_bTagged=new TCanvas("c_H1_mass_bTagged", "c_H1_mass_bTagged", 700, 700);
+    h_H1_mass_bTagged->SetLineWidth(2);
     h_H1_mass_bTagged_JECp1->SetLineStyle(9); h_H1_mass_bTagged_JECp1->SetLineColor(kRed);
     h_H1_mass_bTagged_JECm1->SetLineStyle(9); h_H1_mass_bTagged_JECm1->SetLineColor(kRed+2);
     h_H1_mass_bTagged_JERp1->SetLineStyle(9); h_H1_mass_bTagged_JERp1->SetLineColor(kMagenta);
@@ -1059,6 +1088,7 @@ int DisplayJECJERDistributions_FULLSIM()
     c_H1_mass_bTagged->SaveAs(("SignalSystematics/c_H1_mass_bTagged_"+masses.at(i)+".png").c_str());
     
     TCanvas *c_H1_pT_bTagged=new TCanvas("c_H1_pT_bTagged", "c_H1_pT_bTagged", 700, 700);
+    h_H1_pT_bTagged->SetLineWidth(2);
     h_H1_pT_bTagged_JECp1->SetLineStyle(9); h_H1_pT_bTagged_JECp1->SetLineColor(kRed);
     h_H1_pT_bTagged_JECm1->SetLineStyle(9); h_H1_pT_bTagged_JECm1->SetLineColor(kRed+2);
     h_H1_pT_bTagged_JERp1->SetLineStyle(9); h_H1_pT_bTagged_JERp1->SetLineColor(kMagenta);
@@ -1141,47 +1171,55 @@ int DisplayJECJERDistributions_FULLSIM()
     // h_mX_SR_downL->Scale(totalLumi*prodXsec_1/nSignal_init);
     // h_mX_SR_upTrig->Scale(totalLumi*prodXsec_1/nSignal_init);
     // h_mX_SR_downTrig->Scale(totalLumi*prodXsec_1/nSignal_init);
-    TLegend *leg=new TLegend(0.7, 0.1, 0.9, 0.9);
-    if (masses.at(i)=="800") leg=new TLegend(0.1, 0.9, 0.3, 0.5);
+    TLegend *leg=new TLegend(0.7, 0.5, 0.9, 0.9);
+    if (i>10) leg=new TLegend(0.1, 0.9, 0.3, 0.5);
     leg->AddEntry(h_mX_SR, "Baseline");
     Params par, par_JECp1, par_JECm1, par_JERp1, par_JERm1, par_upBC, par_downBC, par_upL, par_downL, par_upTrig, par_downTrig;
     RooPlot *plot=fitSignal(h_mX_SR, masses.at(i), kBlack, leg, par);
-    leg->AddEntry(h_mX_SR_JECp1, "JEC +1 #sigma");
-    RooPlot *plot_JECp1=fitSignal(h_mX_SR_JECp1, masses.at(i), kRed, leg, par_JECp1);
-    leg->AddEntry(h_mX_SR_JECm1, "JEC -1 #sigma");
-    RooPlot *plot_JECm1=fitSignal(h_mX_SR_JECm1, masses.at(i), kRed+2, leg, par_JECm1);
-    leg->AddEntry(h_mX_SR_JERp1, "JER +1 #sigma");
-    RooPlot *plot_JERp1=fitSignal(h_mX_SR_JERp1, masses.at(i), kMagenta, leg, par_JERp1);
-    leg->AddEntry(h_mX_SR_JERm1, "JER -1 #sigma");
-    RooPlot *plot_JERm1=fitSignal(h_mX_SR_JERm1, masses.at(i), kMagenta+2, leg, par_JERm1);
-    leg->AddEntry(h_mX_SR_upBC, "SF_{bc} +1 #sigma");
-    RooPlot *plot_upBC=fitSignal(h_mX_SR_upBC, masses.at(i), kGreen, leg, par_upBC);
-    leg->AddEntry(h_mX_SR_downBC, "SF_{bc} -1 #sigma");
-    RooPlot *plot_downBC=fitSignal(h_mX_SR_downBC, masses.at(i), kGreen+3, leg, par_downBC);
-    leg->AddEntry(h_mX_SR_upL, "SF_{l} +1 #sigma");
-    RooPlot *plot_upL=fitSignal(h_mX_SR_upL, masses.at(i), kCyan, leg, par_upL);
-    leg->AddEntry(h_mX_SR_downL, "SF_{l} -1 #sigma");
-    RooPlot *plot_downL=fitSignal(h_mX_SR_downL, masses.at(i), kCyan+2, leg, par_downL);
-    leg->AddEntry(h_mX_SR_upTrig, "Trig SF +1 #sigma");
-    RooPlot *plot_upTrig=fitSignal(h_mX_SR_upTrig, masses.at(i), kBlue, leg, par_upTrig);
-    leg->AddEntry(h_mX_SR_downTrig, "Trig SF -1 #sigma");
-    RooPlot *plot_downTrig=fitSignal(h_mX_SR_downTrig, masses.at(i), kBlue+2, leg, par_downTrig);
+    RooPlot *plot_JECp1, *plot_JECm1, *plot_JERp1, *plot_JERm1, *plot_upBC, *plot_downBC, *plot_upL, *plot_downL, *plot_upTrig, *plot_downTrig;
+    if (!focus)
+    {
+      leg->AddEntry(h_mX_SR_JECp1, "JEC +1 #sigma");
+      leg->AddEntry(h_mX_SR_JECm1, "JEC -1 #sigma");
+      leg->AddEntry(h_mX_SR_JERp1, "JER +1 #sigma");
+      leg->AddEntry(h_mX_SR_JERm1, "JER -1 #sigma");
+      leg->AddEntry(h_mX_SR_upBC, "SF_{bc} +1 #sigma");
+      leg->AddEntry(h_mX_SR_downBC, "SF_{bc} -1 #sigma");
+      leg->AddEntry(h_mX_SR_upL, "SF_{l} +1 #sigma");
+      leg->AddEntry(h_mX_SR_downL, "SF_{l} -1 #sigma");
+      leg->AddEntry(h_mX_SR_upTrig, "Trig SF +1 #sigma");
+      leg->AddEntry(h_mX_SR_downTrig, "Trig SF -1 #sigma");
+      
+      plot_JECp1=fitSignal(h_mX_SR_JECp1, masses.at(i), kRed, leg, par_JECp1);
+      plot_JECm1=fitSignal(h_mX_SR_JECm1, masses.at(i), kRed+2, leg, par_JECm1);
+      plot_JERp1=fitSignal(h_mX_SR_JERp1, masses.at(i), kMagenta, leg, par_JERp1);
+      plot_JERm1=fitSignal(h_mX_SR_JERm1, masses.at(i), kMagenta+2, leg, par_JERm1);
+      plot_upBC=fitSignal(h_mX_SR_upBC, masses.at(i), kGreen, leg, par_upBC);
+      plot_downBC=fitSignal(h_mX_SR_downBC, masses.at(i), kGreen+3, leg, par_downBC);
+      plot_upL=fitSignal(h_mX_SR_upL, masses.at(i), kCyan, leg, par_upL);
+      plot_downL=fitSignal(h_mX_SR_downL, masses.at(i), kCyan+2, leg, par_downL);
+      plot_upTrig=fitSignal(h_mX_SR_upTrig, masses.at(i), kBlue, leg, par_upTrig);
+      plot_downTrig=fitSignal(h_mX_SR_downTrig, masses.at(i), kBlue+2, leg, par_downTrig);
+    }
     plot->SetMaximum(plot->GetMaximum()*1.1);
     plot->Draw();
-    plot_JECp1->Draw("same");
-    plot_JECm1->Draw("same");
-    plot_JERp1->Draw("same");
-    plot_JERm1->Draw("same");
-    plot_upBC->Draw("same");
-    plot_downBC->Draw("same");
-    plot_upL->Draw("same");
-    plot_downL->Draw("same");
-    plot_upTrig->Draw("same");
-    plot_downTrig->Draw("same");
-    leg->SetFillColor(0);
+    if (!focus)
+    {
+      plot_JECp1->Draw("same");
+      plot_JECm1->Draw("same");
+      plot_JERp1->Draw("same");
+      plot_JERm1->Draw("same");
+      plot_upBC->Draw("same");
+      plot_downBC->Draw("same");
+      plot_upL->Draw("same");
+      plot_downL->Draw("same");
+      plot_upTrig->Draw("same");
+      plot_downTrig->Draw("same");
+      leg->SetFillColor(0);
+    }
+    plot->Draw("same");
     leg->Draw();
     c_SignalmX->SaveAs(("SignalSystematics/c_SignalmX_"+masses.at(i)+".png").c_str());
-    }
     
     TCanvas *c_SignalmX_KinFit=new TCanvas(("c_SignalmX_KinFit"+masses.at(i)).c_str(), ("c_SignalmX_KinFit"+masses.at(i)).c_str(), 700, 700);
     h_mX_SR_KinFit->SetTitle(("m_{X} Peak in Signal MC (m_{X}="+masses.at(i)+" GeV); m_{X} (GeV)").c_str());
@@ -1237,79 +1275,94 @@ int DisplayJECJERDistributions_FULLSIM()
 //     h_mX_SR_downL_KinFit->Scale(totalLumi*prodXsec_1/nSignal_init);
 //     h_mX_SR_upTrig_KinFit->Scale(totalLumi*prodXsec_1/nSignal_init);
 //     h_mX_SR_downTrig_KinFit->Scale(totalLumi*prodXsec_1/nSignal_init);
-    TLegend *leg=new TLegend(0.65, 0.1, 0.9, 0.9);
-    leg->AddEntry(h_mX_SR_KinFit, "Kin-Constrained Baseline");
+    leg=new TLegend(0.7, 0.5, 0.9, 0.9);
+    if (i>10) leg=new TLegend(0.1, 0.9, 0.3, 0.5);
+    leg->AddEntry(h_mX_SR_KinFit, "Baseline");
     Params par_KinFit, par_JECp1_KinFit, par_JECm1_KinFit, par_JERp1_KinFit, par_JERm1_KinFit, par_upBC_KinFit, par_downBC_KinFit, par_upL_KinFit, par_downL_KinFit, par_upTrig_KinFit, par_downTrig_KinFit;
+    RooPlot *plot_JECp1_KinFit, *plot_JECm1_KinFit, 
+            *plot_JERp1_KinFit, *plot_JERm1_KinFit, 
+            *plot_upBC_KinFit, *plot_downBC_KinFit, 
+            *plot_upL_KinFit, *plot_downL_KinFit,
+            *plot_upTrig_KinFit, *plot_downTrig_KinFit;
     RooPlot *plot_KinFit=fitSignal(h_mX_SR_KinFit, masses.at(i), kBlack, leg, par_KinFit, true);
     if (!focus) {
-    leg->AddEntry(h_mX_SR_JECp1_KinFit, "JEC +1 #sigma");
-    RooPlot *plot_JECp1_KinFit=fitSignal(h_mX_SR_JECp1_KinFit, masses.at(i), kRed, leg, par_JECp1_KinFit, true);
-    leg->AddEntry(h_mX_SR_JECm1_KinFit, "JEC -1 #sigma");
-    RooPlot *plot_JECm1_KinFit=fitSignal(h_mX_SR_JECm1_KinFit, masses.at(i), kRed+2, leg, par_JECm1_KinFit, true);
-    leg->AddEntry(h_mX_SR_JERp1_KinFit, "JER +1 #sigma");
-    RooPlot *plot_JERp1_KinFit=fitSignal(h_mX_SR_JERp1_KinFit, masses.at(i), kMagenta, leg, par_JERp1_KinFit, true);
-    leg->AddEntry(h_mX_SR_JERm1_KinFit, "JER -1 #sigma");
-    RooPlot *plot_JERm1_KinFit=fitSignal(h_mX_SR_JERm1_KinFit, masses.at(i), kMagenta+2, leg, par_JERm1_KinFit, true);
-    leg->AddEntry(h_mX_SR_upBC_KinFit, "SF_{bc} +1 #sigma");
-    RooPlot *plot_upBC_KinFit=fitSignal(h_mX_SR_upBC_KinFit, masses.at(i), kGreen, leg, par_upBC_KinFit, true);
-    leg->AddEntry(h_mX_SR_downBC_KinFit, "SF_{bc} -1 #sigma");
-    RooPlot *plot_downBC_KinFit=fitSignal(h_mX_SR_downBC_KinFit, masses.at(i), kGreen+3, leg, par_downBC_KinFit, true);
-    leg->AddEntry(h_mX_SR_upL_KinFit, "SF_{l} +1 #sigma");
-    RooPlot *plot_upL_KinFit=fitSignal(h_mX_SR_upL_KinFit, masses.at(i), kCyan, leg, par_upL_KinFit, true);
-    leg->AddEntry(h_mX_SR_downL_KinFit, "SF_{l} -1 #sigma");
-    RooPlot *plot_downL_KinFit=fitSignal(h_mX_SR_downL_KinFit, masses.at(i), kCyan+2, leg, par_downL_KinFit, true);
-    leg->AddEntry(h_mX_SR_upTrig_KinFit, "Trig SF +1 #sigma");
-    RooPlot *plot_upTrig_KinFit=fitSignal(h_mX_SR_upTrig_KinFit, masses.at(i), kBlue, leg, par_upTrig_KinFit, true);
-    leg->AddEntry(h_mX_SR_downTrig_KinFit, "Trig SF -1 #sigma");
-    RooPlot *plot_downTrig_KinFit=fitSignal(h_mX_SR_downTrig_KinFit, masses.at(i), kBlue+2, leg, par_downTrig_KinFit, true);
+      leg->AddEntry(h_mX_SR_JECp1_KinFit, "JEC +1 #sigma");
+      leg->AddEntry(h_mX_SR_JECm1_KinFit, "JEC -1 #sigma");
+      leg->AddEntry(h_mX_SR_JERp1_KinFit, "JER +1 #sigma");
+      leg->AddEntry(h_mX_SR_JERm1_KinFit, "JER -1 #sigma");
+      leg->AddEntry(h_mX_SR_upBC_KinFit, "SF_{bc} +1 #sigma");
+      leg->AddEntry(h_mX_SR_downBC_KinFit, "SF_{bc} -1 #sigma");
+      leg->AddEntry(h_mX_SR_upL_KinFit, "SF_{l} +1 #sigma");
+      leg->AddEntry(h_mX_SR_downL_KinFit, "SF_{l} -1 #sigma");
+      leg->AddEntry(h_mX_SR_upTrig_KinFit, "Trig SF +1 #sigma");
+      leg->AddEntry(h_mX_SR_downTrig_KinFit, "Trig SF -1 #sigma");
+    
+      plot_JECp1_KinFit=fitSignal(h_mX_SR_JECp1_KinFit, masses.at(i), kRed, leg, par_JECp1_KinFit, true);
+      plot_JECm1_KinFit=fitSignal(h_mX_SR_JECm1_KinFit, masses.at(i), kRed+2, leg, par_JECm1_KinFit, true);
+      plot_JERp1_KinFit=fitSignal(h_mX_SR_JERp1_KinFit, masses.at(i), kMagenta, leg, par_JERp1_KinFit, true);
+      plot_JERm1_KinFit=fitSignal(h_mX_SR_JERm1_KinFit, masses.at(i), kMagenta+2, leg, par_JERm1_KinFit, true);
+      plot_upBC_KinFit=fitSignal(h_mX_SR_upBC_KinFit, masses.at(i), kGreen, leg, par_upBC_KinFit, true);
+      plot_downBC_KinFit=fitSignal(h_mX_SR_downBC_KinFit, masses.at(i), kGreen+3, leg, par_downBC_KinFit, true);
+      plot_upL_KinFit=fitSignal(h_mX_SR_upL_KinFit, masses.at(i), kCyan, leg, par_upL_KinFit, true);
+      plot_downL_KinFit=fitSignal(h_mX_SR_downL_KinFit, masses.at(i), kCyan+2, leg, par_downL_KinFit, true);
+      plot_upTrig_KinFit=fitSignal(h_mX_SR_upTrig_KinFit, masses.at(i), kBlue, leg, par_upTrig_KinFit, true);
+      plot_downTrig_KinFit=fitSignal(h_mX_SR_downTrig_KinFit, masses.at(i), kBlue+2, leg, par_downTrig_KinFit, true);
     }
     plot_KinFit->SetMaximum(plot_KinFit->GetMaximum()*1.2);
     plot_KinFit->Draw();
     // drawCombinatorics(masses.at(i), h_mX_SR_rightComb_KinFit, h_mX_SR_wrongComb_KinFit, h_mX_SR_noComb_KinFit)->Draw("same");
     if (!focus) 
     {
-    plot_JECp1_KinFit->Draw("same");
-    plot_JECm1_KinFit->Draw("same");
-    plot_JERp1_KinFit->Draw("same");
-    plot_JERm1_KinFit->Draw("same");
-    plot_upBC_KinFit->Draw("");
-    plot_downBC_KinFit->Draw("same");
-    plot_upL_KinFit->Draw("same");
-    plot_downL_KinFit->Draw("same");
-    plot_upTrig_KinFit->Draw("same");
-    plot_downTrig_KinFit->Draw("same");
+      plot_JECp1_KinFit->Draw("same");
+      plot_JECm1_KinFit->Draw("same");
+      plot_JERp1_KinFit->Draw("same");
+      plot_JERm1_KinFit->Draw("same");
+      plot_upBC_KinFit->Draw("same");
+      plot_downBC_KinFit->Draw("same");
+      plot_upL_KinFit->Draw("same");
+      plot_downL_KinFit->Draw("same");
+      plot_upTrig_KinFit->Draw("same");
+      plot_downTrig_KinFit->Draw("same");
     }
+    plot_KinFit->Draw("same");
     leg->SetFillColor(0);
     leg->Draw();
+    c_SignalmX_KinFit->SaveAs(("SignalSystematics/c_SignalmX_KinFit_"+masses.at(i)+".root").c_str());
     c_SignalmX_KinFit->SaveAs(("SignalSystematics/c_SignalmX_KinFit_"+masses.at(i)+".png").c_str());
     
     TCanvas *c_SignalmX_Gaussian_KinFit=new TCanvas(("c_SignalmX_Gaussian_KinFit"+masses.at(i)).c_str(), ("c_SignalmX_KinFit"+masses.at(i)).c_str(), 700, 700);
     leg=new TLegend(0.35, 0.4, 0.1, 0.9);
     if (i==0) leg=new TLegend(0.7, 0.9, 0.9, 0.4);
-    leg->AddEntry(h_mX_SR_KinFit, "Kin-Constrained Baseline - Gaussian Fit");
+    leg->AddEntry(h_mX_SR_KinFit, "Baseline");
     Params par_Gaussian_KinFit, par_JECp1_Gaussian_KinFit, par_JECm1_Gaussian_KinFit, par_JERp1_Gaussian_KinFit, par_JERm1_Gaussian_KinFit, par_upBC_Gaussian_KinFit, par_downBC_Gaussian_KinFit, par_upL_Gaussian_KinFit, par_downL_Gaussian_KinFit, par_upTrig_Gaussian_KinFit, par_downTrig_Gaussian_KinFit;
+    RooPlot *plot_JECp1_Gaussian_KinFit, *plot_JECm1_Gaussian_KinFit, 
+            *plot_JERp1_Gaussian_KinFit, *plot_JERm1_Gaussian_KinFit,
+            *plot_upBC_Gaussian_KinFit, *plot_downBC_Gaussian_KinFit,
+            *plot_upL_Gaussian_KinFit, *plot_downL_Gaussian_KinFit,
+            *plot_upTrig_Gaussian_KinFit, *plot_downTrig_Gaussian_KinFit;
     RooPlot *plot_Gaussian_KinFit=fitSignal_Gaussian(h_mX_SR_KinFit, masses.at(i), kBlack, leg, par_Gaussian_KinFit, true);
     if (!focus) {
       leg->AddEntry(h_mX_SR_JECp1_KinFit, "JEC +1 #sigma");
-      RooPlot *plot_JECp1_Gaussian_KinFit=fitSignal_Gaussian(h_mX_SR_JECp1_KinFit, masses.at(i), kRed, leg, par_JECp1_Gaussian_KinFit, true);
       leg->AddEntry(h_mX_SR_JECm1_KinFit, "JEC -1 #sigma");
-      RooPlot *plot_JECm1_Gaussian_KinFit=fitSignal_Gaussian(h_mX_SR_JECm1_KinFit, masses.at(i), kRed+2, leg, par_JECm1_Gaussian_KinFit, true);
       leg->AddEntry(h_mX_SR_JERp1_KinFit, "JER +1 #sigma");
-      RooPlot *plot_JERp1_Gaussian_KinFit=fitSignal_Gaussian(h_mX_SR_JERp1_KinFit, masses.at(i), kMagenta, leg, par_JERp1_Gaussian_KinFit, true);
       leg->AddEntry(h_mX_SR_JERm1_KinFit, "JER -1 #sigma");
-      RooPlot *plot_JERm1_Gaussian_KinFit=fitSignal_Gaussian(h_mX_SR_JERm1_KinFit, masses.at(i), kMagenta+2, leg, par_JERm1_Gaussian_KinFit, true);
       leg->AddEntry(h_mX_SR_upBC_KinFit, "SF_{bc} +1 #sigma");
-      RooPlot *plot_upBC_Gaussian_KinFit=fitSignal_Gaussian(h_mX_SR_upBC_KinFit, masses.at(i), kGreen, leg, par_upBC_Gaussian_KinFit, true);
       leg->AddEntry(h_mX_SR_downBC_KinFit, "SF_{bc} -1 #sigma");
-      RooPlot *plot_downBC_Gaussian_KinFit=fitSignal_Gaussian(h_mX_SR_downBC_KinFit, masses.at(i), kGreen+3, leg, par_downBC_Gaussian_KinFit, true);
       leg->AddEntry(h_mX_SR_upL_KinFit, "SF_{l} +1 #sigma");
-      RooPlot *plot_upL_Gaussian_KinFit=fitSignal_Gaussian(h_mX_SR_upL_KinFit, masses.at(i), kCyan, leg, par_upL_Gaussian_KinFit, true);
       leg->AddEntry(h_mX_SR_downL_KinFit, "SF_{l} -1 #sigma");
-      RooPlot *plot_downL_Gaussian_KinFit=fitSignal_Gaussian(h_mX_SR_downL_KinFit, masses.at(i), kCyan+2, leg, par_downL_Gaussian_KinFit, true);
       leg->AddEntry(h_mX_SR_upTrig_KinFit, "Trig SF +1 #sigma");
-      RooPlot *plot_upTrig_Gaussian_KinFit=fitSignal_Gaussian(h_mX_SR_upTrig_KinFit, masses.at(i), kBlue, leg, par_upTrig_Gaussian_KinFit, true);
       leg->AddEntry(h_mX_SR_downTrig_KinFit, "Trig SF -1 #sigma");
-      RooPlot *plot_downTrig_Gaussian_KinFit=fitSignal_Gaussian(h_mX_SR_downTrig_KinFit, masses.at(i), kBlue+2, leg, par_downTrig_Gaussian_KinFit, true);
+      
+      plot_JECp1_Gaussian_KinFit=fitSignal_Gaussian(h_mX_SR_JECp1_KinFit, masses.at(i), kRed, leg, par_JECp1_Gaussian_KinFit, true);
+      plot_JECm1_Gaussian_KinFit=fitSignal_Gaussian(h_mX_SR_JECm1_KinFit, masses.at(i), kRed+2, leg, par_JECm1_Gaussian_KinFit, true);
+      plot_JERp1_Gaussian_KinFit=fitSignal_Gaussian(h_mX_SR_JERp1_KinFit, masses.at(i), kMagenta, leg, par_JERp1_Gaussian_KinFit, true);
+      plot_JERm1_Gaussian_KinFit=fitSignal_Gaussian(h_mX_SR_JERm1_KinFit, masses.at(i), kMagenta+2, leg, par_JERm1_Gaussian_KinFit, true);
+      plot_upBC_Gaussian_KinFit=fitSignal_Gaussian(h_mX_SR_upBC_KinFit, masses.at(i), kGreen, leg, par_upBC_Gaussian_KinFit, true);
+      plot_downBC_Gaussian_KinFit=fitSignal_Gaussian(h_mX_SR_downBC_KinFit, masses.at(i), kGreen+3, leg, par_downBC_Gaussian_KinFit, true);
+      plot_upL_Gaussian_KinFit=fitSignal_Gaussian(h_mX_SR_upL_KinFit, masses.at(i), kCyan, leg, par_upL_Gaussian_KinFit, true);
+      plot_downL_Gaussian_KinFit=fitSignal_Gaussian(h_mX_SR_downL_KinFit, masses.at(i), kCyan+2, leg, par_downL_Gaussian_KinFit, true);
+      plot_upTrig_Gaussian_KinFit=fitSignal_Gaussian(h_mX_SR_upTrig_KinFit, masses.at(i), kBlue, leg, par_upTrig_Gaussian_KinFit, true);
+      plot_downTrig_Gaussian_KinFit=fitSignal_Gaussian(h_mX_SR_downTrig_KinFit, masses.at(i), kBlue+2, leg, par_downTrig_Gaussian_KinFit, true);
     }
     plot_Gaussian_KinFit->SetMaximum(plot_Gaussian_KinFit->GetMaximum()*1.2);
     plot_Gaussian_KinFit->Draw();
@@ -1327,7 +1380,7 @@ int DisplayJECJERDistributions_FULLSIM()
       plot_downTrig_Gaussian_KinFit->Draw("same");
     }
     leg->SetFillColor(0);
-    leg->Draw();
+    // leg->Draw();
     c_SignalmX_Gaussian_KinFit->SaveAs(("SignalSystematics/c_SignalmX_Gaussian_KinFit_"+masses.at(i)+".png").c_str());
     
     /*
@@ -1400,7 +1453,7 @@ int DisplayJECJERDistributions_FULLSIM()
     outfile<<"  </td>"<<std::endl;
     outfile<<"  <td>"<<std::endl;
     outfile<<"   <img src='"<<("c_SignalmX_"+masses.at(i)+".png")<<"'/><br/>"<<std::endl;
-    outfile<<"   <center>Without Kin-Fit. Fitted to a Crystal Ball.</center><br/>"<<std::endl;
+    outfile<<"   <h2 align='center'>Without Kin-Fit. Fitted to an Exp-Gauss-Exp function.</h2><br/>"<<std::endl;
     outfile<<"   === Baseline plot === </br>"<<std::endl;
     outfile<<"   norm = "<<h_mX_SR->GetSumOfWeights()*totalLumi*prodXsec_1/nSignal_init<<" <br/>"<<std::endl;
     outfile<<"   chi2/ndof = "<<plot->chiSquare()<<" <br/>"<<std::endl;
@@ -1409,6 +1462,8 @@ int DisplayJECJERDistributions_FULLSIM()
     outfile<<"   sg_p2 = "<<par.sg_p2<<" +- "<<par.sg_p2_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p3 = "<<par.sg_p3<<" +- "<<par.sg_p3_err<<" <br/>"<<std::endl;
     if (!focus) {
+    outfile<<"   <center><input type='button' onclick=\"return toggleMe('"<<masses.at(i)<<"')\" value='Systematics'></center><br/>"<<std::endl;
+    outfile<<"   <div id=\""<<masses.at(i)<<"\" style=\"display:none\">"<<std::endl;
     outfile<<"   === JEC +1 sigma === <br/>"<<std::endl;
     outfile<<"   norm = "<<h_mX_SR_JECp1->GetSumOfWeights()<<" <br/>"<<std::endl;
     outfile<<"   chi2/ndof = "<<plot_JECp1->chiSquare()<<" <br/>"<<std::endl;
@@ -1485,11 +1540,13 @@ int DisplayJECJERDistributions_FULLSIM()
     outfile<<"   btag SF(bc) lnN = "<<lnN(h_mX_SR->GetSumOfWeights(), h_mX_SR_upBC->GetSumOfWeights(), h_mX_SR_downBC->GetSumOfWeights())<<"<br/>"<<std::endl;
     outfile<<"   btag SF(l) lnN = "<<lnN(h_mX_SR->GetSumOfWeights(), h_mX_SR_upL->GetSumOfWeights(), h_mX_SR_downL->GetSumOfWeights())<<"<br/>"<<std::endl;
     outfile<<"   Trigger SF lnN = "<<lnN(h_mX_SR->GetSumOfWeights(), h_mX_SR_upTrig->GetSumOfWeights(), h_mX_SR_downTrig->GetSumOfWeights())<<"<br/>"<<std::endl;
+    outfile<<"   === === <br/>"<<std::endl;
+    outfile<<"   </div>"<<std::endl;
     }
     outfile<<"  </td>"<<std::endl;
     outfile<<"  <td>"<<std::endl;
     outfile<<"   <img src='"<<("c_SignalmX_KinFit_"+masses.at(i)+".png")<<"'/><br/>"<<std::endl;
-    outfile<<"   <center>With Kin-Fit. Fitted to a Crystal Ball.</center><br/>"<<std::endl;
+    outfile<<"   <h2 align='center'>With Kin-Fit. Fitted to an Exp-Gauss-Exp function.</h2><br/>"<<std::endl;
     outfile<<"   === Baseline plot === </br>"<<std::endl;
     outfile<<"   norm = "<<h_mX_SR_KinFit->GetSumOfWeights()*totalLumi*prodXsec_1/nSignal_init<<" <br/>"<<std::endl;
     outfile<<"   chi2/ndof = "<<plot_KinFit->chiSquare()<<" <br/>"<<std::endl;
@@ -1498,6 +1555,8 @@ int DisplayJECJERDistributions_FULLSIM()
     outfile<<"   sg_p2 = "<<par_KinFit.sg_p2<<" +- "<<par_KinFit.sg_p2_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p3 = "<<par_KinFit.sg_p3<<" +- "<<par_KinFit.sg_p3_err<<" <br/>"<<std::endl;
     if (!focus) {
+    outfile<<"   <center><input type='button' onclick=\"return toggleMe('"<<masses.at(i)<<"_KinFit')\" value='Systematics'></center><br/>"<<std::endl;
+    outfile<<"   <div id=\""<<masses.at(i)<<"_KinFit\" style=\"display:none\">"<<std::endl;
     outfile<<"   === JEC +1 sigma === <br/>"<<std::endl;
     outfile<<"   norm = "<<h_mX_SR_JECp1_KinFit->GetSumOfWeights()<<" <br/>"<<std::endl;
     outfile<<"   chi2/ndof = "<<plot_JECp1_KinFit->chiSquare()<<" <br/>"<<std::endl;
@@ -1584,7 +1643,7 @@ int DisplayJECJERDistributions_FULLSIM()
                             par_upTrig_KinFit.sg_p0, par_downTrig_KinFit.sg_p0};
     double sg_p0_errSyst_min=par_KinFit.sg_p0-(*std::min_element(sg_p0_errSyst, sg_p0_errSyst+11));
     double sg_p0_errSyst_max=(*std::max_element(sg_p0_errSyst, sg_p0_errSyst+11))-par_KinFit.sg_p0;
-    outfile<<"   Uncertainty on sg_p0 = "<<par_KinFit.sg_p0<<" +- "<<sg_p0_errStat<<" (stat) - "<<sg_p0_errSyst_min<<" + "<<sg_p0_errSyst_max<<" (syst); - "<<quad(sg_p0_errStat/2., sg_p0_errSyst_min)<<" + "<<quad(sg_p0_errStat/2., sg_p0_errSyst_max)<<" (total) <br/>"<<std::endl;
+    outfile<<"   Uncertainty on sg_p0 = "<<par_KinFit.sg_p0<<" +- "<<sg_p0_errStat<<" (stat) - "<<sg_p0_errSyst_min<<" + "<<sg_p0_errSyst_max<<" (syst); -"<<quad(sg_p0_errStat/2., sg_p0_errSyst_min)<<"/+"<<quad(sg_p0_errStat/2., sg_p0_errSyst_max)<<" (total) <br/>"<<std::endl;
     double sg_p1_errStat=par_KinFit.sg_p1_err;
     double sg_p1_errSyst[]={par_KinFit.sg_p1,
                             par_JECp1_KinFit.sg_p1, par_JECm1_KinFit.sg_p1,
@@ -1594,7 +1653,7 @@ int DisplayJECJERDistributions_FULLSIM()
                             par_upTrig_KinFit.sg_p1, par_downTrig_KinFit.sg_p1};
     double sg_p1_errSyst_min=par_KinFit.sg_p1-(*std::min_element(sg_p1_errSyst, sg_p1_errSyst+11));
     double sg_p1_errSyst_max=(*std::max_element(sg_p1_errSyst, sg_p1_errSyst+11))-par_KinFit.sg_p1;
-    outfile<<"   Uncertainty on sg_p1 = "<<par_KinFit.sg_p1<<" +- "<<sg_p1_errStat<<" (stat) - "<<sg_p1_errSyst_min<<" + "<<sg_p1_errSyst_max<<" (syst); - "<<quad(sg_p1_errStat/2., sg_p1_errSyst_min)<<" + "<<quad(sg_p1_errStat/2., sg_p1_errSyst_max)<<" (total) <br/>"<<std::endl;
+    outfile<<"   Uncertainty on sg_p1 = "<<par_KinFit.sg_p1<<" +- "<<sg_p1_errStat<<" (stat) - "<<sg_p1_errSyst_min<<" + "<<sg_p1_errSyst_max<<" (syst); -"<<quad(sg_p1_errStat/2., sg_p1_errSyst_min)<<"/+"<<quad(sg_p1_errStat/2., sg_p1_errSyst_max)<<" (total) <br/>"<<std::endl;
     double sg_p2_errStat=par_KinFit.sg_p2_err;
     double sg_p2_errSyst[]={par_KinFit.sg_p2,
                             par_JECp1_KinFit.sg_p2, par_JECm1_KinFit.sg_p2,
@@ -1604,7 +1663,7 @@ int DisplayJECJERDistributions_FULLSIM()
                             par_upTrig_KinFit.sg_p2, par_downTrig_KinFit.sg_p2};
     double sg_p2_errSyst_min=par_KinFit.sg_p2-(*std::min_element(sg_p2_errSyst, sg_p2_errSyst+11));
     double sg_p2_errSyst_max=(*std::max_element(sg_p2_errSyst, sg_p2_errSyst+11))-par_KinFit.sg_p2;
-    outfile<<"   Uncertainty on sg_p2 = "<<par_KinFit.sg_p2<<" +- "<<sg_p2_errStat<<" (stat) - "<<sg_p2_errSyst_min<<" + "<<sg_p2_errSyst_max<<" (syst); - "<<quad(sg_p2_errStat/2., sg_p2_errSyst_min)<<" + "<<quad(sg_p2_errStat/2., sg_p2_errSyst_max)<<" (total) <br/>"<<std::endl;
+    outfile<<"   Uncertainty on sg_p2 = "<<par_KinFit.sg_p2<<" +- "<<sg_p2_errStat<<" (stat) - "<<sg_p2_errSyst_min<<" + "<<sg_p2_errSyst_max<<" (syst); -"<<quad(sg_p2_errStat/2., sg_p2_errSyst_min)<<"/+"<<quad(sg_p2_errStat/2., sg_p2_errSyst_max)<<" (total) <br/>"<<std::endl;
     double sg_p3_errStat=par_KinFit.sg_p3_err;
     double sg_p3_errSyst[]={par_KinFit.sg_p3,
                             par_JECp1_KinFit.sg_p3, par_JECm1_KinFit.sg_p3,
@@ -1614,18 +1673,34 @@ int DisplayJECJERDistributions_FULLSIM()
                             par_upTrig_KinFit.sg_p3, par_downTrig_KinFit.sg_p3};
     double sg_p3_errSyst_min=par_KinFit.sg_p3-(*std::min_element(sg_p3_errSyst, sg_p3_errSyst+11));
     double sg_p3_errSyst_max=(*std::max_element(sg_p3_errSyst, sg_p3_errSyst+11))-par_KinFit.sg_p3;
-    outfile<<"   Uncertainty on sg_p3 = "<<par_KinFit.sg_p3<<" +- "<<sg_p3_errStat<<" (stat) - "<<sg_p3_errSyst_min<<" + "<<sg_p3_errSyst_max<<" (syst); - "<<quad(sg_p3_errStat/2., sg_p3_errSyst_min)<<" + "<<quad(sg_p3_errStat/2., sg_p3_errSyst_max)<<" (total) <br/>"<<std::endl;
+    outfile<<"   Uncertainty on sg_p3 = "<<par_KinFit.sg_p3<<" +- "<<sg_p3_errStat<<" (stat) - "<<sg_p3_errSyst_min<<" + "<<sg_p3_errSyst_max<<" (syst); -"<<quad(sg_p3_errStat/2., sg_p3_errSyst_min)<<"/+"<<quad(sg_p3_errStat/2., sg_p3_errSyst_max)<<" (total) <br/>"<<std::endl;
+    outfile<<"   === === <br/>"<<std::endl;
+    outfile<<"   Copy this into the datacard: <br/>"<<std::endl;
+    outfile<<"   <pre>"<<std::endl;
+    outfile<<"JEC       lnN     "<<lnN(h_mX_SR_KinFit->GetSumOfWeights(), h_mX_SR_JECp1_KinFit->GetSumOfWeights(), h_mX_SR_JECm1_KinFit->GetSumOfWeights())<<    "     -"<<std::endl;
+    outfile<<"JER       lnN     "<<lnN(h_mX_SR_KinFit->GetSumOfWeights(), h_mX_SR_JERp1_KinFit->GetSumOfWeights(), h_mX_SR_JERm1_KinFit->GetSumOfWeights())<<    "     -"<<std::endl;
+    outfile<<"bTagSFbc  lnN     "<<lnN(h_mX_SR_KinFit->GetSumOfWeights(), h_mX_SR_upBC_KinFit->GetSumOfWeights(), h_mX_SR_downBC_KinFit->GetSumOfWeights())<<    "     -"<<std::endl;
+    outfile<<"bTagSFl   lnN     "<<lnN(h_mX_SR_KinFit->GetSumOfWeights(), h_mX_SR_upL_KinFit->GetSumOfWeights(), h_mX_SR_downL_KinFit->GetSumOfWeights())<<      "     -"<<std::endl;
+    outfile<<"trigSF    lnN     "<<lnN(h_mX_SR_KinFit->GetSumOfWeights(), h_mX_SR_upTrig_KinFit->GetSumOfWeights(), h_mX_SR_downTrig_KinFit->GetSumOfWeights())<<"     -"<<std::endl;
+    outfile<<"signal_p0 param   "<<par_KinFit.sg_p0<<" -"<<quad(sg_p0_errStat/2., sg_p0_errSyst_min)<<"/+"<<quad(sg_p0_errStat/2., sg_p0_errSyst_max)<<std::endl;
+    outfile<<"signal_p1 param   "<<par_KinFit.sg_p1<<" -"<<quad(sg_p1_errStat/2., sg_p1_errSyst_min)<<"/+"<<quad(sg_p1_errStat/2., sg_p1_errSyst_max)<<std::endl;
+    outfile<<"signal_p2 param   "<<par_KinFit.sg_p2<<" -"<<quad(sg_p2_errStat/2., sg_p2_errSyst_min)<<"/+"<<quad(sg_p2_errStat/2., sg_p2_errSyst_max)<<std::endl;
+    outfile<<"signal_p3 param   "<<par_KinFit.sg_p3<<" -"<<quad(sg_p3_errStat/2., sg_p3_errSyst_min)<<"/+"<<quad(sg_p3_errStat/2., sg_p3_errSyst_max)<<std::endl;
+    outfile<<"   </pre>"<<std::endl;
     }
+    outfile<<"   </div>"<<std::endl;
     outfile<<"  </td>"<<std::endl;
     outfile<<"  <td>"<<std::endl;
     outfile<<"   <img src='"<<("c_SignalmX_Gaussian_KinFit_"+masses.at(i)+".png")<<"'/><br/>"<<std::endl;
-    outfile<<"   <center>With Kin-Fit. Fitted to a Gaussian.</center><br/>"<<std::endl;
+    outfile<<"   <h2 align='center'>With Kin-Fit. Fitted to a Gaussian.</h2><br/>"<<std::endl;
     outfile<<"   === Baseline plot === </br>"<<std::endl;
     outfile<<"   norm = "<<h_mX_SR_KinFit->GetSumOfWeights()*totalLumi*prodXsec_1/nSignal_init<<" <br/>"<<std::endl;
     outfile<<"   chi2/ndof = "<<plot_Gaussian_KinFit->chiSquare()<<" <br/>"<<std::endl;
     outfile<<"   sg_p0 = "<<par_Gaussian_KinFit.sg_p0<<" +- "<<par_Gaussian_KinFit.sg_p0_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p1 = "<<par_Gaussian_KinFit.sg_p1<<" +- "<<par_Gaussian_KinFit.sg_p1_err<<" <br/>"<<std::endl;
     if (!focus) {
+    outfile<<"   <center><input type='button' onclick=\"return toggleMe('"<<masses.at(i)<<"_Gaussian_KinFit')\" value='Systematics'></center><br/>"<<std::endl;
+    outfile<<"   <div id=\""<<masses.at(i)<<"_Gaussian_KinFit\" style=\"display:none\">"<<std::endl;
     outfile<<"   === JEC +1 sigma === <br/>"<<std::endl;
     outfile<<"   norm = "<<h_mX_SR_JECp1_KinFit->GetSumOfWeights()<<" <br/>"<<std::endl;
     outfile<<"   chi2/ndof = "<<plot_JECp1_Gaussian_KinFit->chiSquare()<<" <br/>"<<std::endl;
@@ -1704,6 +1779,7 @@ int DisplayJECJERDistributions_FULLSIM()
     double sg_p1_errSyst_max=(*std::max_element(sg_p1_errSyst, sg_p1_errSyst+11))-par_Gaussian_KinFit.sg_p1;
     outfile<<"   Uncertainty on sg_p1 = "<<par_Gaussian_KinFit.sg_p1<<" +- "<<sg_p1_errStat<<" (stat) - "<<sg_p1_errSyst_min<<" + "<<sg_p1_errSyst_max<<" (syst); -"<<quad(sg_p1_errStat/2., sg_p1_errSyst_min)<<"/+"<<quad(sg_p1_errStat/2., sg_p1_errSyst_max)<<" (total) <br/>"<<std::endl;
     }
+    outfile<<"   </div>"<<std::endl;
     outfile<<"  </td>"<<std::endl;
     
     // Bifurcated Gaussians
@@ -1850,5 +1926,7 @@ int DisplayJECJERDistributions_FULLSIM()
   }
   outfile<<"</body>"<<std::endl;
   outfile<<"</html>"<<std::endl;
+  
+  return 0;
 }
     
