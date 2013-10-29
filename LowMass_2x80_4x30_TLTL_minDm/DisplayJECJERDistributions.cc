@@ -27,7 +27,7 @@
 
 // #include "/Users/souvik/HbbHbb/Analysis/PDFs/RevCrystalBall.h"
 
-bool focus=true;
+bool focus=false;
 bool genMatch=false;
 
 int rebin=1;
