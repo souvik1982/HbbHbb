@@ -167,6 +167,54 @@ TLegend* elevenStatBoxes(TH1F* h1, TH1F* h2, TH1F *h3, TH1F *h4, TH1F *h5, TH1F 
   return leg;
 }
 
+TLegend* thirteenStatBoxes(TH1F* h1, TH1F* h2, TH1F *h3, TH1F *h4, TH1F *h5, TH1F *h6, TH1F *h7, TH1F *h8, TH1F *h9, TH1F *h10, TH1F *h11, TH1F *h12, TH1F *h13)
+{
+  TLegend *leg=new TLegend(0.7, 0.1, 0.9, 0.9);
+  double wherepeak=(h2->GetMean())/(h2->GetXaxis()->GetXmax());
+  if (wherepeak>0.63) leg=new TLegend(0.1, 0.9, 0.3, 0.1);
+  leg->AddEntry(h1, "Baseline");
+  leg->AddEntry((TObject*)0, ("mean="+tostr(h1->GetMean())).c_str(), "");
+  leg->AddEntry((TObject*)0, ("rms="+tostr(h1->GetRMS())).c_str(), "");
+  leg->AddEntry(h2, "JEC +1 #sigma");
+  leg->AddEntry((TObject*)0, ("mean="+tostr(h2->GetMean())).c_str(), "");
+  leg->AddEntry((TObject*)0, ("rms="+tostr(h2->GetRMS())).c_str(), "");
+  leg->AddEntry(h3, "JEC -1 #sigma");
+  leg->AddEntry((TObject*)0, ("mean="+tostr(h3->GetMean())).c_str(), "");
+  leg->AddEntry((TObject*)0, ("rms="+tostr(h3->GetRMS())).c_str(), "");
+  leg->AddEntry(h4, "JER +1 #sigma");
+  leg->AddEntry((TObject*)0, ("mean="+tostr(h4->GetMean())).c_str(), "");
+  leg->AddEntry((TObject*)0, ("rms="+tostr(h4->GetRMS())).c_str(), "");
+  leg->AddEntry(h5, "JER -1 #sigma");
+  leg->AddEntry((TObject*)0, ("mean="+tostr(h5->GetMean())).c_str(), "");
+  leg->AddEntry((TObject*)0, ("rms="+tostr(h5->GetRMS())).c_str(), "");
+  leg->AddEntry(h6, "SF_{bc} +1 #sigma");
+  leg->AddEntry((TObject*)0, ("mean="+tostr(h6->GetMean())).c_str(), "");
+  leg->AddEntry((TObject*)0, ("rms="+tostr(h6->GetRMS())).c_str(), "");
+  leg->AddEntry(h7, "SF_{bc} -1 #sigma");
+  leg->AddEntry((TObject*)0, ("mean="+tostr(h7->GetMean())).c_str(), "");
+  leg->AddEntry((TObject*)0, ("rms="+tostr(h7->GetRMS())).c_str(), "");
+  leg->AddEntry(h8, "SF_{l} +1 #sigma");
+  leg->AddEntry((TObject*)0, ("mean="+tostr(h8->GetMean())).c_str(), "");
+  leg->AddEntry((TObject*)0, ("rms="+tostr(h8->GetRMS())).c_str(), "");
+  leg->AddEntry(h9, "SF_{l} -1 #sigma");
+  leg->AddEntry((TObject*)0, ("mean="+tostr(h9->GetMean())).c_str(), "");
+  leg->AddEntry((TObject*)0, ("rms="+tostr(h9->GetRMS())).c_str(), "");
+  leg->AddEntry(h10, "Trig SF (CSV) +1 #sigma");
+  leg->AddEntry((TObject*)0, ("mean="+tostr(h10->GetMean())).c_str(), "");
+  leg->AddEntry((TObject*)0, ("rms="+tostr(h10->GetRMS())).c_str(), "");
+  leg->AddEntry(h11, "Trig SF (CSV) -1 #sigma");
+  leg->AddEntry((TObject*)0, ("mean="+tostr(h11->GetMean())).c_str(), "");
+  leg->AddEntry((TObject*)0, ("rms="+tostr(h11->GetRMS())).c_str(), "");
+  leg->AddEntry(h12, "Trig SF (p_{T}) +1 #sigma");
+  leg->AddEntry((TObject*)0, ("mean="+tostr(h12->GetMean())).c_str(), "");
+  leg->AddEntry((TObject*)0, ("rms="+tostr(h12->GetRMS())).c_str(), "");
+  leg->AddEntry(h13, "Trig SF (p_{T}) -1 #sigma");
+  leg->AddEntry((TObject*)0, ("mean="+tostr(h13->GetMean())).c_str(), "");
+  leg->AddEntry((TObject*)0, ("rms="+tostr(h13->GetRMS())).c_str(), "");
+  leg->SetFillColor(10);
+  return leg;
+}
+
 Double_t crystalBall(Double_t *x, Double_t *par)
 {
   Double_t std=(x[0]-par[2])/par[3];
@@ -373,7 +421,7 @@ RooPlot* fitSignal(TH1F *h, std::string mass, int color, TLegend *leg, Params &p
     {
       rangeLo=400., rangeHi=540.; 
       sg_p0=new RooRealVar("sg_p0", "sg_p0", 430., 480.);
-      sg_p1=new RooRealVar("sg_p1", "sg_p1", 5., 15.);
+      sg_p1=new RooRealVar("sg_p1", "sg_p1", 5., 20.);
       sg_p2=new RooRealVar("sg_p2", "sg_p2", 0., 5.);
       sg_p3=new RooRealVar("sg_p3", "sg_p3", 0., 7.);
     }
@@ -381,7 +429,7 @@ RooPlot* fitSignal(TH1F *h, std::string mass, int color, TLegend *leg, Params &p
     {
       rangeLo=450., rangeHi=600.;
       sg_p0=new RooRealVar("sg_p0", "sg_p0", 480., 530.);
-      sg_p1=new RooRealVar("sg_p1", "sg_p1", 5., 15.);
+      sg_p1=new RooRealVar("sg_p1", "sg_p1", 5., 25.);
       sg_p2=new RooRealVar("sg_p2", "sg_p2", 0., 5.);
       sg_p3=new RooRealVar("sg_p3", "sg_p3", 0., 7.);
     }
@@ -389,7 +437,7 @@ RooPlot* fitSignal(TH1F *h, std::string mass, int color, TLegend *leg, Params &p
     {
       rangeLo=490., rangeHi=650.; 
       sg_p0=new RooRealVar("sg_p0", "sg_p0", 530., 580.);
-      sg_p1=new RooRealVar("sg_p1", "sg_p1", 5., 15.);
+      sg_p1=new RooRealVar("sg_p1", "sg_p1", 5., 25.);
       sg_p2=new RooRealVar("sg_p2", "sg_p2", 0., 5.);
       sg_p3=new RooRealVar("sg_p3", "sg_p3", 0., 7.);
     }
@@ -397,7 +445,7 @@ RooPlot* fitSignal(TH1F *h, std::string mass, int color, TLegend *leg, Params &p
     {
       rangeLo=540., rangeHi=700.;
       sg_p0=new RooRealVar("sg_p0", "sg_p0", 580., 630.);
-      sg_p1=new RooRealVar("sg_p1", "sg_p1", 5., 15.);
+      sg_p1=new RooRealVar("sg_p1", "sg_p1", 10., 25.);
       sg_p2=new RooRealVar("sg_p2", "sg_p2", 0., 5.);
       sg_p3=new RooRealVar("sg_p3", "sg_p3", 0., 7.);
     }
@@ -450,7 +498,7 @@ RooPlot* fitSignal(TH1F *h, std::string mass, int color, TLegend *leg, Params &p
       sg_p3=new RooRealVar("sg_p3", "sg_p3", 0., 7.);
     }
   }
-  x=new RooRealVar("x", "m_{X} (GeV)", rangeLo, rangeHi);
+  x=new RooRealVar("x", "m_{X} (GeV)", rangeLo-50., rangeHi+50.);
   // RevCrystalBall signal("signal", "Signal Prediction", *x, *sg_p0, *sg_p1, *sg_p2, *sg_p3);
   ExpGaussExp signal("signal", "Signal Prediction", *x, *sg_p0, *sg_p1, *sg_p2, *sg_p3);
   RooDataHist signalHistogram("signalHistogram", "Signal Histogram", RooArgList(*x), h);
@@ -473,7 +521,7 @@ RooPlot* fitSignal(TH1F *h, std::string mass, int color, TLegend *leg, Params &p
   // leg->AddEntry((TObject*)0, ("norm="+tostr(h->GetSumOfWeights())).c_str(), "");
   // leg->AddEntry((TObject*)0, ("mean="+tostr(sg_p2->getVal())+"#pm"+tostr(sg_p2->getError())).c_str(), "");
   // leg->AddEntry((TObject*)0, ("rms="+tostr(sg_p3->getVal())+"#pm"+tostr(sg_p3->getError())).c_str(), "");
-  std::cout<<"chi2/dof = "<<plot->chiSquare()<<std::endl;
+  // std::cout<<"chi2/dof = "<<plot->chiSquare()<<std::endl;
   
   // Save modified signal shape to workspace
   if (color==kBlack)
@@ -697,7 +745,7 @@ RooPlot* fitSignal_Gaussian(TH1F *h, std::string mass, int color, TLegend *leg, 
   // leg->AddEntry((TObject*)0, ("norm="+tostr(h->GetSumOfWeights())).c_str(), "");
   // leg->AddEntry((TObject*)0, ("mean="+tostr(sg_p0->getVal())+"#pm"+tostr(sg_p0->getError())).c_str(), "");
   // leg->AddEntry((TObject*)0, ("rms="+tostr(sg_p1->getVal())+"#pm"+tostr(sg_p1->getError())).c_str(), "");
-  std::cout<<"chi2/dof = "<<plot->chiSquare()<<std::endl;
+  // std::cout<<"chi2/dof = "<<plot->chiSquare()<<std::endl;
   
   // Save modified signal shape to workspace
   if (color==kBlack)
@@ -839,6 +887,13 @@ int DisplayJECJERDistributions_FULLSIM()
   double totalLumi=18600.0; // /pb
   double prodXsec_1=1.; // pb
   
+  // Interpolation Plots
+  std::vector<double> v_sg_p0, v_sg_p0_err;
+  std::vector<double> v_sg_p1, v_sg_p1_err;
+  std::vector<double> v_sg_p2, v_sg_p2_err;
+  std::vector<double> v_sg_p3, v_sg_p3_err;
+  std::vector<double> v_zero;
+  
   // Write to an HTML File
   outfile.open("SignalSystematics/SignalSystematics.html");
   outfile<<"<html>"<<std::endl;
@@ -864,6 +919,8 @@ int DisplayJECJERDistributions_FULLSIM()
   for (unsigned int i=0; i<masses.size(); ++i)
   // for (unsigned int i=10; i<11; ++i)
   {
+    v_zero.push_back(0);
+    
     TFile *file=new TFile(("MMMM_nominal/a/Histograms_RadionToHH_4b_M-"+masses.at(i)+"_TuneZ2star_8TeV_FULLSIM.root").c_str());
     TH1F *h_H1Jet1pT=(TH1F*)file->Get("h_H1Jet1pT");
     TH1F *h_H1Jet2pT=(TH1F*)file->Get("h_H1Jet2pT");
@@ -951,23 +1008,41 @@ int DisplayJECJERDistributions_FULLSIM()
     h_H1_pT_bTagged_downL->Add((TH1F*)file_downL->Get("h_H2_pT_bTagged"));
     TH1F *h_mX_SR_downL=(TH1F*)file_downL->Get("h_mX_SR");
     
-    TFile *file_upTrig=new TFile(("MMMM_upTrig/a/Histograms_RadionToHH_4b_M-"+masses.at(i)+"_TuneZ2star_8TeV_FULLSIM.root").c_str());
-    TH1F *h_H1Jet1pT_upTrig=(TH1F*)file_upTrig->Get("h_H1Jet1pT");
-    TH1F *h_H1Jet2pT_upTrig=(TH1F*)file_upTrig->Get("h_H1Jet2pT");
-    TH1F *h_H1_mass_bTagged_upTrig=(TH1F*)file_upTrig->Get("h_H1_mass_bTagged");
-    h_H1_mass_bTagged_upTrig->Add((TH1F*)file_upTrig->Get("h_H2_mass_bTagged"));
-    TH1F *h_H1_pT_bTagged_upTrig=(TH1F*)file_upTrig->Get("h_H1_pT_bTagged");
-    h_H1_pT_bTagged_upTrig->Add((TH1F*)file_upTrig->Get("h_H2_pT_bTagged"));
-    TH1F *h_mX_SR_upTrig=(TH1F*)file_upTrig->Get("h_mX_SR");
+    TFile *file_upTrigCSV=new TFile(("MMMM_upTrigCSV/a/Histograms_RadionToHH_4b_M-"+masses.at(i)+"_TuneZ2star_8TeV_FULLSIM.root").c_str());
+    TH1F *h_H1Jet1pT_upTrigCSV=(TH1F*)file_upTrigCSV->Get("h_H1Jet1pT");
+    TH1F *h_H1Jet2pT_upTrigCSV=(TH1F*)file_upTrigCSV->Get("h_H1Jet2pT");
+    TH1F *h_H1_mass_bTagged_upTrigCSV=(TH1F*)file_upTrigCSV->Get("h_H1_mass_bTagged");
+    h_H1_mass_bTagged_upTrigCSV->Add((TH1F*)file_upTrigCSV->Get("h_H2_mass_bTagged"));
+    TH1F *h_H1_pT_bTagged_upTrigCSV=(TH1F*)file_upTrigCSV->Get("h_H1_pT_bTagged");
+    h_H1_pT_bTagged_upTrigCSV->Add((TH1F*)file_upTrigCSV->Get("h_H2_pT_bTagged"));
+    TH1F *h_mX_SR_upTrigCSV=(TH1F*)file_upTrigCSV->Get("h_mX_SR");
     
-    TFile *file_downTrig=new TFile(("MMMM_downTrig/a/Histograms_RadionToHH_4b_M-"+masses.at(i)+"_TuneZ2star_8TeV_FULLSIM.root").c_str());
-    TH1F *h_H1Jet1pT_downTrig=(TH1F*)file_downTrig->Get("h_H1Jet1pT");
-    TH1F *h_H1Jet2pT_downTrig=(TH1F*)file_downTrig->Get("h_H1Jet2pT");
-    TH1F *h_H1_mass_bTagged_downTrig=(TH1F*)file_downTrig->Get("h_H1_mass_bTagged");
-    h_H1_mass_bTagged_downTrig->Add((TH1F*)file_downTrig->Get("h_H2_mass_bTagged"));
-    TH1F *h_H1_pT_bTagged_downTrig=(TH1F*)file_downTrig->Get("h_H1_pT_bTagged");
-    h_H1_pT_bTagged_downTrig->Add((TH1F*)file_downTrig->Get("h_H2_pT_bTagged"));
-    TH1F *h_mX_SR_downTrig=(TH1F*)file_downTrig->Get("h_mX_SR");
+    TFile *file_downTrigCSV=new TFile(("MMMM_downTrigCSV/a/Histograms_RadionToHH_4b_M-"+masses.at(i)+"_TuneZ2star_8TeV_FULLSIM.root").c_str());
+    TH1F *h_H1Jet1pT_downTrigCSV=(TH1F*)file_downTrigCSV->Get("h_H1Jet1pT");
+    TH1F *h_H1Jet2pT_downTrigCSV=(TH1F*)file_downTrigCSV->Get("h_H1Jet2pT");
+    TH1F *h_H1_mass_bTagged_downTrigCSV=(TH1F*)file_downTrigCSV->Get("h_H1_mass_bTagged");
+    h_H1_mass_bTagged_downTrigCSV->Add((TH1F*)file_downTrigCSV->Get("h_H2_mass_bTagged"));
+    TH1F *h_H1_pT_bTagged_downTrigCSV=(TH1F*)file_downTrigCSV->Get("h_H1_pT_bTagged");
+    h_H1_pT_bTagged_downTrigCSV->Add((TH1F*)file_downTrigCSV->Get("h_H2_pT_bTagged"));
+    TH1F *h_mX_SR_downTrigCSV=(TH1F*)file_downTrigCSV->Get("h_mX_SR");
+    
+    TFile *file_upTrigpT=new TFile(("MMMM_upTrigpT/a/Histograms_RadionToHH_4b_M-"+masses.at(i)+"_TuneZ2star_8TeV_FULLSIM.root").c_str());
+    TH1F *h_H1Jet1pT_upTrigpT=(TH1F*)file_upTrigpT->Get("h_H1Jet1pT");
+    TH1F *h_H1Jet2pT_upTrigpT=(TH1F*)file_upTrigpT->Get("h_H1Jet2pT");
+    TH1F *h_H1_mass_bTagged_upTrigpT=(TH1F*)file_upTrigpT->Get("h_H1_mass_bTagged");
+    h_H1_mass_bTagged_upTrigpT->Add((TH1F*)file_upTrigpT->Get("h_H2_mass_bTagged"));
+    TH1F *h_H1_pT_bTagged_upTrigpT=(TH1F*)file_upTrigpT->Get("h_H1_pT_bTagged");
+    h_H1_pT_bTagged_upTrigpT->Add((TH1F*)file_upTrigpT->Get("h_H2_pT_bTagged"));
+    TH1F *h_mX_SR_upTrigpT=(TH1F*)file_upTrigpT->Get("h_mX_SR");
+    
+    TFile *file_downTrigpT=new TFile(("MMMM_downTrigpT/a/Histograms_RadionToHH_4b_M-"+masses.at(i)+"_TuneZ2star_8TeV_FULLSIM.root").c_str());
+    TH1F *h_H1Jet1pT_downTrigpT=(TH1F*)file_downTrigpT->Get("h_H1Jet1pT");
+    TH1F *h_H1Jet2pT_downTrigpT=(TH1F*)file_downTrigpT->Get("h_H1Jet2pT");
+    TH1F *h_H1_mass_bTagged_downTrigpT=(TH1F*)file_downTrigpT->Get("h_H1_mass_bTagged");
+    h_H1_mass_bTagged_downTrigpT->Add((TH1F*)file_downTrigpT->Get("h_H2_mass_bTagged"));
+    TH1F *h_H1_pT_bTagged_downTrigpT=(TH1F*)file_downTrigpT->Get("h_H1_pT_bTagged");
+    h_H1_pT_bTagged_downTrigpT->Add((TH1F*)file_downTrigpT->Get("h_H2_pT_bTagged"));
+    TH1F *h_mX_SR_downTrigpT=(TH1F*)file_downTrigpT->Get("h_mX_SR");
     
     // Kinematically Constrained
     TFile *file_KinFit=new TFile(("MMMM_nominal/a_KinFit/Histograms_RadionToHH_4b_M-"+masses.at(i)+"_TuneZ2star_8TeV_FULLSIM.root").c_str());
@@ -1000,11 +1075,17 @@ int DisplayJECJERDistributions_FULLSIM()
     TFile *file_downL_KinFit=new TFile(("MMMM_downL/a_KinFit/Histograms_RadionToHH_4b_M-"+masses.at(i)+"_TuneZ2star_8TeV_FULLSIM.root").c_str());
     TH1F *h_mX_SR_downL_KinFit=(TH1F*)file_downL_KinFit->Get("h_mX_SR");
     
-    TFile *file_upTrig_KinFit=new TFile(("MMMM_upTrig/a_KinFit/Histograms_RadionToHH_4b_M-"+masses.at(i)+"_TuneZ2star_8TeV_FULLSIM.root").c_str());
-    TH1F *h_mX_SR_upTrig_KinFit=(TH1F*)file_upTrig_KinFit->Get("h_mX_SR");
+    TFile *file_upTrigCSV_KinFit=new TFile(("MMMM_upTrigCSV/a_KinFit/Histograms_RadionToHH_4b_M-"+masses.at(i)+"_TuneZ2star_8TeV_FULLSIM.root").c_str());
+    TH1F *h_mX_SR_upTrigCSV_KinFit=(TH1F*)file_upTrigCSV_KinFit->Get("h_mX_SR");
     
-    TFile *file_downTrig_KinFit=new TFile(("MMMM_downTrig/a_KinFit/Histograms_RadionToHH_4b_M-"+masses.at(i)+"_TuneZ2star_8TeV_FULLSIM.root").c_str());
-    TH1F *h_mX_SR_downTrig_KinFit=(TH1F*)file_downTrig_KinFit->Get("h_mX_SR");
+    TFile *file_downTrigCSV_KinFit=new TFile(("MMMM_downTrigCSV/a_KinFit/Histograms_RadionToHH_4b_M-"+masses.at(i)+"_TuneZ2star_8TeV_FULLSIM.root").c_str());
+    TH1F *h_mX_SR_downTrigCSV_KinFit=(TH1F*)file_downTrigCSV_KinFit->Get("h_mX_SR");
+    
+    TFile *file_upTrigpT_KinFit=new TFile(("MMMM_upTrigpT/a_KinFit/Histograms_RadionToHH_4b_M-"+masses.at(i)+"_TuneZ2star_8TeV_FULLSIM.root").c_str());
+    TH1F *h_mX_SR_upTrigpT_KinFit=(TH1F*)file_upTrigpT_KinFit->Get("h_mX_SR");
+    
+    TFile *file_downTrigpT_KinFit=new TFile(("MMMM_downTrigpT/a_KinFit/Histograms_RadionToHH_4b_M-"+masses.at(i)+"_TuneZ2star_8TeV_FULLSIM.root").c_str());
+    TH1F *h_mX_SR_downTrigpT_KinFit=(TH1F*)file_downTrigpT_KinFit->Get("h_mX_SR");
     
     TCanvas *c_H1Jet1pT=new TCanvas("c_H1Jet1pT", "c_H1Jet1pT", 700, 700);
     h_H1Jet1pT->SetLineWidth(2);
@@ -1016,9 +1097,11 @@ int DisplayJECJERDistributions_FULLSIM()
     h_H1Jet1pT_downBC->SetLineStyle(9); h_H1Jet1pT_downBC->SetLineColor(kGreen+3);
     h_H1Jet1pT_upL->SetLineStyle(9); h_H1Jet1pT_upL->SetLineColor(kCyan);
     h_H1Jet1pT_downL->SetLineStyle(9); h_H1Jet1pT_downL->SetLineColor(kCyan+2);
-    h_H1Jet1pT_upTrig->SetLineStyle(9); h_H1Jet1pT_upTrig->SetLineColor(kBlue);
-    h_H1Jet1pT_downTrig->SetLineStyle(9); h_H1Jet1pT_downTrig->SetLineColor(kBlue+2);
-    h_H1Jet1pT_upTrig->Draw();
+    h_H1Jet1pT_upTrigCSV->SetLineStyle(9); h_H1Jet1pT_upTrigCSV->SetLineColor(kBlue);
+    h_H1Jet1pT_downTrigCSV->SetLineStyle(9); h_H1Jet1pT_downTrigCSV->SetLineColor(kBlue+2);
+    h_H1Jet1pT_upTrigpT->SetLineStyle(9); h_H1Jet1pT_upTrigpT->SetLineColor(kBlue-2);
+    h_H1Jet1pT_downTrigpT->SetLineStyle(9); h_H1Jet1pT_downTrigpT->SetLineColor(kBlue+3);
+    h_H1Jet1pT_upTrigCSV->Draw();
     h_H1Jet1pT->Draw("same");
     h_H1Jet1pT_JECp1->Draw("same");
     h_H1Jet1pT_JECm1->Draw("same");
@@ -1028,9 +1111,11 @@ int DisplayJECJERDistributions_FULLSIM()
     h_H1Jet1pT_downBC->Draw("same");
     h_H1Jet1pT_upL->Draw("same");
     h_H1Jet1pT_downL->Draw("same");
-    h_H1Jet1pT_upTrig->Draw("same");
-    h_H1Jet1pT_downTrig->Draw("same");
-    elevenStatBoxes(h_H1Jet1pT, h_H1Jet1pT_JECp1, h_H1Jet1pT_JECm1, h_H1Jet1pT_JERp1, h_H1Jet1pT_JERm1, h_H1Jet1pT_upBC, h_H1Jet1pT_downBC, h_H1Jet1pT_upL, h_H1Jet1pT_downL, h_H1Jet1pT_upTrig, h_H1Jet1pT_downTrig)->Draw();
+    h_H1Jet1pT_upTrigCSV->Draw("same");
+    h_H1Jet1pT_downTrigCSV->Draw("same");
+    h_H1Jet1pT_upTrigpT->Draw("same");
+    h_H1Jet1pT_downTrigpT->Draw("same");
+    thirteenStatBoxes(h_H1Jet1pT, h_H1Jet1pT_JECp1, h_H1Jet1pT_JECm1, h_H1Jet1pT_JERp1, h_H1Jet1pT_JERm1, h_H1Jet1pT_upBC, h_H1Jet1pT_downBC, h_H1Jet1pT_upL, h_H1Jet1pT_downL, h_H1Jet1pT_upTrigCSV, h_H1Jet1pT_downTrigCSV, h_H1Jet1pT_upTrigpT, h_H1Jet1pT_downTrigpT)->Draw();
     c_H1Jet1pT->SaveAs(("SignalSystematics/c_H1Jet1pT_"+masses.at(i)+".png").c_str());
     
     TCanvas *c_H1Jet2pT=new TCanvas("c_H1Jet2pT", "c_H1Jet2pT", 700, 700);
@@ -1043,9 +1128,11 @@ int DisplayJECJERDistributions_FULLSIM()
     h_H1Jet2pT_downBC->SetLineStyle(9); h_H1Jet2pT_downBC->SetLineColor(kGreen+3);
     h_H1Jet2pT_upL->SetLineStyle(9); h_H1Jet2pT_upL->SetLineColor(kCyan);
     h_H1Jet2pT_downL->SetLineStyle(9); h_H1Jet2pT_downL->SetLineColor(kCyan+2);
-    h_H1Jet2pT_upTrig->SetLineStyle(9); h_H1Jet2pT_upTrig->SetLineColor(kBlue);
-    h_H1Jet2pT_downTrig->SetLineStyle(9); h_H1Jet2pT_downTrig->SetLineColor(kBlue+2);
-    h_H1Jet2pT_upTrig->Draw();
+    h_H1Jet2pT_upTrigCSV->SetLineStyle(9); h_H1Jet2pT_upTrigCSV->SetLineColor(kBlue);
+    h_H1Jet2pT_downTrigCSV->SetLineStyle(9); h_H1Jet2pT_downTrigCSV->SetLineColor(kBlue+2);
+    h_H1Jet2pT_upTrigpT->SetLineStyle(9); h_H1Jet2pT_upTrigpT->SetLineColor(kBlue);
+    h_H1Jet2pT_downTrigpT->SetLineStyle(9); h_H1Jet2pT_downTrigpT->SetLineColor(kBlue+2);
+    h_H1Jet2pT_upTrigCSV->Draw();
     h_H1Jet2pT->Draw("same");
     h_H1Jet2pT_JECp1->Draw("same");
     h_H1Jet2pT_JECm1->Draw("same");
@@ -1055,9 +1142,11 @@ int DisplayJECJERDistributions_FULLSIM()
     h_H1Jet2pT_downBC->Draw("same");
     h_H1Jet2pT_upL->Draw("same");
     h_H1Jet2pT_downL->Draw("same");
-    h_H1Jet2pT_upTrig->Draw("same");
-    h_H1Jet2pT_downTrig->Draw("same");
-    elevenStatBoxes(h_H1Jet2pT, h_H1Jet2pT_JECp1, h_H1Jet2pT_JECm1, h_H1Jet2pT_JERp1, h_H1Jet2pT_JERm1, h_H1Jet2pT_upBC, h_H1Jet2pT_downBC, h_H1Jet2pT_upL, h_H1Jet2pT_downL, h_H1Jet2pT_upTrig, h_H1Jet2pT_downTrig)->Draw();
+    h_H1Jet2pT_upTrigCSV->Draw("same");
+    h_H1Jet2pT_downTrigCSV->Draw("same");
+    h_H1Jet2pT_upTrigpT->Draw("same");
+    h_H1Jet2pT_downTrigpT->Draw("same");
+    thirteenStatBoxes(h_H1Jet2pT, h_H1Jet2pT_JECp1, h_H1Jet2pT_JECm1, h_H1Jet2pT_JERp1, h_H1Jet2pT_JERm1, h_H1Jet2pT_upBC, h_H1Jet2pT_downBC, h_H1Jet2pT_upL, h_H1Jet2pT_downL, h_H1Jet2pT_upTrigCSV, h_H1Jet2pT_downTrigCSV, h_H1Jet2pT_upTrigpT, h_H1Jet2pT_downTrigpT)->Draw();
     c_H1Jet2pT->SaveAs(("SignalSystematics/c_H1Jet2pT_"+masses.at(i)+".png").c_str());
     
     TCanvas *c_H1_mass_bTagged=new TCanvas("c_H1_mass_bTagged", "c_H1_mass_bTagged", 700, 700);
@@ -1070,9 +1159,11 @@ int DisplayJECJERDistributions_FULLSIM()
     h_H1_mass_bTagged_downBC->SetLineStyle(9); h_H1_mass_bTagged_downBC->SetLineColor(kGreen+3);
     h_H1_mass_bTagged_upL->SetLineStyle(9); h_H1_mass_bTagged_upL->SetLineColor(kCyan);
     h_H1_mass_bTagged_downL->SetLineStyle(9); h_H1_mass_bTagged_downL->SetLineColor(kCyan+2);
-    h_H1_mass_bTagged_upTrig->SetLineStyle(9); h_H1_mass_bTagged_upTrig->SetLineColor(kBlue);
-    h_H1_mass_bTagged_downTrig->SetLineStyle(9); h_H1_mass_bTagged_downTrig->SetLineColor(kBlue+2);
-    h_H1_mass_bTagged_upTrig->Draw();
+    h_H1_mass_bTagged_upTrigCSV->SetLineStyle(9); h_H1_mass_bTagged_upTrigCSV->SetLineColor(kBlue);
+    h_H1_mass_bTagged_downTrigCSV->SetLineStyle(9); h_H1_mass_bTagged_downTrigCSV->SetLineColor(kBlue+2);
+    h_H1_mass_bTagged_upTrigpT->SetLineStyle(9); h_H1_mass_bTagged_upTrigpT->SetLineColor(kBlue);
+    h_H1_mass_bTagged_downTrigpT->SetLineStyle(9); h_H1_mass_bTagged_downTrigpT->SetLineColor(kBlue+2);
+    h_H1_mass_bTagged_upTrigCSV->Draw();
     h_H1_mass_bTagged->Draw("same");
     h_H1_mass_bTagged_JECp1->Draw("same");
     h_H1_mass_bTagged_JECm1->Draw("same");
@@ -1082,9 +1173,11 @@ int DisplayJECJERDistributions_FULLSIM()
     h_H1_mass_bTagged_downBC->Draw("same");
     h_H1_mass_bTagged_upL->Draw("same");
     h_H1_mass_bTagged_downL->Draw("same");
-    h_H1_mass_bTagged_upTrig->Draw("same");
-    h_H1_mass_bTagged_downTrig->Draw("same");
-    elevenStatBoxes(h_H1_mass_bTagged, h_H1_mass_bTagged_JECp1, h_H1_mass_bTagged_JECm1, h_H1_mass_bTagged_JERp1, h_H1_mass_bTagged_JERm1, h_H1_mass_bTagged_upBC, h_H1_mass_bTagged_downBC, h_H1_mass_bTagged_upL, h_H1_mass_bTagged_downL, h_H1_mass_bTagged_upTrig, h_H1_mass_bTagged_downTrig)->Draw();
+    h_H1_mass_bTagged_upTrigCSV->Draw("same");
+    h_H1_mass_bTagged_downTrigCSV->Draw("same");
+    h_H1_mass_bTagged_upTrigpT->Draw("same");
+    h_H1_mass_bTagged_downTrigpT->Draw("same");
+    thirteenStatBoxes(h_H1_mass_bTagged, h_H1_mass_bTagged_JECp1, h_H1_mass_bTagged_JECm1, h_H1_mass_bTagged_JERp1, h_H1_mass_bTagged_JERm1, h_H1_mass_bTagged_upBC, h_H1_mass_bTagged_downBC, h_H1_mass_bTagged_upL, h_H1_mass_bTagged_downL, h_H1_mass_bTagged_upTrigCSV, h_H1_mass_bTagged_downTrigCSV, h_H1_mass_bTagged_upTrigpT, h_H1_mass_bTagged_downTrigpT)->Draw();
     c_H1_mass_bTagged->SaveAs(("SignalSystematics/c_H1_mass_bTagged_"+masses.at(i)+".png").c_str());
     
     TCanvas *c_H1_pT_bTagged=new TCanvas("c_H1_pT_bTagged", "c_H1_pT_bTagged", 700, 700);
@@ -1097,9 +1190,11 @@ int DisplayJECJERDistributions_FULLSIM()
     h_H1_pT_bTagged_downBC->SetLineStyle(9); h_H1_pT_bTagged_downBC->SetLineColor(kGreen+3);
     h_H1_pT_bTagged_upL->SetLineStyle(9); h_H1_pT_bTagged_upL->SetLineColor(kCyan);
     h_H1_pT_bTagged_downL->SetLineStyle(9); h_H1_pT_bTagged_downL->SetLineColor(kCyan+2);
-    h_H1_pT_bTagged_upTrig->SetLineStyle(9); h_H1_pT_bTagged_upTrig->SetLineColor(kBlue);
-    h_H1_pT_bTagged_downTrig->SetLineStyle(9); h_H1_pT_bTagged_downTrig->SetLineColor(kBlue+2);
-    h_H1_pT_bTagged_upTrig->Draw();
+    h_H1_pT_bTagged_upTrigCSV->SetLineStyle(9); h_H1_pT_bTagged_upTrigCSV->SetLineColor(kBlue);
+    h_H1_pT_bTagged_downTrigCSV->SetLineStyle(9); h_H1_pT_bTagged_downTrigCSV->SetLineColor(kBlue+2);
+    h_H1_pT_bTagged_upTrigpT->SetLineStyle(9); h_H1_pT_bTagged_upTrigpT->SetLineColor(kBlue);
+    h_H1_pT_bTagged_downTrigpT->SetLineStyle(9); h_H1_pT_bTagged_downTrigpT->SetLineColor(kBlue+2);
+    h_H1_pT_bTagged_upTrigCSV->Draw();
     h_H1_pT_bTagged->Draw("same");
     h_H1_pT_bTagged_JECp1->Draw("same");
     h_H1_pT_bTagged_JECm1->Draw("same");
@@ -1109,9 +1204,11 @@ int DisplayJECJERDistributions_FULLSIM()
     h_H1_pT_bTagged_downBC->Draw("same");
     h_H1_pT_bTagged_upL->Draw("same");
     h_H1_pT_bTagged_downL->Draw("same");
-    h_H1_pT_bTagged_upTrig->Draw("same");
-    h_H1_pT_bTagged_downTrig->Draw("same");
-    elevenStatBoxes(h_H1_pT_bTagged, h_H1_pT_bTagged_JECp1, h_H1_pT_bTagged_JECm1, h_H1_pT_bTagged_JERp1, h_H1_pT_bTagged_JERm1, h_H1_pT_bTagged_upBC, h_H1_pT_bTagged_downBC, h_H1_pT_bTagged_upL, h_H1_pT_bTagged_downL, h_H1_pT_bTagged_upTrig, h_H1_pT_bTagged_downTrig)->Draw();
+    h_H1_pT_bTagged_upTrigCSV->Draw("same");
+    h_H1_pT_bTagged_downTrigCSV->Draw("same");
+    h_H1_pT_bTagged_upTrigpT->Draw("same");
+    h_H1_pT_bTagged_downTrigpT->Draw("same");
+    thirteenStatBoxes(h_H1_pT_bTagged, h_H1_pT_bTagged_JECp1, h_H1_pT_bTagged_JECm1, h_H1_pT_bTagged_JERp1, h_H1_pT_bTagged_JERm1, h_H1_pT_bTagged_upBC, h_H1_pT_bTagged_downBC, h_H1_pT_bTagged_upL, h_H1_pT_bTagged_downL, h_H1_pT_bTagged_upTrigCSV, h_H1_pT_bTagged_downTrigCSV, h_H1_pT_bTagged_upTrigpT, h_H1_pT_bTagged_downTrigpT)->Draw();
     c_H1_pT_bTagged->SaveAs(("SignalSystematics/c_H1_pT_bTagged_"+masses.at(i)+".png").c_str());
     
     TCanvas *c_SignalmX=new TCanvas(("c_SignalmX"+masses.at(i)).c_str(), ("c_SignalmX"+masses.at(i)).c_str(), 700, 700);
@@ -1128,8 +1225,10 @@ int DisplayJECJERDistributions_FULLSIM()
     h_mX_SR_downBC->Rebin(rebin);
     h_mX_SR_upL->Rebin(rebin);
     h_mX_SR_downL->Rebin(rebin);
-    h_mX_SR_upTrig->Rebin(rebin);
-    h_mX_SR_downTrig->Rebin(rebin);
+    h_mX_SR_upTrigCSV->Rebin(rebin);
+    h_mX_SR_downTrigCSV->Rebin(rebin);
+    h_mX_SR_upTrigpT->Rebin(rebin);
+    h_mX_SR_downTrigpT->Rebin(rebin);
     h_mX_SR_rightComb->SetFillColor(kRed);
     h_mX_SR_wrongComb->SetFillColor(kGreen);
     h_mX_SR_noComb->SetFillColor(kBlue);
@@ -1141,8 +1240,10 @@ int DisplayJECJERDistributions_FULLSIM()
     h_mX_SR_downBC->SetLineColor(kGreen+3);
     h_mX_SR_upL->SetLineColor(kCyan);
     h_mX_SR_downL->SetLineColor(kCyan+2);
-    h_mX_SR_upTrig->SetLineColor(kBlue);
-    h_mX_SR_downTrig->SetLineColor(kBlue+2);
+    h_mX_SR_upTrigCSV->SetLineColor(kBlue);
+    h_mX_SR_downTrigCSV->SetLineColor(kBlue+2);
+    h_mX_SR_upTrigpT->SetLineColor(kBlue);
+    h_mX_SR_downTrigpT->SetLineColor(kBlue+2);
     h_mX_SR->GetXaxis()->SetRangeUser(0, 1200);
     h_mX_SR_rightComb->GetXaxis()->SetRangeUser(0, 1200);
     h_mX_SR_wrongComb->GetXaxis()->SetRangeUser(0, 1200);
@@ -1155,28 +1256,16 @@ int DisplayJECJERDistributions_FULLSIM()
     h_mX_SR_downBC->GetXaxis()->SetRangeUser(0, 1200);
     h_mX_SR_upL->GetXaxis()->SetRangeUser(0, 1200);
     h_mX_SR_downL->GetXaxis()->SetRangeUser(0, 1200);
-    h_mX_SR_upTrig->GetXaxis()->SetRangeUser(0, 1200);
-    h_mX_SR_downTrig->GetXaxis()->SetRangeUser(0, 1200);
-    // h_mX_SR->Scale(totalLumi*prodXsec_1/nSignal_init);
-    // h_mX_SR_rightComb->Scale(totalLumi*prodXsec_1/nSignal_init);
-    // h_mX_SR_wrongComb->Scale(totalLumi*prodXsec_1/nSignal_init);
-    // h_mX_SR_noComb->Scale(totalLumi*prodXsec_1/nSignal_init);
-    // h_mX_SR_JECp1->Scale(totalLumi*prodXsec_1/nSignal_init);
-    // h_mX_SR_JECm1->Scale(totalLumi*prodXsec_1/nSignal_init);
-    // h_mX_SR_JERp1->Scale(totalLumi*prodXsec_1/nSignal_init);
-    // h_mX_SR_JERm1->Scale(totalLumi*prodXsec_1/nSignal_init);
-    // h_mX_SR_upBC->Scale(totalLumi*prodXsec_1/nSignal_init);
-    // h_mX_SR_downBC->Scale(totalLumi*prodXsec_1/nSignal_init);
-    // h_mX_SR_upL->Scale(totalLumi*prodXsec_1/nSignal_init);
-    // h_mX_SR_downL->Scale(totalLumi*prodXsec_1/nSignal_init);
-    // h_mX_SR_upTrig->Scale(totalLumi*prodXsec_1/nSignal_init);
-    // h_mX_SR_downTrig->Scale(totalLumi*prodXsec_1/nSignal_init);
+    h_mX_SR_upTrigCSV->GetXaxis()->SetRangeUser(0, 1200);
+    h_mX_SR_downTrigCSV->GetXaxis()->SetRangeUser(0, 1200);
+    h_mX_SR_upTrigpT->GetXaxis()->SetRangeUser(0, 1200);
+    h_mX_SR_downTrigpT->GetXaxis()->SetRangeUser(0, 1200);
     TLegend *leg=new TLegend(0.7, 0.5, 0.9, 0.9);
     if (i>10) leg=new TLegend(0.1, 0.9, 0.3, 0.5);
     leg->AddEntry(h_mX_SR, "Baseline");
-    Params par, par_JECp1, par_JECm1, par_JERp1, par_JERm1, par_upBC, par_downBC, par_upL, par_downL, par_upTrig, par_downTrig;
+    Params par, par_JECp1, par_JECm1, par_JERp1, par_JERm1, par_upBC, par_downBC, par_upL, par_downL, par_upTrigCSV, par_downTrigCSV, par_upTrigpT, par_downTrigpT;
     RooPlot *plot=fitSignal(h_mX_SR, masses.at(i), kBlack, leg, par);
-    RooPlot *plot_JECp1, *plot_JECm1, *plot_JERp1, *plot_JERm1, *plot_upBC, *plot_downBC, *plot_upL, *plot_downL, *plot_upTrig, *plot_downTrig;
+    RooPlot *plot_JECp1, *plot_JECm1, *plot_JERp1, *plot_JERm1, *plot_upBC, *plot_downBC, *plot_upL, *plot_downL, *plot_upTrigCSV, *plot_downTrigCSV, *plot_upTrigpT, *plot_downTrigpT;
     if (!focus)
     {
       leg->AddEntry(h_mX_SR_JECp1, "JEC +1 #sigma");
@@ -1187,8 +1276,10 @@ int DisplayJECJERDistributions_FULLSIM()
       leg->AddEntry(h_mX_SR_downBC, "SF_{bc} -1 #sigma");
       leg->AddEntry(h_mX_SR_upL, "SF_{l} +1 #sigma");
       leg->AddEntry(h_mX_SR_downL, "SF_{l} -1 #sigma");
-      leg->AddEntry(h_mX_SR_upTrig, "Trig SF +1 #sigma");
-      leg->AddEntry(h_mX_SR_downTrig, "Trig SF -1 #sigma");
+      leg->AddEntry(h_mX_SR_upTrigCSV, "Trig SF (CSV) +1 #sigma");
+      leg->AddEntry(h_mX_SR_downTrigCSV, "Trig SF (CSV) -1 #sigma");
+      leg->AddEntry(h_mX_SR_upTrigpT, "Trig SF (p_{T}) +1 #sigma");
+      leg->AddEntry(h_mX_SR_downTrigpT, "Trig SF (p_{T}) -1 #sigma");
       
       plot_JECp1=fitSignal(h_mX_SR_JECp1, masses.at(i), kRed, leg, par_JECp1);
       plot_JECm1=fitSignal(h_mX_SR_JECm1, masses.at(i), kRed+2, leg, par_JECm1);
@@ -1198,8 +1289,10 @@ int DisplayJECJERDistributions_FULLSIM()
       plot_downBC=fitSignal(h_mX_SR_downBC, masses.at(i), kGreen+3, leg, par_downBC);
       plot_upL=fitSignal(h_mX_SR_upL, masses.at(i), kCyan, leg, par_upL);
       plot_downL=fitSignal(h_mX_SR_downL, masses.at(i), kCyan+2, leg, par_downL);
-      plot_upTrig=fitSignal(h_mX_SR_upTrig, masses.at(i), kBlue, leg, par_upTrig);
-      plot_downTrig=fitSignal(h_mX_SR_downTrig, masses.at(i), kBlue+2, leg, par_downTrig);
+      plot_upTrigCSV=fitSignal(h_mX_SR_upTrigCSV, masses.at(i), kBlue, leg, par_upTrigCSV);
+      plot_downTrigCSV=fitSignal(h_mX_SR_downTrigCSV, masses.at(i), kBlue+2, leg, par_downTrigCSV);
+      plot_upTrigpT=fitSignal(h_mX_SR_upTrigpT, masses.at(i), kBlue, leg, par_upTrigpT);
+      plot_downTrigpT=fitSignal(h_mX_SR_downTrigpT, masses.at(i), kBlue+2, leg, par_downTrigpT);
     }
     plot->SetMaximum(plot->GetMaximum()*1.1);
     plot->Draw();
@@ -1213,12 +1306,15 @@ int DisplayJECJERDistributions_FULLSIM()
       plot_downBC->Draw("same");
       plot_upL->Draw("same");
       plot_downL->Draw("same");
-      plot_upTrig->Draw("same");
-      plot_downTrig->Draw("same");
+      plot_upTrigCSV->Draw("same");
+      plot_downTrigCSV->Draw("same");
+      plot_upTrigpT->Draw("same");
+      plot_downTrigpT->Draw("same");
       leg->SetFillColor(0);
     }
     plot->Draw("same");
     leg->Draw();
+    c_SignalmX->SaveAs(("SignalSystematics/c_SignalmX_"+masses.at(i)+".root").c_str());
     c_SignalmX->SaveAs(("SignalSystematics/c_SignalmX_"+masses.at(i)+".png").c_str());
     
     TCanvas *c_SignalmX_KinFit=new TCanvas(("c_SignalmX_KinFit"+masses.at(i)).c_str(), ("c_SignalmX_KinFit"+masses.at(i)).c_str(), 700, 700);
@@ -1235,8 +1331,10 @@ int DisplayJECJERDistributions_FULLSIM()
     h_mX_SR_downBC_KinFit->Rebin(rebin);
     h_mX_SR_upL_KinFit->Rebin(rebin);
     h_mX_SR_downL_KinFit->Rebin(rebin);
-    h_mX_SR_upTrig_KinFit->Rebin(rebin);
-    h_mX_SR_downTrig_KinFit->Rebin(rebin);
+    h_mX_SR_upTrigCSV_KinFit->Rebin(rebin);
+    h_mX_SR_downTrigCSV_KinFit->Rebin(rebin);
+    h_mX_SR_upTrigpT_KinFit->Rebin(rebin);
+    h_mX_SR_downTrigpT_KinFit->Rebin(rebin);
     h_mX_SR_rightComb_KinFit->SetFillColor(kRed);
     h_mX_SR_wrongComb_KinFit->SetFillColor(kGreen);
     h_mX_SR_noComb_KinFit->SetFillColor(kBlue);
@@ -1248,8 +1346,10 @@ int DisplayJECJERDistributions_FULLSIM()
     h_mX_SR_downBC_KinFit->SetLineColor(kGreen+3);
     h_mX_SR_upL_KinFit->SetLineColor(kCyan);
     h_mX_SR_downL_KinFit->SetLineColor(kCyan+2);
-    h_mX_SR_upTrig_KinFit->SetLineColor(kBlue);
-    h_mX_SR_downTrig_KinFit->SetLineColor(kBlue+2);
+    h_mX_SR_upTrigCSV_KinFit->SetLineColor(kBlue);
+    h_mX_SR_downTrigCSV_KinFit->SetLineColor(kBlue+2);
+    h_mX_SR_upTrigpT_KinFit->SetLineColor(kBlue);
+    h_mX_SR_downTrigpT_KinFit->SetLineColor(kBlue+2);
     h_mX_SR_KinFit->GetXaxis()->SetRangeUser(0, 1200);
     h_mX_SR_rightComb_KinFit->GetXaxis()->SetRangeUser(0, 1200);
     h_mX_SR_wrongComb_KinFit->GetXaxis()->SetRangeUser(0, 1200);
@@ -1262,29 +1362,25 @@ int DisplayJECJERDistributions_FULLSIM()
     h_mX_SR_downBC_KinFit->GetXaxis()->SetRangeUser(0, 1200);
     h_mX_SR_upL_KinFit->GetXaxis()->SetRangeUser(0, 1200);
     h_mX_SR_downL_KinFit->GetXaxis()->SetRangeUser(0, 1200);
-    h_mX_SR_upTrig_KinFit->GetXaxis()->SetRangeUser(0, 1200);
-    h_mX_SR_downTrig_KinFit->GetXaxis()->SetRangeUser(0, 1200);
-//     h_mX_SR_KinFit->Scale(totalLumi*prodXsec_1/nSignal_init);
-//     h_mX_SR_JECp1_KinFit->Scale(totalLumi*prodXsec_1/nSignal_init);
-//     h_mX_SR_JECm1_KinFit->Scale(totalLumi*prodXsec_1/nSignal_init);
-//     h_mX_SR_JERp1_KinFit->Scale(totalLumi*prodXsec_1/nSignal_init);
-//     h_mX_SR_JERm1_KinFit->Scale(totalLumi*prodXsec_1/nSignal_init);
-//     h_mX_SR_upBC_KinFit->Scale(totalLumi*prodXsec_1/nSignal_init);
-//     h_mX_SR_downBC_KinFit->Scale(totalLumi*prodXsec_1/nSignal_init);
-//     h_mX_SR_upL_KinFit->Scale(totalLumi*prodXsec_1/nSignal_init);
-//     h_mX_SR_downL_KinFit->Scale(totalLumi*prodXsec_1/nSignal_init);
-//     h_mX_SR_upTrig_KinFit->Scale(totalLumi*prodXsec_1/nSignal_init);
-//     h_mX_SR_downTrig_KinFit->Scale(totalLumi*prodXsec_1/nSignal_init);
+    h_mX_SR_upTrigCSV_KinFit->GetXaxis()->SetRangeUser(0, 1200);
+    h_mX_SR_downTrigCSV_KinFit->GetXaxis()->SetRangeUser(0, 1200);
+    h_mX_SR_upTrigpT_KinFit->GetXaxis()->SetRangeUser(0, 1200);
+    h_mX_SR_downTrigpT_KinFit->GetXaxis()->SetRangeUser(0, 1200);
     leg=new TLegend(0.7, 0.5, 0.9, 0.9);
     if (i>10) leg=new TLegend(0.1, 0.9, 0.3, 0.5);
     leg->AddEntry(h_mX_SR_KinFit, "Baseline");
-    Params par_KinFit, par_JECp1_KinFit, par_JECm1_KinFit, par_JERp1_KinFit, par_JERm1_KinFit, par_upBC_KinFit, par_downBC_KinFit, par_upL_KinFit, par_downL_KinFit, par_upTrig_KinFit, par_downTrig_KinFit;
+    Params par_KinFit, par_JECp1_KinFit, par_JECm1_KinFit, par_JERp1_KinFit, par_JERm1_KinFit, par_upBC_KinFit, par_downBC_KinFit, par_upL_KinFit, par_downL_KinFit, par_upTrigCSV_KinFit, par_downTrigCSV_KinFit, par_upTrigpT_KinFit, par_downTrigpT_KinFit;
     RooPlot *plot_JECp1_KinFit, *plot_JECm1_KinFit, 
             *plot_JERp1_KinFit, *plot_JERm1_KinFit, 
             *plot_upBC_KinFit, *plot_downBC_KinFit, 
             *plot_upL_KinFit, *plot_downL_KinFit,
-            *plot_upTrig_KinFit, *plot_downTrig_KinFit;
+            *plot_upTrigCSV_KinFit, *plot_downTrigCSV_KinFit,
+            *plot_upTrigpT_KinFit, *plot_downTrigpT_KinFit;
     RooPlot *plot_KinFit=fitSignal(h_mX_SR_KinFit, masses.at(i), kBlack, leg, par_KinFit, true);
+    v_sg_p0.push_back(par_KinFit.sg_p0); v_sg_p0_err.push_back(par_KinFit.sg_p0_err);
+    v_sg_p1.push_back(par_KinFit.sg_p1); v_sg_p1_err.push_back(par_KinFit.sg_p1_err);
+    v_sg_p2.push_back(par_KinFit.sg_p2); v_sg_p2_err.push_back(par_KinFit.sg_p2_err);
+    v_sg_p3.push_back(par_KinFit.sg_p3); v_sg_p3_err.push_back(par_KinFit.sg_p3_err);
     if (!focus) {
       leg->AddEntry(h_mX_SR_JECp1_KinFit, "JEC +1 #sigma");
       leg->AddEntry(h_mX_SR_JECm1_KinFit, "JEC -1 #sigma");
@@ -1294,8 +1390,10 @@ int DisplayJECJERDistributions_FULLSIM()
       leg->AddEntry(h_mX_SR_downBC_KinFit, "SF_{bc} -1 #sigma");
       leg->AddEntry(h_mX_SR_upL_KinFit, "SF_{l} +1 #sigma");
       leg->AddEntry(h_mX_SR_downL_KinFit, "SF_{l} -1 #sigma");
-      leg->AddEntry(h_mX_SR_upTrig_KinFit, "Trig SF +1 #sigma");
-      leg->AddEntry(h_mX_SR_downTrig_KinFit, "Trig SF -1 #sigma");
+      leg->AddEntry(h_mX_SR_upTrigCSV_KinFit, "Trig SF (CSV) +1 #sigma");
+      leg->AddEntry(h_mX_SR_downTrigCSV_KinFit, "Trig SF (CSV) -1 #sigma");
+      leg->AddEntry(h_mX_SR_upTrigpT_KinFit, "Trig SF (p_{T}) +1 #sigma");
+      leg->AddEntry(h_mX_SR_downTrigpT_KinFit, "Trig SF (p_{T}) -1 #sigma");
     
       plot_JECp1_KinFit=fitSignal(h_mX_SR_JECp1_KinFit, masses.at(i), kRed, leg, par_JECp1_KinFit, true);
       plot_JECm1_KinFit=fitSignal(h_mX_SR_JECm1_KinFit, masses.at(i), kRed+2, leg, par_JECm1_KinFit, true);
@@ -1305,8 +1403,10 @@ int DisplayJECJERDistributions_FULLSIM()
       plot_downBC_KinFit=fitSignal(h_mX_SR_downBC_KinFit, masses.at(i), kGreen+3, leg, par_downBC_KinFit, true);
       plot_upL_KinFit=fitSignal(h_mX_SR_upL_KinFit, masses.at(i), kCyan, leg, par_upL_KinFit, true);
       plot_downL_KinFit=fitSignal(h_mX_SR_downL_KinFit, masses.at(i), kCyan+2, leg, par_downL_KinFit, true);
-      plot_upTrig_KinFit=fitSignal(h_mX_SR_upTrig_KinFit, masses.at(i), kBlue, leg, par_upTrig_KinFit, true);
-      plot_downTrig_KinFit=fitSignal(h_mX_SR_downTrig_KinFit, masses.at(i), kBlue+2, leg, par_downTrig_KinFit, true);
+      plot_upTrigCSV_KinFit=fitSignal(h_mX_SR_upTrigCSV_KinFit, masses.at(i), kBlue, leg, par_upTrigCSV_KinFit, true);
+      plot_downTrigCSV_KinFit=fitSignal(h_mX_SR_downTrigCSV_KinFit, masses.at(i), kBlue+2, leg, par_downTrigCSV_KinFit, true);
+      plot_upTrigpT_KinFit=fitSignal(h_mX_SR_upTrigpT_KinFit, masses.at(i), kBlue, leg, par_upTrigpT_KinFit, true);
+      plot_downTrigpT_KinFit=fitSignal(h_mX_SR_downTrigpT_KinFit, masses.at(i), kBlue+2, leg, par_downTrigpT_KinFit, true);
     }
     plot_KinFit->SetMaximum(plot_KinFit->GetMaximum()*1.2);
     plot_KinFit->Draw();
@@ -1321,8 +1421,10 @@ int DisplayJECJERDistributions_FULLSIM()
       plot_downBC_KinFit->Draw("same");
       plot_upL_KinFit->Draw("same");
       plot_downL_KinFit->Draw("same");
-      plot_upTrig_KinFit->Draw("same");
-      plot_downTrig_KinFit->Draw("same");
+      plot_upTrigCSV_KinFit->Draw("same");
+      plot_downTrigCSV_KinFit->Draw("same");
+      plot_upTrigpT_KinFit->Draw("same");
+      plot_downTrigpT_KinFit->Draw("same");
     }
     plot_KinFit->Draw("same");
     leg->SetFillColor(0);
@@ -1334,12 +1436,13 @@ int DisplayJECJERDistributions_FULLSIM()
     leg=new TLegend(0.35, 0.4, 0.1, 0.9);
     if (i==0) leg=new TLegend(0.7, 0.9, 0.9, 0.4);
     leg->AddEntry(h_mX_SR_KinFit, "Baseline");
-    Params par_Gaussian_KinFit, par_JECp1_Gaussian_KinFit, par_JECm1_Gaussian_KinFit, par_JERp1_Gaussian_KinFit, par_JERm1_Gaussian_KinFit, par_upBC_Gaussian_KinFit, par_downBC_Gaussian_KinFit, par_upL_Gaussian_KinFit, par_downL_Gaussian_KinFit, par_upTrig_Gaussian_KinFit, par_downTrig_Gaussian_KinFit;
+    Params par_Gaussian_KinFit, par_JECp1_Gaussian_KinFit, par_JECm1_Gaussian_KinFit, par_JERp1_Gaussian_KinFit, par_JERm1_Gaussian_KinFit, par_upBC_Gaussian_KinFit, par_downBC_Gaussian_KinFit, par_upL_Gaussian_KinFit, par_downL_Gaussian_KinFit, par_upTrigCSV_Gaussian_KinFit, par_downTrigCSV_Gaussian_KinFit, par_upTrigpT_Gaussian_KinFit, par_downTrigpT_Gaussian_KinFit;
     RooPlot *plot_JECp1_Gaussian_KinFit, *plot_JECm1_Gaussian_KinFit, 
             *plot_JERp1_Gaussian_KinFit, *plot_JERm1_Gaussian_KinFit,
             *plot_upBC_Gaussian_KinFit, *plot_downBC_Gaussian_KinFit,
             *plot_upL_Gaussian_KinFit, *plot_downL_Gaussian_KinFit,
-            *plot_upTrig_Gaussian_KinFit, *plot_downTrig_Gaussian_KinFit;
+            *plot_upTrigCSV_Gaussian_KinFit, *plot_downTrigCSV_Gaussian_KinFit,
+            *plot_upTrigpT_Gaussian_KinFit, *plot_downTrigpT_Gaussian_KinFit;
     RooPlot *plot_Gaussian_KinFit=fitSignal_Gaussian(h_mX_SR_KinFit, masses.at(i), kBlack, leg, par_Gaussian_KinFit, true);
     if (!focus) {
       leg->AddEntry(h_mX_SR_JECp1_KinFit, "JEC +1 #sigma");
@@ -1350,8 +1453,10 @@ int DisplayJECJERDistributions_FULLSIM()
       leg->AddEntry(h_mX_SR_downBC_KinFit, "SF_{bc} -1 #sigma");
       leg->AddEntry(h_mX_SR_upL_KinFit, "SF_{l} +1 #sigma");
       leg->AddEntry(h_mX_SR_downL_KinFit, "SF_{l} -1 #sigma");
-      leg->AddEntry(h_mX_SR_upTrig_KinFit, "Trig SF +1 #sigma");
-      leg->AddEntry(h_mX_SR_downTrig_KinFit, "Trig SF -1 #sigma");
+      leg->AddEntry(h_mX_SR_upTrigCSV_KinFit, "Trig SF (CSV) +1 #sigma");
+      leg->AddEntry(h_mX_SR_downTrigCSV_KinFit, "Trig SF (CSV) -1 #sigma");
+      leg->AddEntry(h_mX_SR_upTrigpT_KinFit, "Trig SF (p_{T}) +1 #sigma");
+      leg->AddEntry(h_mX_SR_downTrigpT_KinFit, "Trig SF (p_{T}) -1 #sigma");
       
       plot_JECp1_Gaussian_KinFit=fitSignal_Gaussian(h_mX_SR_JECp1_KinFit, masses.at(i), kRed, leg, par_JECp1_Gaussian_KinFit, true);
       plot_JECm1_Gaussian_KinFit=fitSignal_Gaussian(h_mX_SR_JECm1_KinFit, masses.at(i), kRed+2, leg, par_JECm1_Gaussian_KinFit, true);
@@ -1361,8 +1466,10 @@ int DisplayJECJERDistributions_FULLSIM()
       plot_downBC_Gaussian_KinFit=fitSignal_Gaussian(h_mX_SR_downBC_KinFit, masses.at(i), kGreen+3, leg, par_downBC_Gaussian_KinFit, true);
       plot_upL_Gaussian_KinFit=fitSignal_Gaussian(h_mX_SR_upL_KinFit, masses.at(i), kCyan, leg, par_upL_Gaussian_KinFit, true);
       plot_downL_Gaussian_KinFit=fitSignal_Gaussian(h_mX_SR_downL_KinFit, masses.at(i), kCyan+2, leg, par_downL_Gaussian_KinFit, true);
-      plot_upTrig_Gaussian_KinFit=fitSignal_Gaussian(h_mX_SR_upTrig_KinFit, masses.at(i), kBlue, leg, par_upTrig_Gaussian_KinFit, true);
-      plot_downTrig_Gaussian_KinFit=fitSignal_Gaussian(h_mX_SR_downTrig_KinFit, masses.at(i), kBlue+2, leg, par_downTrig_Gaussian_KinFit, true);
+      plot_upTrigCSV_Gaussian_KinFit=fitSignal_Gaussian(h_mX_SR_upTrigCSV_KinFit, masses.at(i), kBlue, leg, par_upTrigCSV_Gaussian_KinFit, true);
+      plot_downTrigCSV_Gaussian_KinFit=fitSignal_Gaussian(h_mX_SR_downTrigCSV_KinFit, masses.at(i), kBlue+2, leg, par_downTrigCSV_Gaussian_KinFit, true);
+      plot_upTrigpT_Gaussian_KinFit=fitSignal_Gaussian(h_mX_SR_upTrigpT_KinFit, masses.at(i), kBlue, leg, par_upTrigpT_Gaussian_KinFit, true);
+      plot_downTrigpT_Gaussian_KinFit=fitSignal_Gaussian(h_mX_SR_downTrigpT_KinFit, masses.at(i), kBlue+2, leg, par_downTrigpT_Gaussian_KinFit, true);
     }
     plot_Gaussian_KinFit->SetMaximum(plot_Gaussian_KinFit->GetMaximum()*1.2);
     plot_Gaussian_KinFit->Draw();
@@ -1376,60 +1483,14 @@ int DisplayJECJERDistributions_FULLSIM()
       plot_downBC_Gaussian_KinFit->Draw("same");
       plot_upL_Gaussian_KinFit->Draw("same");
       plot_downL_Gaussian_KinFit->Draw("same");
-      plot_upTrig_Gaussian_KinFit->Draw("same");
-      plot_downTrig_Gaussian_KinFit->Draw("same");
+      plot_upTrigCSV_Gaussian_KinFit->Draw("same");
+      plot_downTrigCSV_Gaussian_KinFit->Draw("same");
+      plot_upTrigpT_Gaussian_KinFit->Draw("same");
+      plot_downTrigpT_Gaussian_KinFit->Draw("same");
     }
     leg->SetFillColor(0);
     // leg->Draw();
     c_SignalmX_Gaussian_KinFit->SaveAs(("SignalSystematics/c_SignalmX_Gaussian_KinFit_"+masses.at(i)+".png").c_str());
-    
-    /*
-    TCanvas *c_SignalmX_BiGaussian_KinFit=new TCanvas(("c_SignalmX_BiGaussian_KinFit"+masses.at(i)).c_str(), ("c_SignalmX_KinFit"+masses.at(i)).c_str(), 700, 700);
-    leg=new TLegend(0.35, 0.4, 0.1, 0.9);
-    if (i>4) leg=new TLegend(0.1, 0.9, 0.35, 0.1);
-    leg->AddEntry(h_mX_SR_KinFit, "Kin-Constrained Baseline - BiGaussian Fit");
-    Params par_BiGaussian_KinFit, par_JECp1_BiGaussian_KinFit, par_JECm1_BiGaussian_KinFit, par_JERp1_BiGaussian_KinFit, par_JERm1_BiGaussian_KinFit, par_upBC_BiGaussian_KinFit, par_downBC_BiGaussian_KinFit, par_upL_BiGaussian_KinFit, par_downL_BiGaussian_KinFit, par_upTrig_BiGaussian_KinFit, par_downTrig_BiGaussian_KinFit;
-    RooPlot *plot_BiGaussian_KinFit=fitSignal_BiGaussian(h_mX_SR_KinFit, masses.at(i), kBlack, leg, par_BiGaussian_KinFit, true);
-    if (!focus) {
-      leg->AddEntry(h_mX_SR_JECp1_KinFit, "JEC +1 #sigma");
-      RooPlot *plot_JECp1_BiGaussian_KinFit=fitSignal_BiGaussian(h_mX_SR_JECp1_KinFit, masses.at(i), kRed, leg, par_JECp1_BiGaussian_KinFit, true);
-      leg->AddEntry(h_mX_SR_JECm1_KinFit, "JEC -1 #sigma");
-      RooPlot *plot_JECm1_BiGaussian_KinFit=fitSignal_BiGaussian(h_mX_SR_JECm1_KinFit, masses.at(i), kRed+2, leg, par_JECm1_BiGaussian_KinFit, true);
-      leg->AddEntry(h_mX_SR_JERp1_KinFit, "JER +1 #sigma");
-      RooPlot *plot_JERp1_BiGaussian_KinFit=fitSignal_BiGaussian(h_mX_SR_JERp1_KinFit, masses.at(i), kMagenta, leg, par_JERp1_BiGaussian_KinFit, true);
-      leg->AddEntry(h_mX_SR_JERm1_KinFit, "JER -1 #sigma");
-      RooPlot *plot_JERm1_BiGaussian_KinFit=fitSignal_BiGaussian(h_mX_SR_JERm1_KinFit, masses.at(i), kMagenta+2, leg, par_JERm1_BiGaussian_KinFit, true);
-      leg->AddEntry(h_mX_SR_upBC_KinFit, "SF_{bc} +1 #sigma");
-      RooPlot *plot_upBC_BiGaussian_KinFit=fitSignal_BiGaussian(h_mX_SR_upBC_KinFit, masses.at(i), kGreen, leg, par_upBC_BiGaussian_KinFit, true);
-      leg->AddEntry(h_mX_SR_downBC_KinFit, "SF_{bc} -1 #sigma");
-      RooPlot *plot_downBC_BiGaussian_KinFit=fitSignal_BiGaussian(h_mX_SR_downBC_KinFit, masses.at(i), kGreen+3, leg, par_downBC_BiGaussian_KinFit, true);
-      leg->AddEntry(h_mX_SR_upL_KinFit, "SF_{l} +1 #sigma");
-      RooPlot *plot_upL_BiGaussian_KinFit=fitSignal_BiGaussian(h_mX_SR_upL_KinFit, masses.at(i), kCyan, leg, par_upL_BiGaussian_KinFit, true);
-      leg->AddEntry(h_mX_SR_downL_KinFit, "SF_{l} -1 #sigma");
-      RooPlot *plot_downL_BiGaussian_KinFit=fitSignal_BiGaussian(h_mX_SR_downL_KinFit, masses.at(i), kCyan+2, leg, par_downL_BiGaussian_KinFit, true);
-      leg->AddEntry(h_mX_SR_upTrig_KinFit, "Trig SF +1 #sigma");
-      RooPlot *plot_upTrig_BiGaussian_KinFit=fitSignal_BiGaussian(h_mX_SR_upTrig_KinFit, masses.at(i), kBlue, leg, par_upTrig_BiGaussian_KinFit, true);
-      leg->AddEntry(h_mX_SR_downTrig_KinFit, "Trig SF -1 #sigma");
-      RooPlot *plot_downTrig_BiGaussian_KinFit=fitSignal_BiGaussian(h_mX_SR_downTrig_KinFit, masses.at(i), kBlue+2, leg, par_downTrig_BiGaussian_KinFit, true);
-    }
-    plot_BiGaussian_KinFit->SetMaximum(plot_BiGaussian_KinFit->GetMaximum()*1.2);
-    plot_BiGaussian_KinFit->Draw();
-    if (!focus) {
-      plot_JECp1_BiGaussian_KinFit->Draw("same");
-      plot_JECm1_BiGaussian_KinFit->Draw("same");
-      plot_JERp1_BiGaussian_KinFit->Draw("same");
-      plot_JERm1_BiGaussian_KinFit->Draw("same");
-      plot_upBC_BiGaussian_KinFit->Draw("same");
-      plot_downBC_BiGaussian_KinFit->Draw("same");
-      plot_upL_BiGaussian_KinFit->Draw("same");
-      plot_downL_BiGaussian_KinFit->Draw("same");
-      plot_upTrig_BiGaussian_KinFit->Draw("same");
-      plot_downTrig_BiGaussian_KinFit->Draw("same");
-    }
-    leg->SetFillColor(0);
-    leg->Draw();
-    c_SignalmX_BiGaussian_KinFit->SaveAs(("SignalSystematics/c_SignalmX_BiGaussian_KinFit_"+masses.at(i)+".png").c_str());
-    */
     
     outfile<<"<br/><hr/>"<<std::endl;
     outfile<<"<h2> mX = "<<masses.at(i)<<" </h2>"<<std::endl;
@@ -1456,7 +1517,7 @@ int DisplayJECJERDistributions_FULLSIM()
     outfile<<"   <h2 align='center'>Without Kin-Fit. Fitted to an Exp-Gauss-Exp function.</h2><br/>"<<std::endl;
     outfile<<"   === Baseline plot === </br>"<<std::endl;
     outfile<<"   norm = "<<h_mX_SR->GetSumOfWeights()*totalLumi*prodXsec_1/nSignal_init<<" <br/>"<<std::endl;
-    outfile<<"   chi2/ndof = "<<plot->chiSquare()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot->chiSquare()<<" <br/>"<<std::endl;
     outfile<<"   sg_p0 = "<<par.sg_p0<<" +- "<<par.sg_p0_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p1 = "<<par.sg_p1<<" +- "<<par.sg_p1_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p2 = "<<par.sg_p2<<" +- "<<par.sg_p2_err<<" <br/>"<<std::endl;
@@ -1466,80 +1527,95 @@ int DisplayJECJERDistributions_FULLSIM()
     outfile<<"   <div id=\""<<masses.at(i)<<"\" style=\"display:none\">"<<std::endl;
     outfile<<"   === JEC +1 sigma === <br/>"<<std::endl;
     outfile<<"   norm = "<<h_mX_SR_JECp1->GetSumOfWeights()<<" <br/>"<<std::endl;
-    outfile<<"   chi2/ndof = "<<plot_JECp1->chiSquare()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_JECp1->chiSquare()<<" <br/>"<<std::endl;
     outfile<<"   sg_p0 = "<<par_JECp1.sg_p0<<" +- "<<par_JECp1.sg_p0_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p1 = "<<par_JECp1.sg_p1<<" +- "<<par_JECp1.sg_p1_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p2 = "<<par_JECp1.sg_p2<<" +- "<<par_JECp1.sg_p2_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p3 = "<<par_JECp1.sg_p3<<" +- "<<par_JECp1.sg_p3_err<<" <br/>"<<std::endl;
     outfile<<"   === JEC -1 sigma === <br/>"<<std::endl;
     outfile<<"   norm = "<<h_mX_SR_JECm1->GetSumOfWeights()<<" <br/>"<<std::endl;
-    outfile<<"   chi2/ndof = "<<plot_JECm1->chiSquare()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_JECm1->chiSquare()<<" <br/>"<<std::endl;
     outfile<<"   sg_p0 = "<<par_JECm1.sg_p0<<" +- "<<par_JECm1.sg_p0_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p1 = "<<par_JECm1.sg_p1<<" +- "<<par_JECm1.sg_p1_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p2 = "<<par_JECm1.sg_p2<<" +- "<<par_JECm1.sg_p2_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p3 = "<<par_JECm1.sg_p3<<" +- "<<par_JECm1.sg_p3_err<<" <br/>"<<std::endl;
     outfile<<"   === JER +1 sigma === <br/>"<<std::endl;
     outfile<<"   norm = "<<h_mX_SR_JERp1->GetSumOfWeights()<<" <br/>"<<std::endl;
-    outfile<<"   chi2/ndof = "<<plot_JERp1->chiSquare()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_JERp1->chiSquare()<<" <br/>"<<std::endl;
     outfile<<"   sg_p0 = "<<par_JERp1.sg_p0<<" +- "<<par_JERp1.sg_p0_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p1 = "<<par_JERp1.sg_p1<<" +- "<<par_JERp1.sg_p1_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p2 = "<<par_JERp1.sg_p2<<" +- "<<par_JERp1.sg_p2_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p3 = "<<par_JERp1.sg_p3<<" +- "<<par_JERp1.sg_p3_err<<" <br/>"<<std::endl;
     outfile<<"   === JER -1 sigma === <br/>"<<std::endl;
     outfile<<"   norm = "<<h_mX_SR_JERm1->GetSumOfWeights()<<" <br/>"<<std::endl;
-    outfile<<"   chi2/ndof = "<<plot_JERm1->chiSquare()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_JERm1->chiSquare()<<" <br/>"<<std::endl;
     outfile<<"   sg_p0 = "<<par_JERm1.sg_p0<<" +- "<<par_JERm1.sg_p0_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p1 = "<<par_JERm1.sg_p1<<" +- "<<par_JERm1.sg_p1_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p2 = "<<par_JERm1.sg_p2<<" +- "<<par_JERm1.sg_p2_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p3 = "<<par_JERm1.sg_p3<<" +- "<<par_JERm1.sg_p3_err<<" <br/>"<<std::endl;
     outfile<<"   === btag SF(bc) +1 sigma === <br/>"<<std::endl;
     outfile<<"   norm = "<<h_mX_SR_upBC->GetSumOfWeights()<<" <br/>"<<std::endl;
-    outfile<<"   chi2/ndof = "<<plot_upBC->chiSquare()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_upBC->chiSquare()<<" <br/>"<<std::endl;
     outfile<<"   sg_p0 = "<<par_upBC.sg_p0<<" +- "<<par_upBC.sg_p0_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p1 = "<<par_upBC.sg_p1<<" +- "<<par_upBC.sg_p1_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p2 = "<<par_upBC.sg_p2<<" +- "<<par_upBC.sg_p2_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p3 = "<<par_upBC.sg_p3<<" +- "<<par_upBC.sg_p3_err<<" <br/>"<<std::endl;
     outfile<<"   === btag SF(bc) -1 sigma === <br/>"<<std::endl;
     outfile<<"   norm = "<<h_mX_SR_downBC->GetSumOfWeights()<<" <br/>"<<std::endl;
-    outfile<<"   chi2/ndof = "<<plot_downBC->chiSquare()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_downBC->chiSquare()<<" <br/>"<<std::endl;
     outfile<<"   sg_p0 = "<<par_downBC.sg_p0<<" +- "<<par_downBC.sg_p0_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p1 = "<<par_downBC.sg_p1<<" +- "<<par_downBC.sg_p1_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p2 = "<<par_downBC.sg_p2<<" +- "<<par_downBC.sg_p2_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p3 = "<<par_downBC.sg_p3<<" +- "<<par_downBC.sg_p3_err<<" <br/>"<<std::endl;
     outfile<<"   === btag SF(l) +1 sigma === <br/>"<<std::endl;
     outfile<<"   norm = "<<h_mX_SR_upL->GetSumOfWeights()<<" <br/>"<<std::endl;
-    outfile<<"   chi2/ndof = "<<plot_upL->chiSquare()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_upL->chiSquare()<<" <br/>"<<std::endl;
     outfile<<"   sg_p0 = "<<par_upL.sg_p0<<" +- "<<par_upL.sg_p0_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p1 = "<<par_upL.sg_p1<<" +- "<<par_upL.sg_p1_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p2 = "<<par_upL.sg_p2<<" +- "<<par_upL.sg_p2_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p3 = "<<par_upL.sg_p3<<" +- "<<par_upL.sg_p3_err<<" <br/>"<<std::endl;
     outfile<<"   === btag SF(l) -1 sigma === <br/>"<<std::endl;
     outfile<<"   norm = "<<h_mX_SR_downL->GetSumOfWeights()<<" <br/>"<<std::endl;
-    outfile<<"   chi2/ndof = "<<plot_downL->chiSquare()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_downL->chiSquare()<<" <br/>"<<std::endl;
     outfile<<"   sg_p0 = "<<par_downL.sg_p0<<" +- "<<par_downL.sg_p0_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p1 = "<<par_downL.sg_p1<<" +- "<<par_downL.sg_p1_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p2 = "<<par_downL.sg_p2<<" +- "<<par_downL.sg_p2_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p3 = "<<par_downL.sg_p3<<" +- "<<par_downL.sg_p3_err<<" <br/>"<<std::endl;
-    outfile<<"   === Trigger +1 sigma === <br/>"<<std::endl;
-    outfile<<"   norm = "<<h_mX_SR_upTrig->GetSumOfWeights()<<" <br/>"<<std::endl;
-    outfile<<"   chi2/ndof = "<<plot_upTrig->chiSquare()<<" <br/>"<<std::endl;
-    outfile<<"   sg_p0 = "<<par_upTrig.sg_p0<<" +- "<<par_upTrig.sg_p0_err<<" <br/>"<<std::endl;
-    outfile<<"   sg_p1 = "<<par_upTrig.sg_p1<<" +- "<<par_upTrig.sg_p1_err<<" <br/>"<<std::endl;
-    outfile<<"   sg_p2 = "<<par_upTrig.sg_p2<<" +- "<<par_upTrig.sg_p2_err<<" <br/>"<<std::endl;
-    outfile<<"   sg_p3 = "<<par_upTrig.sg_p3<<" +- "<<par_upTrig.sg_p3_err<<" <br/>"<<std::endl;
-    outfile<<"   === Trigger -1 sigma === <br/>"<<std::endl;
-    outfile<<"   norm = "<<h_mX_SR_downTrig->GetSumOfWeights()<<" <br/>"<<std::endl;
-    outfile<<"   chi2/ndof = "<<plot_downTrig->chiSquare()<<" <br/>"<<std::endl;
-    outfile<<"   sg_p0 = "<<par_downTrig.sg_p0<<" +- "<<par_downTrig.sg_p0_err<<" <br/>"<<std::endl;
-    outfile<<"   sg_p1 = "<<par_downTrig.sg_p1<<" +- "<<par_downTrig.sg_p1_err<<" <br/>"<<std::endl;
-    outfile<<"   sg_p2 = "<<par_downTrig.sg_p2<<" +- "<<par_downTrig.sg_p2_err<<" <br/>"<<std::endl;
-    outfile<<"   sg_p3 = "<<par_downTrig.sg_p3<<" +- "<<par_downTrig.sg_p3_err<<" <br/>"<<std::endl;
+    outfile<<"   === Trigger (CSV) +1 sigma === <br/>"<<std::endl;
+    outfile<<"   norm = "<<h_mX_SR_upTrigCSV->GetSumOfWeights()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_upTrig->chiSquare()<<" <br/>"<<std::endl;
+    outfile<<"   sg_p0 = "<<par_upTrigCSV.sg_p0<<" +- "<<par_upTrigCSV.sg_p0_err<<" <br/>"<<std::endl;
+    outfile<<"   sg_p1 = "<<par_upTrigCSV.sg_p1<<" +- "<<par_upTrigCSV.sg_p1_err<<" <br/>"<<std::endl;
+    outfile<<"   sg_p2 = "<<par_upTrigCSV.sg_p2<<" +- "<<par_upTrigCSV.sg_p2_err<<" <br/>"<<std::endl;
+    outfile<<"   sg_p3 = "<<par_upTrigCSV.sg_p3<<" +- "<<par_upTrigCSV.sg_p3_err<<" <br/>"<<std::endl;
+    outfile<<"   === Trigger (CSV) -1 sigma === <br/>"<<std::endl;
+    outfile<<"   norm = "<<h_mX_SR_downTrigCSV->GetSumOfWeights()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_downTrig->chiSquare()<<" <br/>"<<std::endl;
+    outfile<<"   sg_p0 = "<<par_downTrigCSV.sg_p0<<" +- "<<par_downTrigCSV.sg_p0_err<<" <br/>"<<std::endl;
+    outfile<<"   sg_p1 = "<<par_downTrigCSV.sg_p1<<" +- "<<par_downTrigCSV.sg_p1_err<<" <br/>"<<std::endl;
+    outfile<<"   sg_p2 = "<<par_downTrigCSV.sg_p2<<" +- "<<par_downTrigCSV.sg_p2_err<<" <br/>"<<std::endl;
+    outfile<<"   sg_p3 = "<<par_downTrigCSV.sg_p3<<" +- "<<par_downTrigCSV.sg_p3_err<<" <br/>"<<std::endl;
+    outfile<<"   === Trigger (pT) +1 sigma === <br/>"<<std::endl;
+    outfile<<"   norm = "<<h_mX_SR_upTrigpT->GetSumOfWeights()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_upTrig->chiSquare()<<" <br/>"<<std::endl;
+    outfile<<"   sg_p0 = "<<par_upTrigpT.sg_p0<<" +- "<<par_upTrigpT.sg_p0_err<<" <br/>"<<std::endl;
+    outfile<<"   sg_p1 = "<<par_upTrigpT.sg_p1<<" +- "<<par_upTrigpT.sg_p1_err<<" <br/>"<<std::endl;
+    outfile<<"   sg_p2 = "<<par_upTrigpT.sg_p2<<" +- "<<par_upTrigpT.sg_p2_err<<" <br/>"<<std::endl;
+    outfile<<"   sg_p3 = "<<par_upTrigpT.sg_p3<<" +- "<<par_upTrigpT.sg_p3_err<<" <br/>"<<std::endl;
+    outfile<<"   === Trigger (pT) -1 sigma === <br/>"<<std::endl;
+    outfile<<"   norm = "<<h_mX_SR_downTrigpT->GetSumOfWeights()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_downTrig->chiSquare()<<" <br/>"<<std::endl;
+    outfile<<"   sg_p0 = "<<par_downTrigpT.sg_p0<<" +- "<<par_downTrigpT.sg_p0_err<<" <br/>"<<std::endl;
+    outfile<<"   sg_p1 = "<<par_downTrigpT.sg_p1<<" +- "<<par_downTrigpT.sg_p1_err<<" <br/>"<<std::endl;
+    outfile<<"   sg_p2 = "<<par_downTrigpT.sg_p2<<" +- "<<par_downTrigpT.sg_p2_err<<" <br/>"<<std::endl;
+    outfile<<"   sg_p3 = "<<par_downTrigpT.sg_p3<<" +- "<<par_downTrigpT.sg_p3_err<<" <br/>"<<std::endl;
     outfile<<"   === === <br/>"<<std::endl;
     outfile<<"   JEC lnN = "<<lnN(h_mX_SR->GetSumOfWeights(), h_mX_SR_JECp1->GetSumOfWeights(), h_mX_SR_JECm1->GetSumOfWeights())<<"<br/>"<<std::endl;
     outfile<<"   JER lnN = "<<lnN(h_mX_SR->GetSumOfWeights(), h_mX_SR_JERp1->GetSumOfWeights(), h_mX_SR_JERm1->GetSumOfWeights())<<"<br/>"<<std::endl;
     outfile<<"   btag SF(bc) lnN = "<<lnN(h_mX_SR->GetSumOfWeights(), h_mX_SR_upBC->GetSumOfWeights(), h_mX_SR_downBC->GetSumOfWeights())<<"<br/>"<<std::endl;
     outfile<<"   btag SF(l) lnN = "<<lnN(h_mX_SR->GetSumOfWeights(), h_mX_SR_upL->GetSumOfWeights(), h_mX_SR_downL->GetSumOfWeights())<<"<br/>"<<std::endl;
-    outfile<<"   Trigger SF lnN = "<<lnN(h_mX_SR->GetSumOfWeights(), h_mX_SR_upTrig->GetSumOfWeights(), h_mX_SR_downTrig->GetSumOfWeights())<<"<br/>"<<std::endl;
+    outfile<<"   Trigger CSV SF lnN = "<<lnN(h_mX_SR->GetSumOfWeights(), h_mX_SR_upTrigCSV->GetSumOfWeights(), h_mX_SR_downTrigCSV->GetSumOfWeights())<<"<br/>"<<std::endl;
+    outfile<<"   Trigger pT SF lnN = "<<lnN(h_mX_SR->GetSumOfWeights(), h_mX_SR_upTrigpT->GetSumOfWeights(), h_mX_SR_downTrigpT->GetSumOfWeights())<<"<br/>"<<std::endl;
     outfile<<"   === === <br/>"<<std::endl;
     outfile<<"   </div>"<<std::endl;
     }
@@ -1549,7 +1625,7 @@ int DisplayJECJERDistributions_FULLSIM()
     outfile<<"   <h2 align='center'>With Kin-Fit. Fitted to an Exp-Gauss-Exp function.</h2><br/>"<<std::endl;
     outfile<<"   === Baseline plot === </br>"<<std::endl;
     outfile<<"   norm = "<<h_mX_SR_KinFit->GetSumOfWeights()*totalLumi*prodXsec_1/nSignal_init<<" <br/>"<<std::endl;
-    outfile<<"   chi2/ndof = "<<plot_KinFit->chiSquare()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_KinFit->chiSquare()<<" <br/>"<<std::endl;
     outfile<<"   sg_p0 = "<<par_KinFit.sg_p0<<" +- "<<par_KinFit.sg_p0_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p1 = "<<par_KinFit.sg_p1<<" +- "<<par_KinFit.sg_p1_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p2 = "<<par_KinFit.sg_p2<<" +- "<<par_KinFit.sg_p2_err<<" <br/>"<<std::endl;
@@ -1559,80 +1635,95 @@ int DisplayJECJERDistributions_FULLSIM()
     outfile<<"   <div id=\""<<masses.at(i)<<"_KinFit\" style=\"display:none\">"<<std::endl;
     outfile<<"   === JEC +1 sigma === <br/>"<<std::endl;
     outfile<<"   norm = "<<h_mX_SR_JECp1_KinFit->GetSumOfWeights()<<" <br/>"<<std::endl;
-    outfile<<"   chi2/ndof = "<<plot_JECp1_KinFit->chiSquare()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_JECp1_KinFit->chiSquare()<<" <br/>"<<std::endl;
     outfile<<"   sg_p0 = "<<par_JECp1_KinFit.sg_p0<<" +- "<<par_JECp1_KinFit.sg_p0_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p1 = "<<par_JECp1_KinFit.sg_p1<<" +- "<<par_JECp1_KinFit.sg_p1_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p2 = "<<par_JECp1_KinFit.sg_p2<<" +- "<<par_JECp1_KinFit.sg_p2_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p3 = "<<par_JECp1_KinFit.sg_p3<<" +- "<<par_JECp1_KinFit.sg_p3_err<<" <br/>"<<std::endl;
     outfile<<"   === JEC -1 sigma === <br/>"<<std::endl;
     outfile<<"   norm = "<<h_mX_SR_JECm1_KinFit->GetSumOfWeights()<<" <br/>"<<std::endl;
-    outfile<<"   chi2/ndof = "<<plot_JECm1_KinFit->chiSquare()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_JECm1_KinFit->chiSquare()<<" <br/>"<<std::endl;
     outfile<<"   sg_p0 = "<<par_JECm1_KinFit.sg_p0<<" +- "<<par_JECm1_KinFit.sg_p0_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p1 = "<<par_JECm1_KinFit.sg_p1<<" +- "<<par_JECm1_KinFit.sg_p1_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p2 = "<<par_JECm1_KinFit.sg_p2<<" +- "<<par_JECm1_KinFit.sg_p2_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p3 = "<<par_JECm1_KinFit.sg_p3<<" +- "<<par_JECm1_KinFit.sg_p3_err<<" <br/>"<<std::endl;
     outfile<<"   === JER +1 sigma === <br/>"<<std::endl;
     outfile<<"   norm = "<<h_mX_SR_JERp1_KinFit->GetSumOfWeights()<<" <br/>"<<std::endl;
-    outfile<<"   chi2/ndof = "<<plot_JERp1_KinFit->chiSquare()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_JERp1_KinFit->chiSquare()<<" <br/>"<<std::endl;
     outfile<<"   sg_p0 = "<<par_JERp1_KinFit.sg_p0<<" +- "<<par_JERp1_KinFit.sg_p0_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p1 = "<<par_JERp1_KinFit.sg_p1<<" +- "<<par_JERp1_KinFit.sg_p1_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p2 = "<<par_JERp1_KinFit.sg_p2<<" +- "<<par_JERp1_KinFit.sg_p2_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p3 = "<<par_JERp1_KinFit.sg_p3<<" +- "<<par_JERp1_KinFit.sg_p3_err<<" <br/>"<<std::endl;
     outfile<<"   === JER -1 sigma === <br/>"<<std::endl;
     outfile<<"   norm = "<<h_mX_SR_JERm1_KinFit->GetSumOfWeights()<<" <br/>"<<std::endl;
-    outfile<<"   chi2/ndof = "<<plot_JERm1_KinFit->chiSquare()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_JERm1_KinFit->chiSquare()<<" <br/>"<<std::endl;
     outfile<<"   sg_p0 = "<<par_JERm1_KinFit.sg_p0<<" +- "<<par_JERm1_KinFit.sg_p0_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p1 = "<<par_JERm1_KinFit.sg_p1<<" +- "<<par_JERm1_KinFit.sg_p1_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p2 = "<<par_JERm1_KinFit.sg_p2<<" +- "<<par_JERm1_KinFit.sg_p2_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p3 = "<<par_JERm1_KinFit.sg_p3<<" +- "<<par_JERm1_KinFit.sg_p3_err<<" <br/>"<<std::endl;
     outfile<<"   === btag SF(bc) +1 sigma === <br/>"<<std::endl;
     outfile<<"   norm = "<<h_mX_SR_upBC_KinFit->GetSumOfWeights()<<" <br/>"<<std::endl;
-    outfile<<"   chi2/ndof = "<<plot_upBC_KinFit->chiSquare()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_upBC_KinFit->chiSquare()<<" <br/>"<<std::endl;
     outfile<<"   sg_p0 = "<<par_upBC_KinFit.sg_p0<<" +- "<<par_upBC_KinFit.sg_p0_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p1 = "<<par_upBC_KinFit.sg_p1<<" +- "<<par_upBC_KinFit.sg_p1_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p2 = "<<par_upBC_KinFit.sg_p2<<" +- "<<par_upBC_KinFit.sg_p2_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p3 = "<<par_upBC_KinFit.sg_p3<<" +- "<<par_upBC_KinFit.sg_p3_err<<" <br/>"<<std::endl;
     outfile<<"   === btag SF(bc) -1 sigma === <br/>"<<std::endl;
     outfile<<"   norm = "<<h_mX_SR_downBC_KinFit->GetSumOfWeights()<<" <br/>"<<std::endl;
-    outfile<<"   chi2/ndof = "<<plot_downBC_KinFit->chiSquare()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_downBC_KinFit->chiSquare()<<" <br/>"<<std::endl;
     outfile<<"   sg_p0 = "<<par_downBC_KinFit.sg_p0<<" +- "<<par_downBC_KinFit.sg_p0_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p1 = "<<par_downBC_KinFit.sg_p1<<" +- "<<par_downBC_KinFit.sg_p1_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p2 = "<<par_downBC_KinFit.sg_p2<<" +- "<<par_downBC_KinFit.sg_p2_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p3 = "<<par_downBC_KinFit.sg_p3<<" +- "<<par_downBC_KinFit.sg_p3_err<<" <br/>"<<std::endl;
     outfile<<"   === btag SF(l) +1 sigma === <br/>"<<std::endl;
     outfile<<"   norm = "<<h_mX_SR_upL_KinFit->GetSumOfWeights()<<" <br/>"<<std::endl;
-    outfile<<"   chi2/ndof = "<<plot_upL_KinFit->chiSquare()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_upL_KinFit->chiSquare()<<" <br/>"<<std::endl;
     outfile<<"   sg_p0 = "<<par_upL_KinFit.sg_p0<<" +- "<<par_upL_KinFit.sg_p0_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p1 = "<<par_upL_KinFit.sg_p1<<" +- "<<par_upL_KinFit.sg_p1_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p2 = "<<par_upL_KinFit.sg_p2<<" +- "<<par_upL_KinFit.sg_p2_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p3 = "<<par_upL_KinFit.sg_p3<<" +- "<<par_upL_KinFit.sg_p3_err<<" <br/>"<<std::endl;
     outfile<<"   === btag SF(l) -1 sigma === <br/>"<<std::endl;
     outfile<<"   norm = "<<h_mX_SR_downL_KinFit->GetSumOfWeights()<<" <br/>"<<std::endl;
-    outfile<<"   chi2/ndof = "<<plot_downL_KinFit->chiSquare()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_downL_KinFit->chiSquare()<<" <br/>"<<std::endl;
     outfile<<"   sg_p0 = "<<par_downL_KinFit.sg_p0<<" +- "<<par_downL_KinFit.sg_p0_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p1 = "<<par_downL_KinFit.sg_p1<<" +- "<<par_downL_KinFit.sg_p1_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p2 = "<<par_downL_KinFit.sg_p2<<" +- "<<par_downL_KinFit.sg_p2_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p3 = "<<par_downL_KinFit.sg_p3<<" +- "<<par_downL_KinFit.sg_p3_err<<" <br/>"<<std::endl;
-    outfile<<"   === Trigger +1 sigma === <br/>"<<std::endl;
-    outfile<<"   norm = "<<h_mX_SR_upTrig_KinFit->GetSumOfWeights()<<" <br/>"<<std::endl;
-    outfile<<"   chi2/ndof = "<<plot_upTrig_KinFit->chiSquare()<<" <br/>"<<std::endl;
-    outfile<<"   sg_p0 = "<<par_upTrig_KinFit.sg_p0<<" +- "<<par_upTrig_KinFit.sg_p0_err<<" <br/>"<<std::endl;
-    outfile<<"   sg_p1 = "<<par_upTrig_KinFit.sg_p1<<" +- "<<par_upTrig_KinFit.sg_p1_err<<" <br/>"<<std::endl;
-    outfile<<"   sg_p2 = "<<par_upTrig_KinFit.sg_p2<<" +- "<<par_upTrig_KinFit.sg_p2_err<<" <br/>"<<std::endl;
-    outfile<<"   sg_p3 = "<<par_upTrig_KinFit.sg_p3<<" +- "<<par_upTrig_KinFit.sg_p3_err<<" <br/>"<<std::endl;
-    outfile<<"   === Trigger -1 sigma === <br/>"<<std::endl;
-    outfile<<"   norm = "<<h_mX_SR_downTrig_KinFit->GetSumOfWeights()<<" <br/>"<<std::endl;
-    outfile<<"   chi2/ndof = "<<plot_downTrig_KinFit->chiSquare()<<" <br/>"<<std::endl;
-    outfile<<"   sg_p0 = "<<par_downTrig_KinFit.sg_p0<<" +- "<<par_downTrig_KinFit.sg_p0_err<<" <br/>"<<std::endl;
-    outfile<<"   sg_p1 = "<<par_downTrig_KinFit.sg_p1<<" +- "<<par_downTrig_KinFit.sg_p1_err<<" <br/>"<<std::endl;
-    outfile<<"   sg_p2 = "<<par_downTrig_KinFit.sg_p2<<" +- "<<par_downTrig_KinFit.sg_p2_err<<" <br/>"<<std::endl;
-    outfile<<"   sg_p3 = "<<par_downTrig_KinFit.sg_p3<<" +- "<<par_downTrig_KinFit.sg_p3_err<<" <br/>"<<std::endl;
+    outfile<<"   === Trigger (CSV) +1 sigma === <br/>"<<std::endl;
+    outfile<<"   norm = "<<h_mX_SR_upTrigCSV_KinFit->GetSumOfWeights()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_upTrig_KinFit->chiSquare()<<" <br/>"<<std::endl;
+    outfile<<"   sg_p0 = "<<par_upTrigCSV_KinFit.sg_p0<<" +- "<<par_upTrigCSV_KinFit.sg_p0_err<<" <br/>"<<std::endl;
+    outfile<<"   sg_p1 = "<<par_upTrigCSV_KinFit.sg_p1<<" +- "<<par_upTrigCSV_KinFit.sg_p1_err<<" <br/>"<<std::endl;
+    outfile<<"   sg_p2 = "<<par_upTrigCSV_KinFit.sg_p2<<" +- "<<par_upTrigCSV_KinFit.sg_p2_err<<" <br/>"<<std::endl;
+    outfile<<"   sg_p3 = "<<par_upTrigCSV_KinFit.sg_p3<<" +- "<<par_upTrigCSV_KinFit.sg_p3_err<<" <br/>"<<std::endl;
+    outfile<<"   === Trigger (CSV) -1 sigma === <br/>"<<std::endl;
+    outfile<<"   norm = "<<h_mX_SR_downTrigCSV_KinFit->GetSumOfWeights()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_downTrig_KinFit->chiSquare()<<" <br/>"<<std::endl;
+    outfile<<"   sg_p0 = "<<par_downTrigCSV_KinFit.sg_p0<<" +- "<<par_downTrigCSV_KinFit.sg_p0_err<<" <br/>"<<std::endl;
+    outfile<<"   sg_p1 = "<<par_downTrigCSV_KinFit.sg_p1<<" +- "<<par_downTrigCSV_KinFit.sg_p1_err<<" <br/>"<<std::endl;
+    outfile<<"   sg_p2 = "<<par_downTrigCSV_KinFit.sg_p2<<" +- "<<par_downTrigCSV_KinFit.sg_p2_err<<" <br/>"<<std::endl;
+    outfile<<"   sg_p3 = "<<par_downTrigCSV_KinFit.sg_p3<<" +- "<<par_downTrigCSV_KinFit.sg_p3_err<<" <br/>"<<std::endl;
+    outfile<<"   === Trigger (pT) +1 sigma === <br/>"<<std::endl;
+    outfile<<"   norm = "<<h_mX_SR_upTrigpT_KinFit->GetSumOfWeights()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_upTrig_KinFit->chiSquare()<<" <br/>"<<std::endl;
+    outfile<<"   sg_p0 = "<<par_upTrigpT_KinFit.sg_p0<<" +- "<<par_upTrigpT_KinFit.sg_p0_err<<" <br/>"<<std::endl;
+    outfile<<"   sg_p1 = "<<par_upTrigpT_KinFit.sg_p1<<" +- "<<par_upTrigpT_KinFit.sg_p1_err<<" <br/>"<<std::endl;
+    outfile<<"   sg_p2 = "<<par_upTrigpT_KinFit.sg_p2<<" +- "<<par_upTrigpT_KinFit.sg_p2_err<<" <br/>"<<std::endl;
+    outfile<<"   sg_p3 = "<<par_upTrigpT_KinFit.sg_p3<<" +- "<<par_upTrigpT_KinFit.sg_p3_err<<" <br/>"<<std::endl;
+    outfile<<"   === Trigger (pT) -1 sigma === <br/>"<<std::endl;
+    outfile<<"   norm = "<<h_mX_SR_downTrigpT_KinFit->GetSumOfWeights()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_downTrig_KinFit->chiSquare()<<" <br/>"<<std::endl;
+    outfile<<"   sg_p0 = "<<par_downTrigpT_KinFit.sg_p0<<" +- "<<par_downTrigpT_KinFit.sg_p0_err<<" <br/>"<<std::endl;
+    outfile<<"   sg_p1 = "<<par_downTrigpT_KinFit.sg_p1<<" +- "<<par_downTrigpT_KinFit.sg_p1_err<<" <br/>"<<std::endl;
+    outfile<<"   sg_p2 = "<<par_downTrigpT_KinFit.sg_p2<<" +- "<<par_downTrigpT_KinFit.sg_p2_err<<" <br/>"<<std::endl;
+    outfile<<"   sg_p3 = "<<par_downTrigpT_KinFit.sg_p3<<" +- "<<par_downTrigpT_KinFit.sg_p3_err<<" <br/>"<<std::endl;
     outfile<<"   === === <br/>"<<std::endl;
     outfile<<"   JEC lnN = "<<lnN(h_mX_SR_KinFit->GetSumOfWeights(), h_mX_SR_JECp1_KinFit->GetSumOfWeights(), h_mX_SR_JECm1_KinFit->GetSumOfWeights())<<"<br/>"<<std::endl;
     outfile<<"   JER lnN = "<<lnN(h_mX_SR_KinFit->GetSumOfWeights(), h_mX_SR_JERp1_KinFit->GetSumOfWeights(), h_mX_SR_JERm1_KinFit->GetSumOfWeights())<<"<br/>"<<std::endl;
     outfile<<"   btag SF(bc) lnN = "<<lnN(h_mX_SR_KinFit->GetSumOfWeights(), h_mX_SR_upBC_KinFit->GetSumOfWeights(), h_mX_SR_downBC_KinFit->GetSumOfWeights())<<"<br/>"<<std::endl;
     outfile<<"   btag SF(l) lnN = "<<lnN(h_mX_SR_KinFit->GetSumOfWeights(), h_mX_SR_upL_KinFit->GetSumOfWeights(), h_mX_SR_downL_KinFit->GetSumOfWeights())<<"<br/>"<<std::endl;
-    outfile<<"   Trigger SF lnN = "<<lnN(h_mX_SR_KinFit->GetSumOfWeights(), h_mX_SR_upTrig_KinFit->GetSumOfWeights(), h_mX_SR_downTrig_KinFit->GetSumOfWeights())<<"<br/>"<<std::endl;
+    outfile<<"   Trigger CSV SF lnN = "<<lnN(h_mX_SR_KinFit->GetSumOfWeights(), h_mX_SR_upTrigCSV_KinFit->GetSumOfWeights(), h_mX_SR_downTrigCSV_KinFit->GetSumOfWeights())<<"<br/>"<<std::endl;
+    outfile<<"   Trigger pT SF lnN = "<<lnN(h_mX_SR_KinFit->GetSumOfWeights(), h_mX_SR_upTrigpT_KinFit->GetSumOfWeights(), h_mX_SR_downTrigpT_KinFit->GetSumOfWeights())<<"<br/>"<<std::endl;
     outfile<<"   === === <br/>"<<std::endl;
     double sg_p0_errStat=par_KinFit.sg_p0_err;
     double sg_p0_errSyst[]={par_KinFit.sg_p0,
@@ -1640,7 +1731,8 @@ int DisplayJECJERDistributions_FULLSIM()
                             par_JERp1_KinFit.sg_p0, par_JERm1_KinFit.sg_p0,
                             par_upBC_KinFit.sg_p0, par_downBC_KinFit.sg_p0,
                             par_upL_KinFit.sg_p0, par_downL_KinFit.sg_p0,
-                            par_upTrig_KinFit.sg_p0, par_downTrig_KinFit.sg_p0};
+                            par_upTrigCSV_KinFit.sg_p0, par_downTrigCSV_KinFit.sg_p0,
+                            par_upTrigpT_KinFit.sg_p0, par_downTrigpT_KinFit.sg_p0};
     double sg_p0_errSyst_min=par_KinFit.sg_p0-(*std::min_element(sg_p0_errSyst, sg_p0_errSyst+11));
     double sg_p0_errSyst_max=(*std::max_element(sg_p0_errSyst, sg_p0_errSyst+11))-par_KinFit.sg_p0;
     outfile<<"   Uncertainty on sg_p0 = "<<par_KinFit.sg_p0<<" +- "<<sg_p0_errStat<<" (stat) - "<<sg_p0_errSyst_min<<" + "<<sg_p0_errSyst_max<<" (syst); -"<<quad(sg_p0_errStat/2., sg_p0_errSyst_min)<<"/+"<<quad(sg_p0_errStat/2., sg_p0_errSyst_max)<<" (total) <br/>"<<std::endl;
@@ -1650,7 +1742,8 @@ int DisplayJECJERDistributions_FULLSIM()
                             par_JERp1_KinFit.sg_p1, par_JERm1_KinFit.sg_p1,
                             par_upBC_KinFit.sg_p1, par_downBC_KinFit.sg_p1,
                             par_upL_KinFit.sg_p1, par_downL_KinFit.sg_p1,
-                            par_upTrig_KinFit.sg_p1, par_downTrig_KinFit.sg_p1};
+                            par_upTrigCSV_KinFit.sg_p1, par_downTrigCSV_KinFit.sg_p1,
+                            par_upTrigpT_KinFit.sg_p1, par_downTrigpT_KinFit.sg_p1};
     double sg_p1_errSyst_min=par_KinFit.sg_p1-(*std::min_element(sg_p1_errSyst, sg_p1_errSyst+11));
     double sg_p1_errSyst_max=(*std::max_element(sg_p1_errSyst, sg_p1_errSyst+11))-par_KinFit.sg_p1;
     outfile<<"   Uncertainty on sg_p1 = "<<par_KinFit.sg_p1<<" +- "<<sg_p1_errStat<<" (stat) - "<<sg_p1_errSyst_min<<" + "<<sg_p1_errSyst_max<<" (syst); -"<<quad(sg_p1_errStat/2., sg_p1_errSyst_min)<<"/+"<<quad(sg_p1_errStat/2., sg_p1_errSyst_max)<<" (total) <br/>"<<std::endl;
@@ -1660,7 +1753,8 @@ int DisplayJECJERDistributions_FULLSIM()
                             par_JERp1_KinFit.sg_p2, par_JERm1_KinFit.sg_p2,
                             par_upBC_KinFit.sg_p2, par_downBC_KinFit.sg_p2,
                             par_upL_KinFit.sg_p2, par_downL_KinFit.sg_p2,
-                            par_upTrig_KinFit.sg_p2, par_downTrig_KinFit.sg_p2};
+                            par_upTrigCSV_KinFit.sg_p2, par_downTrigCSV_KinFit.sg_p2,
+                            par_upTrigpT_KinFit.sg_p2, par_downTrigpT_KinFit.sg_p2};
     double sg_p2_errSyst_min=par_KinFit.sg_p2-(*std::min_element(sg_p2_errSyst, sg_p2_errSyst+11));
     double sg_p2_errSyst_max=(*std::max_element(sg_p2_errSyst, sg_p2_errSyst+11))-par_KinFit.sg_p2;
     outfile<<"   Uncertainty on sg_p2 = "<<par_KinFit.sg_p2<<" +- "<<sg_p2_errStat<<" (stat) - "<<sg_p2_errSyst_min<<" + "<<sg_p2_errSyst_max<<" (syst); -"<<quad(sg_p2_errStat/2., sg_p2_errSyst_min)<<"/+"<<quad(sg_p2_errStat/2., sg_p2_errSyst_max)<<" (total) <br/>"<<std::endl;
@@ -1670,7 +1764,8 @@ int DisplayJECJERDistributions_FULLSIM()
                             par_JERp1_KinFit.sg_p3, par_JERm1_KinFit.sg_p3,
                             par_upBC_KinFit.sg_p3, par_downBC_KinFit.sg_p3,
                             par_upL_KinFit.sg_p3, par_downL_KinFit.sg_p3,
-                            par_upTrig_KinFit.sg_p3, par_downTrig_KinFit.sg_p3};
+                            par_upTrigCSV_KinFit.sg_p3, par_downTrigCSV_KinFit.sg_p3,
+                            par_upTrigpT_KinFit.sg_p3, par_downTrigpT_KinFit.sg_p3};
     double sg_p3_errSyst_min=par_KinFit.sg_p3-(*std::min_element(sg_p3_errSyst, sg_p3_errSyst+11));
     double sg_p3_errSyst_max=(*std::max_element(sg_p3_errSyst, sg_p3_errSyst+11))-par_KinFit.sg_p3;
     outfile<<"   Uncertainty on sg_p3 = "<<par_KinFit.sg_p3<<" +- "<<sg_p3_errStat<<" (stat) - "<<sg_p3_errSyst_min<<" + "<<sg_p3_errSyst_max<<" (syst); -"<<quad(sg_p3_errStat/2., sg_p3_errSyst_min)<<"/+"<<quad(sg_p3_errStat/2., sg_p3_errSyst_max)<<" (total) <br/>"<<std::endl;
@@ -1681,7 +1776,8 @@ int DisplayJECJERDistributions_FULLSIM()
     outfile<<"JER       lnN     "<<lnN(h_mX_SR_KinFit->GetSumOfWeights(), h_mX_SR_JERp1_KinFit->GetSumOfWeights(), h_mX_SR_JERm1_KinFit->GetSumOfWeights())<<    "     -"<<std::endl;
     outfile<<"bTagSFbc  lnN     "<<lnN(h_mX_SR_KinFit->GetSumOfWeights(), h_mX_SR_upBC_KinFit->GetSumOfWeights(), h_mX_SR_downBC_KinFit->GetSumOfWeights())<<    "     -"<<std::endl;
     outfile<<"bTagSFl   lnN     "<<lnN(h_mX_SR_KinFit->GetSumOfWeights(), h_mX_SR_upL_KinFit->GetSumOfWeights(), h_mX_SR_downL_KinFit->GetSumOfWeights())<<      "     -"<<std::endl;
-    outfile<<"trigSF    lnN     "<<lnN(h_mX_SR_KinFit->GetSumOfWeights(), h_mX_SR_upTrig_KinFit->GetSumOfWeights(), h_mX_SR_downTrig_KinFit->GetSumOfWeights())<<"     -"<<std::endl;
+    outfile<<"trigSFCSV lnN     "<<lnN(h_mX_SR_KinFit->GetSumOfWeights(), h_mX_SR_upTrigCSV_KinFit->GetSumOfWeights(), h_mX_SR_downTrigCSV_KinFit->GetSumOfWeights())<<"     -"<<std::endl;
+    outfile<<"trigSFpT  lnN     "<<lnN(h_mX_SR_KinFit->GetSumOfWeights(), h_mX_SR_upTrigpT_KinFit->GetSumOfWeights(), h_mX_SR_downTrigpT_KinFit->GetSumOfWeights())<<"     -"<<std::endl;
     outfile<<"signal_p0 param   "<<par_KinFit.sg_p0<<" -"<<quad(sg_p0_errStat/2., sg_p0_errSyst_min)<<"/+"<<quad(sg_p0_errStat/2., sg_p0_errSyst_max)<<std::endl;
     outfile<<"signal_p1 param   "<<par_KinFit.sg_p1<<" -"<<quad(sg_p1_errStat/2., sg_p1_errSyst_min)<<"/+"<<quad(sg_p1_errStat/2., sg_p1_errSyst_max)<<std::endl;
     outfile<<"signal_p2 param   "<<par_KinFit.sg_p2<<" -"<<quad(sg_p2_errStat/2., sg_p2_errSyst_min)<<"/+"<<quad(sg_p2_errStat/2., sg_p2_errSyst_max)<<std::endl;
@@ -1695,7 +1791,7 @@ int DisplayJECJERDistributions_FULLSIM()
     outfile<<"   <h2 align='center'>With Kin-Fit. Fitted to a Gaussian.</h2><br/>"<<std::endl;
     outfile<<"   === Baseline plot === </br>"<<std::endl;
     outfile<<"   norm = "<<h_mX_SR_KinFit->GetSumOfWeights()*totalLumi*prodXsec_1/nSignal_init<<" <br/>"<<std::endl;
-    outfile<<"   chi2/ndof = "<<plot_Gaussian_KinFit->chiSquare()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_Gaussian_KinFit->chiSquare()<<" <br/>"<<std::endl;
     outfile<<"   sg_p0 = "<<par_Gaussian_KinFit.sg_p0<<" +- "<<par_Gaussian_KinFit.sg_p0_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p1 = "<<par_Gaussian_KinFit.sg_p1<<" +- "<<par_Gaussian_KinFit.sg_p1_err<<" <br/>"<<std::endl;
     if (!focus) {
@@ -1703,60 +1799,71 @@ int DisplayJECJERDistributions_FULLSIM()
     outfile<<"   <div id=\""<<masses.at(i)<<"_Gaussian_KinFit\" style=\"display:none\">"<<std::endl;
     outfile<<"   === JEC +1 sigma === <br/>"<<std::endl;
     outfile<<"   norm = "<<h_mX_SR_JECp1_KinFit->GetSumOfWeights()<<" <br/>"<<std::endl;
-    outfile<<"   chi2/ndof = "<<plot_JECp1_Gaussian_KinFit->chiSquare()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_JECp1_Gaussian_KinFit->chiSquare()<<" <br/>"<<std::endl;
     outfile<<"   sg_p0 = "<<par_JECp1_Gaussian_KinFit.sg_p0<<" +- "<<par_JECp1_Gaussian_KinFit.sg_p0_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p1 = "<<par_JECp1_Gaussian_KinFit.sg_p1<<" +- "<<par_JECp1_Gaussian_KinFit.sg_p1_err<<" <br/>"<<std::endl;
     outfile<<"   === JEC -1 sigma === <br/>"<<std::endl;
     outfile<<"   norm = "<<h_mX_SR_JECm1_KinFit->GetSumOfWeights()<<" <br/>"<<std::endl;
-    outfile<<"   chi2/ndof = "<<plot_JECm1_Gaussian_KinFit->chiSquare()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_JECm1_Gaussian_KinFit->chiSquare()<<" <br/>"<<std::endl;
     outfile<<"   sg_p0 = "<<par_JECm1_Gaussian_KinFit.sg_p0<<" +- "<<par_JECm1_Gaussian_KinFit.sg_p0_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p1 = "<<par_JECm1_Gaussian_KinFit.sg_p1<<" +- "<<par_JECm1_Gaussian_KinFit.sg_p1_err<<" <br/>"<<std::endl;
     outfile<<"   === JER +1 sigma === <br/>"<<std::endl;
     outfile<<"   norm = "<<h_mX_SR_JERp1_KinFit->GetSumOfWeights()<<" <br/>"<<std::endl;
-    outfile<<"   chi2/ndof = "<<plot_JERp1_Gaussian_KinFit->chiSquare()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_JERp1_Gaussian_KinFit->chiSquare()<<" <br/>"<<std::endl;
     outfile<<"   sg_p0 = "<<par_JERp1_Gaussian_KinFit.sg_p0<<" +- "<<par_JERp1_Gaussian_KinFit.sg_p0_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p1 = "<<par_JERp1_Gaussian_KinFit.sg_p1<<" +- "<<par_JERp1_Gaussian_KinFit.sg_p1_err<<" <br/>"<<std::endl;
     outfile<<"   === JER -1 sigma === <br/>"<<std::endl;
     outfile<<"   norm = "<<h_mX_SR_JERm1_KinFit->GetSumOfWeights()<<" <br/>"<<std::endl;
-    outfile<<"   chi2/ndof = "<<plot_JERm1_Gaussian_KinFit->chiSquare()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_JERm1_Gaussian_KinFit->chiSquare()<<" <br/>"<<std::endl;
     outfile<<"   sg_p0 = "<<par_JERm1_Gaussian_KinFit.sg_p0<<" +- "<<par_JERm1_Gaussian_KinFit.sg_p0_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p1 = "<<par_JERm1_Gaussian_KinFit.sg_p1<<" +- "<<par_JERm1_Gaussian_KinFit.sg_p1_err<<" <br/>"<<std::endl;
     outfile<<"   === btag SF(bc) +1 sigma === <br/>"<<std::endl;
     outfile<<"   norm = "<<h_mX_SR_upBC_KinFit->GetSumOfWeights()<<" <br/>"<<std::endl;
-    outfile<<"   chi2/ndof = "<<plot_upBC_Gaussian_KinFit->chiSquare()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_upBC_Gaussian_KinFit->chiSquare()<<" <br/>"<<std::endl;
     outfile<<"   sg_p0 = "<<par_upBC_Gaussian_KinFit.sg_p0<<" +- "<<par_upBC_Gaussian_KinFit.sg_p0_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p1 = "<<par_upBC_Gaussian_KinFit.sg_p1<<" +- "<<par_upBC_Gaussian_KinFit.sg_p1_err<<" <br/>"<<std::endl;
     outfile<<"   === btag SF(bc) -1 sigma === <br/>"<<std::endl;
     outfile<<"   norm = "<<h_mX_SR_downBC_KinFit->GetSumOfWeights()<<" <br/>"<<std::endl;
-    outfile<<"   chi2/ndof = "<<plot_downBC_Gaussian_KinFit->chiSquare()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_downBC_Gaussian_KinFit->chiSquare()<<" <br/>"<<std::endl;
     outfile<<"   sg_p0 = "<<par_downBC_Gaussian_KinFit.sg_p0<<" +- "<<par_downBC_Gaussian_KinFit.sg_p0_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p1 = "<<par_downBC_Gaussian_KinFit.sg_p1<<" +- "<<par_downBC_Gaussian_KinFit.sg_p1_err<<" <br/>"<<std::endl;
     outfile<<"   === btag SF(l) +1 sigma === <br/>"<<std::endl;
     outfile<<"   norm = "<<h_mX_SR_upL_KinFit->GetSumOfWeights()<<" <br/>"<<std::endl;
-    outfile<<"   chi2/ndof = "<<plot_upL_Gaussian_KinFit->chiSquare()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_upL_Gaussian_KinFit->chiSquare()<<" <br/>"<<std::endl;
     outfile<<"   sg_p0 = "<<par_upL_Gaussian_KinFit.sg_p0<<" +- "<<par_upL_Gaussian_KinFit.sg_p0_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p1 = "<<par_upL_Gaussian_KinFit.sg_p1<<" +- "<<par_upL_Gaussian_KinFit.sg_p1_err<<" <br/>"<<std::endl;
     outfile<<"   === btag SF(l) -1 sigma === <br/>"<<std::endl;
     outfile<<"   norm = "<<h_mX_SR_downL_KinFit->GetSumOfWeights()<<" <br/>"<<std::endl;
-    outfile<<"   chi2/ndof = "<<plot_downL_Gaussian_KinFit->chiSquare()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_downL_Gaussian_KinFit->chiSquare()<<" <br/>"<<std::endl;
     outfile<<"   sg_p0 = "<<par_downL_Gaussian_KinFit.sg_p0<<" +- "<<par_downL_Gaussian_KinFit.sg_p0_err<<" <br/>"<<std::endl;
     outfile<<"   sg_p1 = "<<par_downL_Gaussian_KinFit.sg_p1<<" +- "<<par_downL_Gaussian_KinFit.sg_p1_err<<" <br/>"<<std::endl;
-    outfile<<"   === Trigger +1 sigma === <br/>"<<std::endl;
-    outfile<<"   norm = "<<h_mX_SR_upTrig_KinFit->GetSumOfWeights()<<" <br/>"<<std::endl;
-    outfile<<"   chi2/ndof = "<<plot_upTrig_Gaussian_KinFit->chiSquare()<<" <br/>"<<std::endl;
-    outfile<<"   sg_p0 = "<<par_upTrig_Gaussian_KinFit.sg_p0<<" +- "<<par_upTrig_Gaussian_KinFit.sg_p0_err<<" <br/>"<<std::endl;
-    outfile<<"   sg_p1 = "<<par_upTrig_Gaussian_KinFit.sg_p1<<" +- "<<par_upTrig_Gaussian_KinFit.sg_p1_err<<" <br/>"<<std::endl;
-    outfile<<"   === Trigger -1 sigma === <br/>"<<std::endl;
-    outfile<<"   norm = "<<h_mX_SR_downTrig_KinFit->GetSumOfWeights()<<" <br/>"<<std::endl;
-    outfile<<"   chi2/ndof = "<<plot_downTrig_Gaussian_KinFit->chiSquare()<<" <br/>"<<std::endl;
-    outfile<<"   sg_p0 = "<<par_downTrig_Gaussian_KinFit.sg_p0<<" +- "<<par_downTrig_Gaussian_KinFit.sg_p0_err<<" <br/>"<<std::endl;
-    outfile<<"   sg_p1 = "<<par_downTrig_Gaussian_KinFit.sg_p1<<" +- "<<par_downTrig_Gaussian_KinFit.sg_p1_err<<" <br/>"<<std::endl;
+    outfile<<"   === Trigger (CSV) +1 sigma === <br/>"<<std::endl;
+    outfile<<"   norm = "<<h_mX_SR_upTrigCSV_KinFit->GetSumOfWeights()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_upTrig_Gaussian_KinFit->chiSquare()<<" <br/>"<<std::endl;
+    outfile<<"   sg_p0 = "<<par_upTrigCSV_Gaussian_KinFit.sg_p0<<" +- "<<par_upTrigCSV_Gaussian_KinFit.sg_p0_err<<" <br/>"<<std::endl;
+    outfile<<"   sg_p1 = "<<par_upTrigCSV_Gaussian_KinFit.sg_p1<<" +- "<<par_upTrigCSV_Gaussian_KinFit.sg_p1_err<<" <br/>"<<std::endl;
+    outfile<<"   === Trigger (CSV) -1 sigma === <br/>"<<std::endl;
+    outfile<<"   norm = "<<h_mX_SR_downTrigCSV_KinFit->GetSumOfWeights()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_downTrig_Gaussian_KinFit->chiSquare()<<" <br/>"<<std::endl;
+    outfile<<"   sg_p0 = "<<par_downTrigCSV_Gaussian_KinFit.sg_p0<<" +- "<<par_downTrigCSV_Gaussian_KinFit.sg_p0_err<<" <br/>"<<std::endl;
+    outfile<<"   sg_p1 = "<<par_downTrigCSV_Gaussian_KinFit.sg_p1<<" +- "<<par_downTrigCSV_Gaussian_KinFit.sg_p1_err<<" <br/>"<<std::endl;
+    outfile<<"   === Trigger (pT) +1 sigma === <br/>"<<std::endl;
+    outfile<<"   norm = "<<h_mX_SR_upTrigpT_KinFit->GetSumOfWeights()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_upTrig_Gaussian_KinFit->chiSquare()<<" <br/>"<<std::endl;
+    outfile<<"   sg_p0 = "<<par_upTrigpT_Gaussian_KinFit.sg_p0<<" +- "<<par_upTrigpT_Gaussian_KinFit.sg_p0_err<<" <br/>"<<std::endl;
+    outfile<<"   sg_p1 = "<<par_upTrigpT_Gaussian_KinFit.sg_p1<<" +- "<<par_upTrigpT_Gaussian_KinFit.sg_p1_err<<" <br/>"<<std::endl;
+    outfile<<"   === Trigger (pT) -1 sigma === <br/>"<<std::endl;
+    outfile<<"   norm = "<<h_mX_SR_downTrigpT_KinFit->GetSumOfWeights()<<" <br/>"<<std::endl;
+    // outfile<<"   chi2/ndof = "<<plot_downTrig_Gaussian_KinFit->chiSquare()<<" <br/>"<<std::endl;
+    outfile<<"   sg_p0 = "<<par_downTrigpT_Gaussian_KinFit.sg_p0<<" +- "<<par_downTrigpT_Gaussian_KinFit.sg_p0_err<<" <br/>"<<std::endl;
+    outfile<<"   sg_p1 = "<<par_downTrigpT_Gaussian_KinFit.sg_p1<<" +- "<<par_downTrigpT_Gaussian_KinFit.sg_p1_err<<" <br/>"<<std::endl;
     outfile<<"   === === <br/>"<<std::endl;
     outfile<<"   JEC lnN = "<<lnN(h_mX_SR_KinFit->GetSumOfWeights(), h_mX_SR_JECp1_KinFit->GetSumOfWeights(), h_mX_SR_JECm1_KinFit->GetSumOfWeights())<<"<br/>"<<std::endl;
     outfile<<"   JER lnN = "<<lnN(h_mX_SR_KinFit->GetSumOfWeights(), h_mX_SR_JERp1_KinFit->GetSumOfWeights(), h_mX_SR_JERm1_KinFit->GetSumOfWeights())<<"<br/>"<<std::endl;
     outfile<<"   btag SF(bc) lnN = "<<lnN(h_mX_SR_KinFit->GetSumOfWeights(), h_mX_SR_upBC_KinFit->GetSumOfWeights(), h_mX_SR_downBC_KinFit->GetSumOfWeights())<<"<br/>"<<std::endl;
     outfile<<"   btag SF(l) lnN = "<<lnN(h_mX_SR_KinFit->GetSumOfWeights(), h_mX_SR_upL_KinFit->GetSumOfWeights(), h_mX_SR_downL_KinFit->GetSumOfWeights())<<"<br/>"<<std::endl;
-    outfile<<"   Trigger SF lnN = "<<lnN(h_mX_SR_KinFit->GetSumOfWeights(), h_mX_SR_upTrig_KinFit->GetSumOfWeights(), h_mX_SR_downTrig_KinFit->GetSumOfWeights())<<"<br/>"<<std::endl;
+    outfile<<"   Trigger CSV SF lnN = "<<lnN(h_mX_SR_KinFit->GetSumOfWeights(), h_mX_SR_upTrigCSV_KinFit->GetSumOfWeights(), h_mX_SR_downTrigCSV_KinFit->GetSumOfWeights())<<"<br/>"<<std::endl;
+    outfile<<"   Trigger pT SF lnN = "<<lnN(h_mX_SR_KinFit->GetSumOfWeights(), h_mX_SR_upTrigpT_KinFit->GetSumOfWeights(), h_mX_SR_downTrigpT_KinFit->GetSumOfWeights())<<"<br/>"<<std::endl;
     outfile<<"   === === <br/>"<<std::endl;
     double sg_p0_errStat=par_Gaussian_KinFit.sg_p0_err;
     double sg_p0_errSyst[]={par_Gaussian_KinFit.sg_p0,
@@ -1764,7 +1871,8 @@ int DisplayJECJERDistributions_FULLSIM()
                             par_JERp1_Gaussian_KinFit.sg_p0, par_JERm1_Gaussian_KinFit.sg_p0,
                             par_upBC_Gaussian_KinFit.sg_p0, par_downBC_Gaussian_KinFit.sg_p0,
                             par_upL_Gaussian_KinFit.sg_p0, par_downL_Gaussian_KinFit.sg_p0,
-                            par_upTrig_Gaussian_KinFit.sg_p0, par_downTrig_Gaussian_KinFit.sg_p0};
+                            par_upTrigCSV_Gaussian_KinFit.sg_p0, par_downTrigCSV_Gaussian_KinFit.sg_p0,
+                            par_upTrigpT_Gaussian_KinFit.sg_p0, par_downTrigpT_Gaussian_KinFit.sg_p0};
     double sg_p0_errSyst_min=par_Gaussian_KinFit.sg_p0-(*std::min_element(sg_p0_errSyst, sg_p0_errSyst+11));
     double sg_p0_errSyst_max=(*std::max_element(sg_p0_errSyst, sg_p0_errSyst+11))-par_Gaussian_KinFit.sg_p0;
     outfile<<"   Uncertainty on sg_p0 = "<<par_Gaussian_KinFit.sg_p0<<" +- "<<sg_p0_errStat<<" (stat) - "<<sg_p0_errSyst_min<<" + "<<sg_p0_errSyst_max<<" (syst); -"<<quad(sg_p0_errStat/2., sg_p0_errSyst_min)<<"/+"<<quad(sg_p0_errStat/2., sg_p0_errSyst_max)<<" (total) <br/>"<<std::endl;
@@ -1774,7 +1882,8 @@ int DisplayJECJERDistributions_FULLSIM()
                             par_JERp1_Gaussian_KinFit.sg_p1, par_JERm1_Gaussian_KinFit.sg_p1,
                             par_upBC_Gaussian_KinFit.sg_p1, par_downBC_Gaussian_KinFit.sg_p1,
                             par_upL_Gaussian_KinFit.sg_p1, par_downL_Gaussian_KinFit.sg_p1,
-                            par_upTrig_Gaussian_KinFit.sg_p1, par_downTrig_Gaussian_KinFit.sg_p1};
+                            par_upTrigCSV_Gaussian_KinFit.sg_p1, par_downTrigCSV_Gaussian_KinFit.sg_p1,
+                            par_upTrigpT_Gaussian_KinFit.sg_p1, par_downTrigpT_Gaussian_KinFit.sg_p1};
     double sg_p1_errSyst_min=par_Gaussian_KinFit.sg_p1-(*std::min_element(sg_p1_errSyst, sg_p1_errSyst+11));
     double sg_p1_errSyst_max=(*std::max_element(sg_p1_errSyst, sg_p1_errSyst+11))-par_Gaussian_KinFit.sg_p1;
     outfile<<"   Uncertainty on sg_p1 = "<<par_Gaussian_KinFit.sg_p1<<" +- "<<sg_p1_errStat<<" (stat) - "<<sg_p1_errSyst_min<<" + "<<sg_p1_errSyst_max<<" (syst); -"<<quad(sg_p1_errStat/2., sg_p1_errSyst_min)<<"/+"<<quad(sg_p1_errStat/2., sg_p1_errSyst_max)<<" (total) <br/>"<<std::endl;
@@ -1908,8 +2017,10 @@ int DisplayJECJERDistributions_FULLSIM()
     file_downBC->Close();
     file_upL->Close();
     file_downL->Close();
-    file_upTrig->Close();
-    file_downTrig->Close();
+    file_upTrigCSV->Close();
+    file_downTrigCSV->Close();
+    file_upTrigpT->Close();
+    file_downTrigpT->Close();
     file_KinFit->Close();
     file_JECp1_KinFit->Close();
     file_JECm1_KinFit->Close();
@@ -1919,11 +2030,52 @@ int DisplayJECJERDistributions_FULLSIM()
     file_downBC_KinFit->Close();
     file_upL_KinFit->Close();
     file_downL_KinFit->Close();
-    file_upTrig_KinFit->Close();
-    file_downTrig_KinFit->Close();
-    
+    file_upTrigCSV_KinFit->Close();
+    file_downTrigCSV_KinFit->Close();
+    file_upTrigpT_KinFit->Close();
+    file_downTrigpT_KinFit->Close();
     
   }
+  
+  std::vector<double> masses_d;
+  for (unsigned int i=0; i<masses.size(); ++i) masses_d.push_back(atof(masses.at(i).c_str()));
+  TGraphErrors *g_sg_p0=new TGraphErrors(masses.size()-4, &masses_d[4], &v_sg_p0[4], &v_zero[0], &v_sg_p0_err[4]);
+  TGraphErrors *g_sg_p1=new TGraphErrors(masses.size()-4, &masses_d[4], &v_sg_p1[4], &v_zero[0], &v_sg_p1_err[4]);
+  TGraphErrors *g_sg_p2=new TGraphErrors(masses.size()-4, &masses_d[4], &v_sg_p2[4], &v_zero[0], &v_sg_p2_err[4]);
+  TGraphErrors *g_sg_p3=new TGraphErrors(masses.size()-4, &masses_d[4], &v_sg_p3[4], &v_zero[0], &v_sg_p3_err[4]);
+  
+  TCanvas *c_sg_p0=new TCanvas("c_sg_p0", "c_sg_p0", 700, 700);
+  g_sg_p0->SetTitle("Signal Mean Interpolation; m_{X} (GeV); Signal Mean");
+  g_sg_p0->Draw("AL*");
+  g_sg_p0->Fit("pol1");
+  c_sg_p0->SaveAs("SignalSystematics/c_sg_p0.png");
+  
+  TCanvas *c_sg_p1=new TCanvas("c_sg_p1", "c_sg_p1", 700, 700);
+  g_sg_p1->SetTitle("Signal RMS Interpolation; m_{X} (GeV); Signal RMS");
+  g_sg_p1->Draw("AL*");
+  g_sg_p1->Fit("pol1");
+  c_sg_p1->SaveAs("SignalSystematics/c_sg_p1.png");
+  
+  TCanvas *c_sg_p2=new TCanvas("c_sg_p2", "c_sg_p2", 700, 700);
+  g_sg_p2->SetTitle("Signal Right Exponential Interpolation; m_{X} (GeV); Signal k_{right}");
+  g_sg_p2->Draw("AL*");
+  g_sg_p2->Fit("pol1");
+  c_sg_p2->SaveAs("SignalSystematics/c_sg_p2.png");
+  
+  TCanvas *c_sg_p3=new TCanvas("c_sg_p3", "c_sg_p3", 700, 700);
+  g_sg_p3->SetTitle("Signal Left Exponential Interpolation; m_{X} (GeV); Signal k_{left}");
+  g_sg_p3->Draw("AL*");
+  g_sg_p3->Fit("pol1");
+  c_sg_p3->SaveAs("SignalSystematics/c_sg_p3.png");
+  
+  outfile<<"<h1> Signal Mean Interpolation Plot </h1>"<<std::endl;
+  outfile<<"<img src='c_sg_p0.png'/> <br/> <hr/>"<<std::endl;
+  outfile<<"<h1> Signal RMS Interpolation Plot </h1>"<<std::endl;
+  outfile<<"<img src='c_sg_p1.png'/> <br/> <hr/>"<<std::endl;
+  outfile<<"<h1> Signal Right Exponential Interpolation Plot </h1>"<<std::endl;
+  outfile<<"<img src='c_sg_p2.png'/> <br/> <hr/>"<<std::endl;
+  outfile<<"<h1> Signal Left Exponential Interpolation Plot </h1>"<<std::endl;
+  outfile<<"<img src='c_sg_p3.png'/> <br/> <hr/>"<<std::endl;
   outfile<<"</body>"<<std::endl;
   outfile<<"</html>"<<std::endl;
   
