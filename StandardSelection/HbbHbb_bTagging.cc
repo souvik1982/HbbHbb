@@ -17,7 +17,7 @@
 #include <TGraphAsymmErrors.h>
 #include <algorithm>
 
-#include "../test/TMVAGui.C"
+//#include "../test/TMVAGui.C"
 
 #if not defined(__CINT__) || defined(__MAKECINT__)
 #include "TMVA/Tools.h"
@@ -276,10 +276,12 @@ int HbbHbb_bTagging(std::string templ, std::string sample,
   else if (sigmaJERUnc_string=="JERp1") sigmaJERUnc=1;
   else if (sigmaJERUnc_string=="JERm1") sigmaJERUnc=-1;
   
-  double sigmaTrigSF; // -1, 0, +1
-  if (sigmaTrigSF_string=="Trig") sigmaTrigSF=0;
-  else if (sigmaTrigSF_string=="upTrig") sigmaTrigSF=1;
-  else if (sigmaTrigSF_string=="downTrig") sigmaTrigSF=-1;
+  double sigmaTrigSFCSV=0; // -1, 0, +1
+  double sigmaTrigSFpT=0; // -1, 0, +1
+  if (sigmaTrigSF_string=="upTrigCSV") sigmaTrigSFCSV=1;
+  else if (sigmaTrigSF_string=="downTrigCSV") sigmaTrigSFCSV=-1;
+  else if (sigmaTrigSF_string=="upTrigpT") sigmaTrigSFpT=1;
+  else if (sigmaTrigSF_string=="downTrigpT") sigmaTrigSFpT=-1;
   
   std::cout<<"templ = "<<templ<<std::endl;
   if (templ=="QCD")
@@ -311,6 +313,9 @@ int HbbHbb_bTagging(std::string templ, std::string sample,
   
   std::cout<<"tagString = "<<tagString<<std::endl;
   std::cout<<"csvReshape = "<<csvReshape<<std::endl;
+  std::cout<<"sigmaJECUnc_string = "<<sigmaJECUnc_string<<std::endl;
+  std::cout<<"sigmaJERUnc_string = "<<sigmaJERUnc_string<<std::endl;
+  std::cout<<"sigmaTrigSF_string = "<<sigmaTrigSF_string<<std::endl;
   
   // Book variables
   int vType;
@@ -506,6 +511,7 @@ int HbbHbb_bTagging(std::string templ, std::string sample,
   float regJet1E, regJet2E, regJet3E, regJet4E;
   float regJet1pT, regJet2pT, regJet3pT, regJet4pT;
   float eventWeight;
+  int sameHiggs=-1;
   outtree->Branch("regJet1E", &regJet1E);
   outtree->Branch("regJet2E", &regJet2E);
   outtree->Branch("regJet3E", &regJet3E);
@@ -514,6 +520,7 @@ int HbbHbb_bTagging(std::string templ, std::string sample,
   outtree->Branch("regJet2pT", &regJet2pT);
   outtree->Branch("regJet3pT", &regJet3pT);
   outtree->Branch("regJet4pT", &regJet4pT); 
+  outtree->Branch("sameHiggs", &sameHiggs);
   outtree->Branch("eventWeight", &eventWeight);
   
   // Loop over events
@@ -721,7 +728,17 @@ int HbbHbb_bTagging(std::string templ, std::string sample,
     std::sort(HjetpT.begin(), HjetpT.end());
     double triggerWeight_pT=h_trigSF_jetpT->GetBinContent(helper_TrigBin_pT2(HjetpT.at(2)), helper_TrigBin_pT4(HjetpT.at(0)));
     double triggerWeight_pT_error=h_trigSF_jetpT->GetBinError(helper_TrigBin_pT2(HjetpT.at(2)), helper_TrigBin_pT4(HjetpT.at(0)));
-    double triggerWeight=(triggerWeight_CSV*triggerWeight_pT)+sigmaTrigSF*quad((triggerWeight_CSV-1.)/2., triggerWeight_CSV_error, (triggerWeight_pT-1.)/2., triggerWeight_pT_error) ;
+    
+    double triggerWeight=triggerWeight_CSV*triggerWeight_pT;
+    if (sigmaTrigSF_string=="upTrigCSV" || sigmaTrigSF_string=="downTrigCSV")
+    {
+      triggerWeight=triggerWeight+sigmaTrigSFCSV*quad((triggerWeight_CSV-1.)/2., triggerWeight_CSV_error);
+    }
+    else if (sigmaTrigSF_string=="upTrigpT" || sigmaTrigSF_string=="downTrigpT")
+    {
+      triggerWeight=triggerWeight+sigmaTrigSFpT*quad((triggerWeight_pT-1.)/2., triggerWeight_pT_error);
+    }
+    // double triggerWeight=(triggerWeight_CSV*triggerWeight_pT)+sigmaTrigSF*quad((triggerWeight_CSV-1.)/2., triggerWeight_CSV_error, (triggerWeight_pT-1.)/2., triggerWeight_pT_error) ;
     
     if (templ!="Data")
     {
@@ -867,6 +884,13 @@ int HbbHbb_bTagging(std::string templ, std::string sample,
       
       // The most tagged is tagged as H1
       // if (jetTag[0]==0 || jetTag[1]==0) swap(H1_p4, H2_p4);
+      
+      // Check if two highest tagged jets are in the same Higgs
+      if ( ((jetCSV[H1jet1_i]>jetCSV[H2jet1_i] && jetCSV[H1jet1_i]>jetCSV[H2jet2_i]) &&
+            (jetCSV[H1jet2_i]>jetCSV[H2jet1_i] && jetCSV[H1jet2_i]>jetCSV[H2jet2_i])) ||
+           ((jetCSV[H2jet1_i]>jetCSV[H1jet1_i] && jetCSV[H2jet1_i]>jetCSV[H1jet2_i]) &&
+            (jetCSV[H2jet2_i]>jetCSV[H1jet1_i] && jetCSV[H2jet2_i]>jetCSV[H1jet2_i])) ) sameHiggs=1;
+      else sameHiggs=0;
       
       h_RecoGenpT_pT_1_b->Fill(old_jet1pT, (old_jet1pT-jet_genpT[H1jet1_i])/jet_genpT[H1jet1_i], weightPU);
       h_RecoGenpT_pT_2_b->Fill(old_jet2pT, (old_jet2pT-jet_genpT[H1jet2_i])/jet_genpT[H1jet2_i], weightPU);
