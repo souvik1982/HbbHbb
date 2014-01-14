@@ -138,6 +138,7 @@ void PullMassMean()
     
     c_StrengthBias->cd();
     TGraphAsymmErrors *g_strength=new TGraphAsymmErrors(nPoints, &masses[0], &strength_mean[0], &strength_0[0], &strength_0[0], &strength_m1[0], &strength_p1[0]);
+    g_strength->SetName(("g_strength_"+injections[i_inj]).c_str());
     g_strength->SetTitle("Reconstructed Signal Strength for Different Injected Signal Strengths and Various m_{X}; m_{X} (GeV); Signal Strength");
     g_strength->SetMinimum(0.002);
     g_strength->SetMaximum(20);
@@ -167,6 +168,7 @@ void PullMassMean()
   }
   c_StrengthBias->SetLogy();
   c_StrengthBias->SaveAs("c_StrengthBias.png");
+  c_StrengthBias->SaveAs("c_StrengthBias.root");
   
   
 
