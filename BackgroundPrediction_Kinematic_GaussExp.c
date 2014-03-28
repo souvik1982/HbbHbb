@@ -20,6 +20,7 @@
 #include "/Applications/FWLite/CMSSW_6_1_1_FWLITE/osx108_amd64_gcc472/lcg/roofit/5.34.04-cms2/include/RooExtendPdf.h"
 #include "/Applications/FWLite/CMSSW_6_1_1_FWLITE/osx108_amd64_gcc472/lcg/roofit/5.34.04-cms2/include/RooWorkspace.h"
 #include "/Applications/FWLite/CMSSW_6_1_1_FWLITE/osx108_amd64_gcc472/lcg/roofit/5.34.04-cms2/include/RooPlot.h"
+// #include "/Applications/FWLite/CMSSW_6_1_1_FWLITE/osx108_amd64_gcc472/lcg/roofit/5.34.04-cms2/include/RooFitResult.h"
 
 // #include "/Users/souvik/HbbHbb/Analysis/PDFs/GaussExp.h"
 
@@ -27,15 +28,15 @@ double H_mass=125.0;
 double mH_diff_cut=40.;
 double mH_mean_cut=20.;
 
-double rebin=2;
-bool useRatioFit=false;
+double rebin=4;
+bool useRatioFit=true;
 bool bReg=false;
 
-std::string tags="MMMMbar"; // MMMM
+std::string tags="MMMM_nominal"; // MMMM
 
 double VR_lo=250.;
 double VR_hi=1200.;
-double SR_lo=400.; // 350 for MMMM_nominal and 400 for MMMMbar
+double SR_lo=350.; // 350 for MMMM_nominal and 400 for MMMMbar
 double SR_hi=1200.;
 
 double quad(double a, double b, double c=0, double d=0, double e=0, double f=0)
@@ -159,19 +160,19 @@ void BackgroundPrediction_Kinematic_GaussExp()
     g_ratio->Draw("A*");
     TF1 *f_ratio=new TF1("f_ratio", "pol1");
     g_ratio->Fit(f_ratio);
-    // c_ratio->SaveAs(("c_ratio_"+tags+".png").c_str());
+    c_ratio->SaveAs(("c_ratio_"+tags+".png").c_str());
   
     ratioAt125=f_ratio->Eval(125.);
     errorAt125=(errorsY[0]+errorsY[1]+errorsY[2]+errorsY[3])/4.;
   }
   
   std::cout<<"ratioAt125 = "<<ratioAt125<<" +- "<<errorAt125<<std::endl;
+  std::cout<<"bgFloat   lnN     -   "<<1.+errorAt125/ratioAt125<<std::endl;
   
   std::cout<<" = MMMM b ======================================== "<<std::endl;
   TH1F *h_mMMMMb_3Tag_CR2=(TH1F*)f_MMMM_b->Get("h_mX_CR2");
   TH1F *h_mMMMMb_3Tag_CR4=(TH1F*)f_MMMM_b->Get("h_mX_CR4");
   TH1F *h_mMMMMb_3Tag_SR=(TH1F*)f_MMMM_b->Get("h_mX_SR");
-  // double bS=h_mMMMMb_3Tag_SR->Integral(h_mMMMMb_3Tag_SR->FindBin(VR_lo), h_mMMMMb_3Tag_SR->FindBin(VR_hi));
   double bS=h_mMMMMb_3Tag_SR->GetSumOfWeights();
   std::cout<<"Number of events in MMMM b signal region = "<<bS<<std::endl;
   TH1F *h_mMMMMb_3Tag_CR24=(TH1F*)h_mMMMMb_3Tag_CR2->Clone("h_mX_CR24");
@@ -180,10 +181,8 @@ void BackgroundPrediction_Kinematic_GaussExp()
   h_mMMMMb_3Tag_SR->Rebin(rebin);
   h_mMMMMb_3Tag_CR24->SetLineColor(kRed);
   h_mMMMMb_3Tag_SR->SetLineColor(kBlue);
-  // double bC=h_mMMMMb_3Tag_CR24->Integral(h_mMMMMb_3Tag_CR24->FindBin(VR_lo), h_mMMMMb_3Tag_CR24->FindBin(VR_hi));
   double bC=h_mMMMMb_3Tag_CR24->GetSumOfWeights();
   std::cout<<"bC = "<<bC<<", bS = "<<bS<<std::endl;
-  // Fit both MMMMb curves to Crystal Balls and compute Kolmogorov
   h_mMMMMb_3Tag_CR24->SetMaximum(h_mMMMMb_3Tag_CR24->GetMaximum()*1.3);
   h_mMMMMb_3Tag_CR24->SetTitle(("Kinematic Extrapolation in "+tags+" Validation Region; m_{X} GeV").c_str());
   h_mMMMMb_3Tag_SR->Scale(bC/bS);
@@ -197,10 +196,12 @@ void BackgroundPrediction_Kinematic_GaussExp()
   GaussExp bC_fit("bC_fit", "bC Fit", x, bC_p0, bC_p1, bC_p2);
   h_mMMMMb_3Tag_CR24->GetXaxis()->SetRangeUser(VR_lo-100., VR_hi+100.);
   RooDataHist bC_data("bC_data", "bC Data", RooArgList(x), h_mMMMMb_3Tag_CR24);
-  bC_fit.fitTo(bC_data, RooFit::Range(VR_lo, VR_hi));
+  RooFitResult *r_bC_fit=bC_fit.fitTo(bC_data, RooFit::Range(VR_lo, VR_hi), RooFit::Save());
   RooPlot *bC_plot=x.frame();
-  bC_data.plotOn(bC_plot, RooFit::MarkerColor(kRed));
+  bC_data.plotOn(bC_plot);
+  bC_fit.plotOn(bC_plot, RooFit::VisualizeError(*r_bC_fit, 1), RooFit::FillColor(kOrange));
   bC_fit.plotOn(bC_plot, RooFit::LineColor(kRed));
+  bC_data.plotOn(bC_plot, RooFit::LineColor(kRed), RooFit::MarkerColor(kRed));
   // bS
   RooRealVar bS_p0("bS_p0", "bS_p0", 300., 500.);
   RooRealVar bS_p1("bS_p1", "bS_p1", 40., 100.1);
@@ -208,16 +209,17 @@ void BackgroundPrediction_Kinematic_GaussExp()
   GaussExp bS_fit("bS_fit", "bS Fit", x, bS_p0, bS_p1, bS_p2);
   h_mMMMMb_3Tag_SR->GetXaxis()->SetRangeUser(VR_lo-100., VR_hi+100.);
   RooDataHist bS_data("bS_data", "bS Data", RooArgList(x), h_mMMMMb_3Tag_SR);
-  bS_fit.fitTo(bS_data, RooFit::Range(VR_lo, VR_hi)); // RooFit::SumW2Error(kTRUE), 
+  RooFitResult *r_bS_fit=bS_fit.fitTo(bS_data, RooFit::Range(VR_lo, VR_hi), RooFit::Save()); // RooFit::SumW2Error(kTRUE), 
   RooPlot *bS_plot=x.frame();
-  bS_data.plotOn(bS_plot, RooFit::MarkerColor(kBlue));
+  bS_data.plotOn(bS_plot);
+  bS_fit.plotOn(bS_plot,RooFit::VisualizeError(*r_bS_fit), RooFit::FillColor(kCyan));
   bS_fit.plotOn(bS_plot, RooFit::LineColor(kBlue));
+  bS_data.plotOn(bS_plot, RooFit::LineColor(kBlue), RooFit::MarkerColor(kBlue));
   std::cout<<" === === "<<std::endl;
-  std::cout<<"chi^2/ndof of bC = "<<bC_plot->chiSquare()<<std::endl;
-  std::cout<<"chi^2/ndof of bS = "<<bS_plot->chiSquare()<<std::endl;
+  // std::cout<<"chi^2/ndof of bC = "<<bC_plot->chiSquare()<<std::endl;
+  // std::cout<<"chi^2/ndof of bS = "<<bS_plot->chiSquare()<<std::endl;
   std::cout<<" === === "<<std::endl;
   TCanvas *c_bC=comparePlots2(bC_plot, bS_plot, h_mMMMMb_3Tag_SR, h_mMMMMb_3Tag_CR24, "Kinematic Extrapolation in "+tags+" Validation Region of Data; m_{X} GeV");
-  std::cout<<"after compare"<<std::endl;
   double x_mean_bC=bC_p0.getVal();
   double x_k_bC=bC_p0.getVal()+bC_p2.getVal()*bC_p1.getVal();
   TLine *l_mean_bC=new TLine(x_mean_bC, 0, x_mean_bC, h_mMMMMb_3Tag_CR24->GetMaximum()*0.8); l_mean_bC->SetLineColor(kRed); l_mean_bC->Draw();
@@ -226,7 +228,6 @@ void BackgroundPrediction_Kinematic_GaussExp()
   double x_k_bS=bS_p0.getVal()+bS_p2.getVal()*bS_p1.getVal();
   TLine *l_mean_bS=new TLine(x_mean_bS, 0, x_mean_bS, h_mMMMMb_3Tag_SR->GetMaximum()); l_mean_bS->SetLineColor(kBlue); l_mean_bS->Draw();
   TLine *l_k_bS=new TLine(x_k_bS, 0, x_k_bS, h_mMMMMb_3Tag_SR->GetMaximum()); l_k_bS->SetLineColor(kBlue); l_k_bS->SetLineStyle(9); l_k_bS->Draw();
-  std::cout<<"hi"<<std::endl;
   // c_bC->SaveAs(("c_compareData_"+tags+"_VR_RooFit_GaussExp.png").c_str());
   
   // Calculate Pi and DPi and dPi -- for shape systematics
@@ -264,10 +265,15 @@ void BackgroundPrediction_Kinematic_GaussExp()
   // double aC=h_mMMMMa_3Tag_CR24->GetSumOfWeights();
   // Get the scale of the prediction right
   std::cout<<"bS/bC = "<<bS/bC<<std::endl;
-  std::cout<<"ratioAt125 = "<<ratioAt125<<", +- "<<errorAt125<<" (fract unc.) = "<<1.+errorAt125/ratioAt125<<std::endl;
+  std::cout<<"(bC) bgFloat   lnN     -    "<<1.+sqrt(1./bC)<<std::endl;
+  std::cout<<"(bC + bS) bgFloat   lnN     -    "<<1.+sqrt(1./bC+1./bS)<<std::endl;
+  // std::cout<<"ratioAt125 = "<<ratioAt125<<", +- "<<errorAt125<<" (fract unc.) = "<<1.+errorAt125/ratioAt125<<std::endl;
   // h_mMMMMa_3Tag_SR_Prediction->Scale(ratioAt125);
-  std::cout<<"Number of predicted events in 18.6 /fb = "<<h_mMMMMa_3Tag_SR_Prediction->GetSumOfWeights()*ratioAt125<<std::endl;
-  std::cout<<"IF mX=300, Number of predicted events in 18.6 /fb = "<<h_mMMMMa_3Tag_SR_Prediction->GetSumOfWeights()*bS/bC<<std::endl;
+  std::cout<<"Number of predicted events in 17.928 /fb = "<<h_mMMMMa_3Tag_SR_Prediction->GetSumOfWeights()*ratioAt125<<std::endl;
+  std::cout<<"Number of predicted events in 17.928 /fb around mX=509(+-26) GeV = "<<(h_mMMMMa_3Tag_SR_Prediction->Integral(h_mMMMMa_3Tag_SR_Prediction->FindBin(509.-26.), h_mMMMMa_3Tag_SR_Prediction->FindBin(509.+26.)))*284./h_mMMMMa_3Tag_SR_Prediction->GetSumOfWeights()<<std::endl;
+  std::cout<<"Number of predicted events in 17.928 /fb around mX=714(+-40) GeV = "<<(h_mMMMMa_3Tag_SR_Prediction->Integral(h_mMMMMa_3Tag_SR_Prediction->FindBin(714.-40.), h_mMMMMa_3Tag_SR_Prediction->FindBin(714.+40.)))*284./h_mMMMMa_3Tag_SR_Prediction->GetSumOfWeights()<<std::endl;
+  std::cout<<"Number of predicted events in 17.928 /fb around mX=450-550 GeV = "<<(h_mMMMMa_3Tag_SR_Prediction->Integral(h_mMMMMa_3Tag_SR_Prediction->FindBin(450.), h_mMMMMa_3Tag_SR_Prediction->FindBin(550.)))*284./h_mMMMMa_3Tag_SR_Prediction->GetSumOfWeights()<<std::endl;
+  std::cout<<"Number of predicted events in 17.928 /fb around mX=600-800 GeV = "<<(h_mMMMMa_3Tag_SR_Prediction->Integral(h_mMMMMa_3Tag_SR_Prediction->FindBin(600.), h_mMMMMa_3Tag_SR_Prediction->FindBin(800.)))*284./h_mMMMMa_3Tag_SR_Prediction->GetSumOfWeights()<<std::endl;
   // RooFit fit to background prediction
   // RooRealVar bg_p0("bg_p0", "bg_p0", 400., 600.);
   // RooRealVar bg_p1("bg_p1", "bg_p1", 50., 100.1);
@@ -278,7 +284,7 @@ void BackgroundPrediction_Kinematic_GaussExp()
   RooRealVar bg_p2("bg_p2", "bg_p2", 0.1, 10.1);
   GaussExp bg("bg", "Background Prediction PDF", x, bg_p0, bg_p1, bg_p2);
   RooDataHist pred("pred", "Prediction from SB", RooArgList(x), h_mMMMMa_3Tag_SR_Prediction);
-  bg.fitTo(pred, RooFit::Range(SR_lo, SR_hi));
+  RooFitResult *r_bg=bg.fitTo(pred, RooFit::Range(SR_lo, SR_hi), RooFit::Save());
   // ---------------------
   // Envelope of functions
   // RooRealVar bg_p0_p("bg_p0_p", "bg_p0_p", bg_p0.getVal()+bg_p0.getError()/2.);
@@ -299,8 +305,10 @@ void BackgroundPrediction_Kinematic_GaussExp()
   RooRealVar bg_p4("bg_p4", "bg_p4", -10, 10);
   RooRealVar bg_p5("bg_p5", "bg_p5", -10, 10);
   RooPlot *aC_plot=x.frame();
-  pred.plotOn(aC_plot, RooFit::LineColor(kRed), RooFit::MarkerColor(kRed));
+  pred.plotOn(aC_plot, RooFit::MarkerColor(kRed));
+  bg.plotOn(aC_plot, RooFit::VisualizeError(*r_bg, 1), RooFit::FillColor(kOrange));
   bg.plotOn(aC_plot, RooFit::LineColor(kRed));
+  pred.plotOn(aC_plot, RooFit::LineColor(kRed), RooFit::MarkerColor(kRed));
   // ---------------------
   // Plot envelopes
   // bgEnv_p0_p.plotOn(aC_plot, RooFit::LineColor(kRed+1));
@@ -341,9 +349,9 @@ void BackgroundPrediction_Kinematic_GaussExp()
   RooRealVar *bg_pred1;
   RooRealVar *bg_pred2;
   // Let the mean and std dev float a bit
-  dPaS_0=dPaS_0*50.;
-  dPaS_1=dPaS_1*50.;
-  dPaS_2=dPaS_2*50.;
+  // dPaS_0=dPaS_0*50.;
+  // dPaS_1=dPaS_1*50.;
+  // dPaS_2=dPaS_2*50.;
   std::cout<<"Relaxed ranges:"<<std::endl;
   std::cout<<" Predicted PaS_0 = "<<PaS_0<<" +- "<<dPaS_0<<std::endl;
   std::cout<<" Predicted PaS_1 = "<<PaS_1<<" +- "<<dPaS_1<<std::endl;
@@ -368,37 +376,40 @@ void BackgroundPrediction_Kinematic_GaussExp()
     RooDataHist unblind("unblind", "Signal Region", RooArgList(x), h_mMMMMa_3Tag_SR);
     unblind.plotOn(aS_plot, RooFit::LineColor(kBlue), RooFit::MarkerColor(kBlue));
     // bg_pred_init.plotOn(aS_plot, RooFit::LineColor(kGreen), RooFit::Range(SR_lo, SR_hi));
-    bg_pred.fitTo(unblind, RooFit::Range(SR_lo, SR_hi));
+    RooFitResult *r_bg_pred=bg_pred.fitTo(unblind, RooFit::Range(SR_lo, SR_hi), RooFit::Save());
     // ---------------------
     // Envelope of functions
-    RooRealVar bg_pred0_p("bg_pred0_p", "bg_pred0_p", bg_pred0->getVal()+bg_pred0->getError()/2.);
-    RooRealVar bg_pred0_m("bg_pred0_m", "bg_pred0_m", bg_pred0->getVal()-bg_pred0->getError()/2.);
-    RooRealVar bg_pred1_p("bg_pred1_p", "bg_pred1_p", bg_pred1->getVal()+bg_pred1->getError()/2.);
-    RooRealVar bg_pred1_m("bg_pred1_m", "bg_pred1_m", bg_pred1->getVal()-bg_pred1->getError()/2.);
-    RooRealVar bg_pred2_p("bg_pred2_p", "bg_pred2_p", bg_pred2->getVal()+bg_pred2->getError()/2.);
-    RooRealVar bg_pred2_m("bg_pred2_m", "bg_pred2_m", bg_pred2->getVal()-bg_pred2->getError()/2.);
-    GaussExp bg_pred_Env_p0_p("bg_pred_Env_p0_p", "bg_pred_Env_p0_p", x, bg_pred0_p, *bg_pred1,   *bg_pred2);
-    GaussExp bg_pred_Env_p0_m("bg_pred_Env_p0_m", "bg_pred_Env_p0_m", x, bg_pred0_m, *bg_pred1,   *bg_pred2);
-    GaussExp bg_pred_Env_p1_p("bg_pred_Env_p1_p", "bg_pred_Env_p1_p", x, *bg_pred0,   bg_pred1_p, *bg_pred2);
-    GaussExp bg_pred_Env_p1_m("bg_pred_Env_p1_m", "bg_pred_Env_p1_m", x, *bg_pred0,   bg_pred1_m, *bg_pred2);
-    GaussExp bg_pred_Env_p2_p("bg_pred_Env_p2_p", "bg_pred_Env_p2_p", x, *bg_pred0,   *bg_pred1,   bg_pred2_p);
-    GaussExp bg_pred_Env_p2_m("bg_pred_Env_p2_m", "bg_pred_Env_p2_m", x, *bg_pred0,   *bg_pred1,   bg_pred2_m);
+    // RooRealVar bg_pred0_p("bg_pred0_p", "bg_pred0_p", bg_pred0->getVal()+bg_pred0->getError()/2.);
+    // RooRealVar bg_pred0_m("bg_pred0_m", "bg_pred0_m", bg_pred0->getVal()-bg_pred0->getError()/2.);
+    // RooRealVar bg_pred1_p("bg_pred1_p", "bg_pred1_p", bg_pred1->getVal()+bg_pred1->getError()/2.);
+    // RooRealVar bg_pred1_m("bg_pred1_m", "bg_pred1_m", bg_pred1->getVal()-bg_pred1->getError()/2.);
+    // RooRealVar bg_pred2_p("bg_pred2_p", "bg_pred2_p", bg_pred2->getVal()+bg_pred2->getError()/2.);
+    // RooRealVar bg_pred2_m("bg_pred2_m", "bg_pred2_m", bg_pred2->getVal()-bg_pred2->getError()/2.);
+    // GaussExp bg_pred_Env_p0_p("bg_pred_Env_p0_p", "bg_pred_Env_p0_p", x, bg_pred0_p, *bg_pred1,   *bg_pred2);
+    // GaussExp bg_pred_Env_p0_m("bg_pred_Env_p0_m", "bg_pred_Env_p0_m", x, bg_pred0_m, *bg_pred1,   *bg_pred2);
+    // GaussExp bg_pred_Env_p1_p("bg_pred_Env_p1_p", "bg_pred_Env_p1_p", x, *bg_pred0,   bg_pred1_p, *bg_pred2);
+    // GaussExp bg_pred_Env_p1_m("bg_pred_Env_p1_m", "bg_pred_Env_p1_m", x, *bg_pred0,   bg_pred1_m, *bg_pred2);
+    // GaussExp bg_pred_Env_p2_p("bg_pred_Env_p2_p", "bg_pred_Env_p2_p", x, *bg_pred0,   *bg_pred1,   bg_pred2_p);
+    // GaussExp bg_pred_Env_p2_m("bg_pred_Env_p2_m", "bg_pred_Env_p2_m", x, *bg_pred0,   *bg_pred1,   bg_pred2_m);
     // ---------------------
-    bg_pred.plotOn(aS_plot, RooFit::LineColor(kBlue), RooFit::Name("r_bg_pred"));
+    bg_pred.plotOn(aS_plot, RooFit::VisualizeError(*r_bg_pred, 1), RooFit::FillColor(kCyan));
+    bg_pred.plotOn(aS_plot, RooFit::LineColor(kBlue));
+    bg_pred.plotOn(aS_plot, RooFit::Name("r_bg_prediction"));
+    unblind.plotOn(aS_plot, RooFit::LineColor(kBlue), RooFit::MarkerColor(kBlue));
     // ---------------------
     // Plot envelopes
-    bg_pred_Env_p0_p.plotOn(aS_plot, RooFit::LineColor(kRed+1), RooFit::Range(SR_lo, SR_hi));
-    bg_pred_Env_p0_m.plotOn(aS_plot, RooFit::LineColor(kRed-1), RooFit::Range(SR_lo, SR_hi));
-    bg_pred_Env_p1_p.plotOn(aS_plot, RooFit::LineColor(kBlue+1), RooFit::Range(SR_lo, SR_hi));
-    bg_pred_Env_p1_m.plotOn(aS_plot, RooFit::LineColor(kBlue-1), RooFit::Range(SR_lo, SR_hi));
-    bg_pred_Env_p2_p.plotOn(aS_plot, RooFit::LineColor(kGreen+1), RooFit::Range(SR_lo, SR_hi));
-    bg_pred_Env_p2_m.plotOn(aS_plot, RooFit::LineColor(kGreen-1), RooFit::Range(SR_lo, SR_hi));
+    // bg_pred_Env_p0_p.plotOn(aS_plot, RooFit::LineColor(kRed+1), RooFit::Range(SR_lo, SR_hi));
+    // bg_pred_Env_p0_m.plotOn(aS_plot, RooFit::LineColor(kRed-1), RooFit::Range(SR_lo, SR_hi));
+    // bg_pred_Env_p1_p.plotOn(aS_plot, RooFit::LineColor(kBlue+1), RooFit::Range(SR_lo, SR_hi));
+    // bg_pred_Env_p1_m.plotOn(aS_plot, RooFit::LineColor(kBlue-1), RooFit::Range(SR_lo, SR_hi));
+    // bg_pred_Env_p2_p.plotOn(aS_plot, RooFit::LineColor(kGreen+1), RooFit::Range(SR_lo, SR_hi));
+    // bg_pred_Env_p2_m.plotOn(aS_plot, RooFit::LineColor(kGreen-1), RooFit::Range(SR_lo, SR_hi));
     // ---------------------
     aS_plot->Draw("same");
   }
   else
   {
-    // bg_pred.plotOn(aC_plot, RooFit::LineColor(kGreen), RooFit::Range(SR_lo, SR_hi));
+    bg_pred.plotOn(aC_plot, RooFit::LineColor(kGreen), RooFit::Range(SR_lo, SR_hi));
     aC_plot->Draw("same");
   }
   double x_mean_aS=bg_pred0->getVal();
@@ -407,22 +418,23 @@ void BackgroundPrediction_Kinematic_GaussExp()
   TLine *l_k_aS=new TLine(x_k_aS, 0, x_k_aS, h_mMMMMa_3Tag_SR_Prediction->GetMaximum()); l_k_aS->SetLineColor(kBlue); l_k_aS->SetLineStyle(9); l_k_aS->Draw();
   
   std::cout<<" === === "<<std::endl;
-  std::cout<<"chi^2/ndof of bC = "<<bC_plot->chiSquare()<<std::endl;
-  std::cout<<"chi^2/ndof of bS = "<<bS_plot->chiSquare()<<std::endl;
-  std::cout<<"chi^2/ndof of aC = "<<aC_plot->chiSquare()<<std::endl;
-  std::cout<<"chi^2/ndof of aS = "<<aS_plot->chiSquare()<<std::endl;
+  // std::cout<<"chi^2/ndof of bC = "<<bC_plot->chiSquare()<<std::endl;
+  // std::cout<<"chi^2/ndof of bS = "<<bS_plot->chiSquare()<<std::endl;
+  // std::cout<<"chi^2/ndof of aC = "<<aC_plot->chiSquare()<<std::endl;
+  // std::cout<<"chi^2/ndof of aS = "<<aS_plot->chiSquare()<<std::endl;
   std::cout<<" === === "<<std::endl;
    
-  c_rooFit->SaveAs(("c_compareData_"+tags+"_SR_RooFit_GaussExp.png").c_str());
+  // c_rooFit->SaveAs(("c_compareData_"+tags+"_SR_RooFit_GaussExp.png").c_str());
   
   // --- Ratio of function to data points ---
-  RooCurve *f_bg_pred=(RooCurve*)aS_plot->findObject("r_bg_pred");
+  /*
+  RooCurve *f_bg_pred=(RooCurve*)aS_plot->findObject("r_bg_prediction");
   TH1F *h_ratio=(TH1F*)h_mMMMMa_3Tag_SR->Clone("h_ratio");
   for (unsigned int i=0; i<h_ratio->GetNbinsX(); ++i)
   {
     double fEval=f_bg_pred->Eval(h_mMMMMa_3Tag_SR->GetBinCenter(i));
     double data=h_mMMMMa_3Tag_SR->GetBinContent(i);
-    std::cout<<"i = "<<i<<", fEval = "<<fEval<<", data = "<<data<<std::endl;
+    // std::cout<<"i = "<<i<<", fEval = "<<fEval<<", data = "<<data<<std::endl;
     double binContent=(h_mMMMMa_3Tag_SR->GetBinContent(i))/(f_bg_pred->Eval(h_mMMMMa_3Tag_SR->GetBinCenter(i)));
     double binError=(h_mMMMMa_3Tag_SR->GetBinError(i))/(f_bg_pred->Eval(h_mMMMMa_3Tag_SR->GetBinCenter(i)));
     h_ratio->SetBinContent(i, binContent);
@@ -435,6 +447,7 @@ void BackgroundPrediction_Kinematic_GaussExp()
   TCanvas *c_DataFit=new TCanvas("c_DataFit", "c_DataFit", 1000, 700);
   h_ratio->Draw();
   c_DataFit->SaveAs(("c_DataFit_"+tags+"SR.png").c_str());
+  */
   // ------------------------------------------
   
   RooWorkspace *w=new RooWorkspace("HbbHbb");
