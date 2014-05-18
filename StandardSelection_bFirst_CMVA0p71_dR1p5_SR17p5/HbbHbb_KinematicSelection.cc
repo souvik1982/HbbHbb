@@ -142,7 +142,7 @@ int HbbHbb_KinematicSelection(std::string dir, std::string sample,
   tree->SetBranchAddress("genH2", &(genH2));
   tree->SetBranchAddress("PUweight", &(weightPU));
   
-  TH1F *h_nJets=new TH1F("h_nJets", "# Cleaned PAT Jets; n", 20, 0., 20.);
+  TH1F *h_nJets=new TH1F("h_nJets", "# Cleaned PAT Jets; n", 10, 0., 10.);
   TH1F *h_nPV=new TH1F("h_nPV", "# of Primary Vertices; nPV", 51, 0., 50.); h_nPV->Sumw2();
   TH1F *h_nPV_weighted=new TH1F("h_nPV_weighted", "# of Primary Vertices after Reweighting; nPV", 51, 0., 50.); h_nPV_weighted->Sumw2();
   
@@ -199,7 +199,7 @@ int HbbHbb_KinematicSelection(std::string dir, std::string sample,
   double nCut0=0, nCut1=0, nCut2=0, nCut3=0, nCut4=0, nCut5=0, nCut6=0, nCut7=0;
   for (int i=0; i<nEvents; ++i)
   {
-    if((207883<=EVENT.run && EVENT.run<=208307)) continue;
+    if ((207883<=EVENT.run && EVENT.run<=208307)) continue;
     ++nCut0;
     tree->GetEvent(i);
     

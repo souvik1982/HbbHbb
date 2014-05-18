@@ -29,11 +29,11 @@ double mH_diff_cut=40.;
 double mH_mean_cut=20.;
 
 double rebin=1;
-bool useRatioFit=true;
+bool useRatioFit=false;
 bool bReg=false;
 double sigmaVisual=1;
 bool logPlot=false;
-bool externalParameterPrediction=true;
+bool externalParameterPrediction=false;
 
 std::string tags="MMMM_nominal"; // MMMM
 
@@ -79,15 +79,20 @@ double externalPrediction_p2(double p2, double p2_err, double &SR_p2_err)
 TCanvas* comparePlots2(RooPlot *plot_bC, RooPlot *plot_bS, TH1F *data, TH1F *qcd, std::string title)
 {
   TCanvas *c=new TCanvas(("c_RooFit_"+title).c_str(), "c", 700, 700);
-  TPad *p_2=new TPad("p_2", "p_2", 0, 0, 1, 0.3);
-  TPad *p_1=new TPad("p_1", "p_1", 0, 0.3, 1, 1);
+  TPad *p_2=new TPad("p_2", "p_2", 0, 0, 1, 0.35);
+  TPad *p_1=new TPad("p_1", "p_1", 0, 0.35, 1, 1);
+  p_1->SetBottomMargin(0.05);
+  p_1->SetFillStyle(4000);
+  p_1->SetFrameFillColor(0);
+  p_2->SetFillStyle(4000);
+  p_2->SetFrameFillColor(0);
   p_1->Draw();
   p_2->Draw();
   p_1->cd();
   double maxdata=data->GetMaximum();
   double maxqcd=qcd->GetMaximum();
   double maxy=(maxdata>maxqcd) ? maxdata : maxqcd;
-  // title="m_{X} Distribution in Central and Sideband Regions; m_{X} (GeV); Events / ("+itoa(data->GetBinWidth(1))+" GeV)";
+  title="; m_{X} (GeV); Events / ("+itoa(data->GetBinWidth(1))+" GeV)";
   if (logPlot) p_1->DrawFrame(VR_lo-100, 1, VR_hi+100, maxy*1., title.c_str());
   else p_1->DrawFrame(VR_lo-100, 0, VR_hi+100, maxy*1., title.c_str());
   plot_bC->Draw("same");
@@ -96,14 +101,16 @@ TCanvas* comparePlots2(RooPlot *plot_bC, RooPlot *plot_bS, TH1F *data, TH1F *qcd
   p_2->cd();
   p_2->SetGridy();
   TH1F *h_ratio=(TH1F*)data->Clone("h_ratio");
-  h_ratio->SetTitle(("VR/VR-SB Ratio "+title+" ; VR/VR-SB Ratio").c_str());
-  h_ratio->Divide(qcd); 
+  h_ratio->SetTitle("; m_{X} (GeV); VR/VB Ratio");
+  h_ratio->Divide(qcd);
+  h_ratio->SetLineColor(1);
+  h_ratio->SetMarkerStyle(20);
   h_ratio->GetXaxis()->SetRangeUser(VR_lo-100, VR_hi+100);                         
-  // h_ratio->SetMinimum(h_ratio->GetMinimum()*1.2); h_ratio->SetMaximum(h_ratio->GetMaximum()*1.2);  
-  h_ratio->SetMinimum(-1); h_ratio->SetMaximum(3); 
-  // h_ratio->Fit("pol1", "", "", VR_lo, VR_hi);                 
+  h_ratio->SetMinimum(-4); h_ratio->SetMaximum(6);                  
   h_ratio->Draw();
-  p_1->cd(); 
+  TLine *m_one_line=new TLine(VR_lo, 1, VR_hi, 1);
+  m_one_line->Draw("same");
+  p_1->cd();
   return c;                          
 } 
 
@@ -415,17 +422,20 @@ void BackgroundPrediction_Kinematic_GaussExp_ttbarSubtracted()
   bg.plotOn(aC_plot, RooFit::VisualizeError(*r_bg, sigmaVisual), RooFit::FillColor(kOrange));
   bg.plotOn(aC_plot, RooFit::LineColor(kRed));
   pred.plotOn(aC_plot, RooFit::LineColor(kRed), RooFit::MarkerColor(kRed));
-  // ---------------------
-  // Plot envelopes
-  // bgEnv_p0_p.plotOn(aC_plot, RooFit::LineColor(kRed+1));
-  // bgEnv_p0_m.plotOn(aC_plot, RooFit::LineColor(kRed-1));
-  // bgEnv_p1_p.plotOn(aC_plot, RooFit::LineColor(kBlue+1));
-  // bgEnv_p1_m.plotOn(aC_plot, RooFit::LineColor(kBlue-1));
-  // bgEnv_p2_p.plotOn(aC_plot, RooFit::LineColor(kGreen+1));
-  // bgEnv_p2_m.plotOn(aC_plot, RooFit::LineColor(kGreen-1));
-  // ---------------------
-  TCanvas *c_rooFit=new TCanvas("c_rooFit", "c_rooFit", 1000, 700);
+  
+  TCanvas *c_rooFit=new TCanvas("c_rooFit", "c_rooFit", 700, 700);
+  TPad *p_2=new TPad("p_2", "p_2", 0, 0, 1, 0.35);
+  TPad *p_1=new TPad("p_1", "p_1", 0, 0.35, 1, 1);
+  p_1->SetBottomMargin(0.05);
+  p_1->SetFillStyle(4000);
+  p_1->SetFrameFillColor(0);
+  p_2->SetFillStyle(4000);
+  p_2->SetFrameFillColor(0);
+  p_1->Draw();
+  p_2->Draw();
+  p_1->cd();
   if (tags!="MMMM_nominal") h_mMMMMa_3Tag_SR->Draw("Ep9 SAME");
+  aC_plot->SetTitle("; m_{X} (GeV); Events / (10 GeV)");
   aC_plot->Draw();
   double x_mean_aC=bg_p0.getVal();
   double x_k_aC=bg_p0.getVal()+bg_p2.getVal()*bg_p1.getVal();
@@ -494,34 +504,10 @@ void BackgroundPrediction_Kinematic_GaussExp_ttbarSubtracted()
     unblind.plotOn(aS_plot, RooFit::LineColor(kBlue), RooFit::MarkerColor(kBlue));
     // bg_pred_init.plotOn(aS_plot, RooFit::LineColor(kGreen), RooFit::Range(SR_lo, SR_hi));
     RooFitResult *r_bg_pred=bg_pred.fitTo(unblind, RooFit::Range(SR_lo, SR_hi), RooFit::Save());
-    // ---------------------
-    // Envelope of functions
-    // RooRealVar bg_pred0_p("bg_pred0_p", "bg_pred0_p", bg_pred0->getVal()+bg_pred0->getError()/2.);
-    // RooRealVar bg_pred0_m("bg_pred0_m", "bg_pred0_m", bg_pred0->getVal()-bg_pred0->getError()/2.);
-    // RooRealVar bg_pred1_p("bg_pred1_p", "bg_pred1_p", bg_pred1->getVal()+bg_pred1->getError()/2.);
-    // RooRealVar bg_pred1_m("bg_pred1_m", "bg_pred1_m", bg_pred1->getVal()-bg_pred1->getError()/2.);
-    // RooRealVar bg_pred2_p("bg_pred2_p", "bg_pred2_p", bg_pred2->getVal()+bg_pred2->getError()/2.);
-    // RooRealVar bg_pred2_m("bg_pred2_m", "bg_pred2_m", bg_pred2->getVal()-bg_pred2->getError()/2.);
-    // GaussExp bg_pred_Env_p0_p("bg_pred_Env_p0_p", "bg_pred_Env_p0_p", x, bg_pred0_p, *bg_pred1,   *bg_pred2);
-    // GaussExp bg_pred_Env_p0_m("bg_pred_Env_p0_m", "bg_pred_Env_p0_m", x, bg_pred0_m, *bg_pred1,   *bg_pred2);
-    // GaussExp bg_pred_Env_p1_p("bg_pred_Env_p1_p", "bg_pred_Env_p1_p", x, *bg_pred0,   bg_pred1_p, *bg_pred2);
-    // GaussExp bg_pred_Env_p1_m("bg_pred_Env_p1_m", "bg_pred_Env_p1_m", x, *bg_pred0,   bg_pred1_m, *bg_pred2);
-    // GaussExp bg_pred_Env_p2_p("bg_pred_Env_p2_p", "bg_pred_Env_p2_p", x, *bg_pred0,   *bg_pred1,   bg_pred2_p);
-    // GaussExp bg_pred_Env_p2_m("bg_pred_Env_p2_m", "bg_pred_Env_p2_m", x, *bg_pred0,   *bg_pred1,   bg_pred2_m);
-    // ---------------------
     bg_pred.plotOn(aS_plot, RooFit::VisualizeError(*r_bg_pred, sigmaVisual), RooFit::FillColor(kCyan));
     bg_pred.plotOn(aS_plot, RooFit::LineColor(kBlue));
     bg_pred.plotOn(aS_plot, RooFit::Name("r_bg_prediction"));
     unblind.plotOn(aS_plot, RooFit::LineColor(kBlue), RooFit::MarkerColor(kBlue));
-    // ---------------------
-    // Plot envelopes
-    // bg_pred_Env_p0_p.plotOn(aS_plot, RooFit::LineColor(kRed+1), RooFit::Range(SR_lo, SR_hi));
-    // bg_pred_Env_p0_m.plotOn(aS_plot, RooFit::LineColor(kRed-1), RooFit::Range(SR_lo, SR_hi));
-    // bg_pred_Env_p1_p.plotOn(aS_plot, RooFit::LineColor(kBlue+1), RooFit::Range(SR_lo, SR_hi));
-    // bg_pred_Env_p1_m.plotOn(aS_plot, RooFit::LineColor(kBlue-1), RooFit::Range(SR_lo, SR_hi));
-    // bg_pred_Env_p2_p.plotOn(aS_plot, RooFit::LineColor(kGreen+1), RooFit::Range(SR_lo, SR_hi));
-    // bg_pred_Env_p2_m.plotOn(aS_plot, RooFit::LineColor(kGreen-1), RooFit::Range(SR_lo, SR_hi));
-    // ---------------------
     aS_plot->Draw("same");
   }
   else
@@ -540,13 +526,27 @@ void BackgroundPrediction_Kinematic_GaussExp_ttbarSubtracted()
   // std::cout<<"chi^2/ndof of aC = "<<aC_plot->chiSquare()<<std::endl;
   // std::cout<<"chi^2/ndof of aS = "<<aS_plot->chiSquare()<<std::endl;
   std::cout<<" === === "<<std::endl;
-  /*if (logPlot) {
-    c_rooFit->DrawFrame(SR_lo-100, 10, SR_hi+100, 30., "hello");
-    c_rooFit->SetLogy(); 
-    c_rooFit->SaveAs(("c_compareData_"+tags+"_SR_RooFit_GaussExp_LOG.png").c_str());
-  }*/
-  c_rooFit->SaveAs(("c_compareData_"+tags+"_SR_RooFit_GaussExp.png").c_str());
+  // if (logPlot) p_1->SetLogy();
   
+  TLatex * tPrel = new TLatex();
+  tPrel->SetNDC();
+  tPrel->SetTextColor(kBlack);
+  tPrel->SetTextSize(0.04);
+  tPrel->DrawLatex(0.1,0.95,"CMS Preliminary; #sqrt{s} =  8 TeV, L=17.928 fb^{-1}");
+  
+  p_2->cd();
+  p_2->SetGridy();
+  RooHist *hpull;
+  hpull=aC_plot->pullHist();
+  hpull->SetMinimum(-4); hpull->SetMaximum(6);
+  RooPlot *frameP=x->frame();
+  frameP->SetTitle("; m_{X} (GeV); (data-fit)/fit");
+  frameP->addPlotable(hpull, "P");
+  frameP->Draw();
+  TLine *m_one_line=new TLine(SR_lo, 0, SR_hi, 0); m_one_line->Draw();
+  
+  if (logPlot) c_rooFit->SaveAs(("c_compareData_"+tags+"_SR_RooFit_GaussExp_LOG.png").c_str());
+  else c_rooFit->SaveAs(("c_compareData_"+tags+"_SR_RooFit_GaussExp.png").c_str());
   // --- Ratio of function to data points ---
   /*
   RooCurve *f_bg_pred=(RooCurve*)aS_plot->findObject("r_bg_prediction");
