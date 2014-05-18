@@ -1,0 +1,120 @@
+% Prepared by Souvik Das January 2013
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Select one of the \documentclass lines below for your paper
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Change the prl option to prd for prd articles
+
+%%%%%%%%%%%%%% Use for PRL or PRD CLNS preprints (including arXiv) and 1 column Paper Drafts
+%\documentclass[aps,prl,preprint,superscriptaddress,preprintnumbers,nofootinbib,tightenlines,floatfix]{revtex4-1}
+
+%%%%%%%%%%%%%% Use for PRL or PRD submission
+%\documentclass[aps,prd,preprint,superscriptaddress,nopreprintnumbers,nofootinbib,showpacs,floatfix]{revtex4-1}
+
+%%%%%%%%%%%%%% Use for PRL or PRD to check formatting and length in 2 column mode 
+\documentclass[aps,prd,reprint,superscriptaddress,nofootinbib,showpacs,floatfix]{revtex4-1}
+
+\usepackage{graphicx} % Include figure files
+\usepackage{dcolumn}  % Align table columns on decimal point
+\usepackage{bm}       % bold math
+\usepackage{multirow}
+
+% Definitions
+
+\def\Dsp{D_{s}^{+}}
+\def\fbinv{\textrm{fb}^{-1}}
+
+\begin{document}
+
+%Title of paper
+\title{\boldmath 
+Search for di-Higgs resonances decaying to 4 bottom quarks at the LHC
+}
+
+\preprint{CMS 11/2074}  % the CMS number
+
+\collaboration{The CMS Collaboration}
+\noaffiliation
+\date{\today}
+
+\begin{abstract}
+A search for a model-independent, narrow decay-width, di-Higgs resonance where both Higgs decay into bottom quarks is performed with 17.9 $\fbinv$ of p-p collision data acquired at $\sqrt{s}$ = 8 TeV by the CMS experiment at the LHC. Upper limits on the production cross sections times branching fractions for such a resonance, with masses between 270 GeV and 1100 GeV, are presented.
+\end{abstract}
+
+% insert suggested PACS numbers in braces on next line
+\pacs{12.60.Fr}
+
+\maketitle
+
+\section{Introduction}
+
+Following the discovery of a particle with mass around 125 GeV and properties consistent with the Higgs boson of the Standard Model of Particle Physics (SM) at the Large Hadron Collider (LHC)~\cite{Chatrchyan201230, Aad20121}, it has become experimentally important to search for any resonant pair production mechanism for it. Several well-motivated hypotheses of physics beyond the Standard Model posit resonances decaying into Higgs pairs, such as the radion and massive Kaluza-Klein gravitons in Randall-Sundrum models of Warped Extra-Dimensions~\cite{radion}. The Next to Minimally Supersymmetric Standard Model also predicts a CP-even heavy Higgs decaying into two SM Higgs~\cite{sns} (NEED A PEER-REVIEWED PAPER). This paper reports the results of an extensive search for such di-Higgs resonances between masses of 270 GeV and 1100 GeV where both Higgs decay into bottom quarks. We perform this search with 17.93 $\fbinv$ of proton-proton collision data acquired at $\sqrt{s}$ = 8 TeV by the Compact Muon Solenoid (CMS) detector at the Large Hadron Collider (LHC). The central challenge of this search is to distinguish the signature of four bottom quarks in the final state, that hadronize into jets, from the immense multi-jet chromodynamic background in p-p collisions. This is addressed by powerful b-jet identification techniques at CMS and a data-driven estimation of the multi-jet background.
+
+\section{CMS Detector}
+
+The central feature of the CMS apparatus is a superconducting solenoid of 6 m internal diameter, providing a magnetic field of 3.8 T. Within the solenoid volume are a silicon pixel and strip tracker, a lead tungstate crystal electromagnetic calorimeter, and a brass and scintillator hadron calorimeter. Muons are measured in gas-ionization detectors embedded in a steel flux return yoke outside the solenoid. The tracker provides an impact parameter resolution for charged tracks of $\approx$ 15 $\mu$m, and this is critical for reconstructing secondary vertices of jets for b-jet identification. The first level of the CMS trigger system, consisting of custom hardware processors, uses information from the calorimeters to select the events for this analysis. The second level of the CMS trigger, consisting of generic PC processor farms, further selects events using information from the calorimeters and trackers before sending them downstream for detailed processing and storage. A more detailed description of the CMS detector can be found elsewhere~\cite{Chatrchyan:2008aa}.
+
+\section{Data and Simulated Samples}
+
+Paragraph 1: A description of the trigger used to collect data. 
+
+Paragraph 2: The data.
+
+Paragraphs 3 \& 4: Then a description of the simulated samples for signal and ttbar.
+
+\section{Analysis Strategy}
+
+* Paragraph 1: Blind analysis over a large mass range. Broken down into three regimes, LMR, HMR, UHMR.
+
+* Paragraph 2: Describe CMVA as a powerful b-tagging algorithm critical to the analysis.
+
+* Paragraph 3: Describe interpolation of background.
+
+* Paragraph 4: Point to sections on event selection, systematic uncertainties and results. 
+
+\section{Event Selection}
+
+* Paragraph1: Event weights from PU-reweighting
+
+* Paragraph 2: trigger SF
+
+* Paragraph 3: b-tagging SF.
+
+* LMR Event Selections. Summary plot for several LMR lineshapes.
+
+* HMR Event Selections. Summary plot for several HMR lineshapes.
+
+* UHMR Event Selections. Summary plot of one UHMR lineshape.
+
+* Figure: Summarizing Selection Efficiencies for LMR, HMR, UHMR from CutFlow.cc.
+
+\section{Background Modeling}
+
+* Paragraph: Composition of ttbar, Z+jets.
+
+* ttbar. One Figure left and right for LMR and HMR
+
+* LMR. One Figure for VR/VB left, SB on right. One Figure for anti-btag region.
+
+* HMA. One Figure for VR/VB left, SB on right. One Figure for anti-btag region.
+
+\section{Results}
+
+* Expected and observed upper limits. With theory limits mentioned in Introduction.
+
+* One Figure.
+
+\section{Conclusion}
+
+We didn't find anything.
+
+
+\begin{acknowledgments}
+We gratefully acknowledge everybody.
+\end{acknowledgments}
+
+\bibliography{HbbHbb_PAS}
+
+\end{document}
+
