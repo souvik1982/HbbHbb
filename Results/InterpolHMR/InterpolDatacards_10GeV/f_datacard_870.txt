@@ -1,0 +1,39 @@
+imax 1 number of channels
+jmax * number of backgrounds
+kmax * number of systematic uncertainty sources
+----------
+shapes signal HbbHbb ../w_signal_900.root HbbHbb:signal
+shapes background HbbHbb ../w_background_GaussExp.root HbbHbb:background
+shapes ttbar HbbHbb ../w_ttbar.root HbbHbb:ttbar
+shapes signalBkg HbbHbb ../w_signal_900.root HbbHbb:signalBkg
+shapes data_obs HbbHbb ../w_data.root HbbHbb:data_obs
+----------
+# Observation
+bin       HbbHbb
+observation -1
+----------
+# Expectation
+bin             HbbHbb      HbbHbb          HbbHbb        HbbHbb
+process         signal      background      ttbar         signalBkg
+process         0           1               2             3
+rate            92.3215     50.32           20.68 			92.3215
+----------
+lumi      lnN     1.026     -               1.026         -
+JEC       lnN     1.00206    -        1.03219       -
+JER       lnN     1.05093    -        1.0749        -
+bTagSF    lnN     1.1273    -               1.1273        -
+trigSFCSV lnN     1.02641   -   1.02474       -
+trigSFpT  lnN     1.07584    -   1.06898       -
+signal_p0 param   884.585 0.430333
+signal_p1 param   27.5513 0.96049
+signal_p2 param   1.61408 0.0879026
+signal_p3 param   1.30538 0.0619651
+bgFloat   lnU     -          2.00         -               -
+bg_pred0  param   738.07  51.7582    
+bg_pred1  param   78.3614  20.2752   
+bg_pred2  param   0.983075  0.661119 
+ttbarFloat   lnN  -          -               1.15         -
+ttbar_p0 param   714.938 -19.4258/+15.7785      
+ttbar_p1 param   115.852 -17.0742/+12.9473      
+ttbar_p2 param   0.979871 -0.303695/+0.221867   
+shapeBkg_signalBkg_HbbHbb__norm  param   0.0  0.0216593
